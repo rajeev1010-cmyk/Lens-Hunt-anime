@@ -23,13 +23,20 @@ android {
     testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
   }
 
-  signingConfigs {
-    create("release") {
-      val keystorePath = System.getenv("KEYSTORE_PATH") ?: "${rootDir}/my-upload-key.jks"
-      storeFile = file(keystorePath)
-      storePassword = System.getenv("STORE_PASSWORD") ?: "android"
-      keyAlias = System.getenv("KEY_ALIAS") ?: "upload"
-      keyPassword = System.getenv("KEY_PASSWORD") ?: "android"
+  val keystorePath = System.getenv("KEYSTORE_PATH")
+  val storePwd = System.getenv("STORE_PASSWORD")
+  val keyAliasStr = System.getenv("KEY_ALIAS")
+  val keyPwd = System.getenv("KEY_PASSWORD")
+  val hasReleaseKeys = keystorePath != null && storePwd != null && keyAliasStr != null && keyPwd != null
+
+  if (hasReleaseKeys) {
+    signingConfigs {
+      create("release") {
+        storeFile = file(keystorePath!!)
+        storePassword = storePwd
+        keyAlias = keyAliasStr
+        keyPassword = keyPwd
+      }
     }
   }
 
@@ -38,7 +45,9 @@ android {
       isCrunchPngs = false
       isMinifyEnabled = false
       proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
-      signingConfig = signingConfigs.getByName("release")
+      if (hasReleaseKeys) {
+        signingConfig = signingConfigs.getByName("release")
+      }
     }
     debug { }
   }
