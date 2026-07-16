@@ -14,6 +14,8 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
+import com.example.domain.analyzer.FaceAnalysisResult
+
 class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     private val db = Room.databaseBuilder(
@@ -33,7 +35,15 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     private val _userProfile = MutableStateFlow<VisualAxes?>(null)
     val userProfile: StateFlow<VisualAxes?> = _userProfile.asStateFlow()
 
+    private val _faceResult = MutableStateFlow<FaceAnalysisResult?>(null)
+    val faceResult: StateFlow<FaceAnalysisResult?> = _faceResult.asStateFlow()
+
+    private val _userSelfie = MutableStateFlow<android.graphics.Bitmap?>(null)
+    val userSelfie: StateFlow<android.graphics.Bitmap?> = _userSelfie.asStateFlow()
+
     val history = repository.history
+
+    private var lastMatchTime = 0L
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
@@ -41,16 +51,27 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    fun onFaceAnalyzed(axes: VisualAxes?) {
-        _userProfile.value = axes
-        if (axes == null) {
+    fun saveSelfie(bitmap: android.graphics.Bitmap) {
+        _userSelfie.value = bitmap
+    }
+
+    fun onFaceAnalyzed(result: FaceAnalysisResult?) {
+        _faceResult.value = result
+        _userProfile.value = result?.axes
+        if (result == null) {
             _topMatches.value = emptyList()
             return
         }
 
+        val currentTime = System.currentTimeMillis()
+        if (currentTime - lastMatchTime < 200) {
+            return
+        }
+        lastMatchTime = currentTime
+
         viewModelScope.launch(Dispatchers.IO) {
             _isAnalyzing.value = true
-            val matches = repository.findMatches(axes)
+            val matches = repository.findMatches(result.axes)
             _topMatches.value = matches
             _isAnalyzing.value = false
         }

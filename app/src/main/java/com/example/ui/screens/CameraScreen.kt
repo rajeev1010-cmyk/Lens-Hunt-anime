@@ -13,6 +13,7 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
@@ -64,6 +65,8 @@ fun CameraPreview(viewModel: MainViewModel, onNavigateToResults: () -> Unit) {
 
     val topMatches by viewModel.topMatches.collectAsState()
     val isAnalyzing by viewModel.isAnalyzing.collectAsState()
+    val faceResult by viewModel.faceResult.collectAsState()
+    var previewViewRef by remember { mutableStateOf<PreviewView?>(null) }
 
     Box(modifier = Modifier.fillMaxSize()) {
         AndroidView(
@@ -75,6 +78,7 @@ fun CameraPreview(viewModel: MainViewModel, onNavigateToResults: () -> Unit) {
                     )
                     scaleType = PreviewView.ScaleType.FILL_CENTER
                 }
+                previewViewRef = previewView
 
                 val cameraProviderFuture = ProcessCameraProvider.getInstance(ctx)
                 cameraProviderFuture.addListener({
@@ -88,8 +92,8 @@ fun CameraPreview(viewModel: MainViewModel, onNavigateToResults: () -> Unit) {
                         .build()
                         .also {
                             it.setAnalyzer(cameraExecutor) { imageProxy ->
-                                analyzer.analyze(imageProxy) { axes ->
-                                    viewModel.onFaceAnalyzed(axes)
+                                analyzer.analyze(imageProxy) { result ->
+                                    viewModel.onFaceAnalyzed(result)
                                 }
                             }
                         }
@@ -114,51 +118,29 @@ fun CameraPreview(viewModel: MainViewModel, onNavigateToResults: () -> Unit) {
             modifier = Modifier.fillMaxSize()
         )
 
-        // Glassmorphism overlay
+        FaceOverlay(
+            result = faceResult,
+            match = topMatches.firstOrNull(),
+            modifier = Modifier.fillMaxSize()
+        )
+
         AnimatedVisibility(
             visible = topMatches.isNotEmpty(),
             enter = fadeIn() + slideInVertically(initialOffsetY = { it / 2 }),
             exit = fadeOut(),
-            modifier = Modifier.align(Alignment.BottomCenter)
+            modifier = Modifier.align(Alignment.BottomCenter).padding(bottom = 32.dp)
         ) {
-            val bestMatch = topMatches.firstOrNull()
-            if (bestMatch != null) {
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(24.dp)
-                        .clip(RoundedCornerShape(24.dp))
-                        .background(Color.Black.copy(alpha = 0.6f))
-                        .padding(24.dp)
-                ) {
-                    Text(
-                        text = "Your facial design most closely resembles...",
-                        style = MaterialTheme.typography.labelLarge,
-                        color = Color.White.copy(alpha = 0.8f)
-                    )
-                    Spacer(modifier = Modifier.height(4.dp))
-                    Text(
-                        text = bestMatch.character.name,
-                        style = MaterialTheme.typography.headlineMedium,
-                        color = Color.White
-                    )
-                    Text(
-                        text = "Similarity: ${bestMatch.similarityPercentage}%",
-                        style = MaterialTheme.typography.titleMedium,
-                        color = MaterialTheme.colorScheme.primaryContainer
-                    )
-                    Spacer(modifier = Modifier.height(16.dp))
-                    Button(
-                        onClick = { 
-                            viewModel.saveCurrentMatch()
-                            onNavigateToResults() 
-                        },
-                        modifier = Modifier.fillMaxWidth(),
-                        colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary)
-                    ) {
-                        Text("View Design Breakdown")
-                    }
-                }
+            Button(
+                onClick = { 
+                    previewViewRef?.bitmap?.let { viewModel.saveSelfie(it) }
+                    viewModel.saveCurrentMatch()
+                    onNavigateToResults() 
+                },
+                modifier = Modifier.size(80.dp),
+                shape = RoundedCornerShape(40.dp),
+                colors = ButtonDefaults.buttonColors(containerColor = Color.White)
+            ) {
+                Box(modifier = Modifier.fillMaxSize().background(Color.White, RoundedCornerShape(50)).border(4.dp, Color.Black, RoundedCornerShape(50)))
             }
         }
     }

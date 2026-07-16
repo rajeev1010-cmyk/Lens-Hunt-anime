@@ -22,7 +22,7 @@ class FaceAnalyzer {
     private val detector = FaceDetection.getClient(options)
 
     @SuppressLint("UnsafeOptInUsageError")
-    fun analyze(imageProxy: ImageProxy, onResult: (VisualAxes?) -> Unit) {
+    fun analyze(imageProxy: ImageProxy, onResult: (FaceAnalysisResult?) -> Unit) {
         val mediaImage = imageProxy.image
         if (mediaImage != null) {
             val image = InputImage.fromMediaImage(mediaImage, imageProxy.imageInfo.rotationDegrees)
@@ -30,7 +30,8 @@ class FaceAnalyzer {
                 .addOnSuccessListener { faces ->
                     if (faces.isNotEmpty()) {
                         val face = faces.first()
-                        onResult(extractFeatures(face))
+                        val axes = extractFeatures(face)
+                        onResult(FaceAnalysisResult(axes, face.boundingBox, image.width, image.height, imageProxy.imageInfo.rotationDegrees))
                     } else {
                         onResult(null)
                     }
