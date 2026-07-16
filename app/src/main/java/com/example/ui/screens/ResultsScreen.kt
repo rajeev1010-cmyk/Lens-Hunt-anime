@@ -21,11 +21,18 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.viewmodel.MainViewModel
 
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.platform.LocalContext
+import kotlinx.coroutines.launch
+import com.example.util.ShareCardGenerator
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ResultsScreen(viewModel: MainViewModel, onBack: () -> Unit) {
     val topMatches by viewModel.topMatches.collectAsState()
     val userSelfie by viewModel.userSelfie.collectAsState()
+    val coroutineScope = rememberCoroutineScope()
+    val context = LocalContext.current
 
     Scaffold(
         topBar = {
@@ -165,7 +172,13 @@ fun ResultsScreen(viewModel: MainViewModel, onBack: () -> Unit) {
                 item {
                     Spacer(modifier = Modifier.height(16.dp))
                     Button(
-                        onClick = { /* Generate Share Card */ },
+                        onClick = {
+                            if (userSelfie != null && topMatch != null) {
+                                coroutineScope.launch {
+                                    ShareCardGenerator.generateAndShare(context, userSelfie!!, topMatch)
+                                }
+                            }
+                        },
                         modifier = Modifier.fillMaxWidth()
                     ) {
                         Text("Generate Share Card")
