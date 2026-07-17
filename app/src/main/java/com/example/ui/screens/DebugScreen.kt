@@ -22,6 +22,7 @@ fun DebugScreen(viewModel: MainViewModel, onBack: () -> Unit) {
     val faceResult by viewModel.faceResult.collectAsState()
     val topMatches by viewModel.topMatches.collectAsState()
     val isAnalyzing by viewModel.isAnalyzing.collectAsState()
+    val allCharacters by viewModel.allCharacters.collectAsState()
 
     Scaffold(
         topBar = {
@@ -43,6 +44,37 @@ fun DebugScreen(viewModel: MainViewModel, onBack: () -> Unit) {
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             item {
+                Text("Database & Metadata", style = MaterialTheme.typography.titleLarge)
+                Spacer(modifier = Modifier.height(8.dp))
+                
+                val missingMetadata = allCharacters.filter { char ->
+                    char.designer.isBlank() || char.designer == "Unknown" ||
+                    char.designLanguage.isBlank() || char.designLanguage == "Design" ||
+                    char.designPrinciples.isBlank() || char.designPrinciples == "Unknown" ||
+                    char.visualTraits.isBlank() || char.visualTraits == "Trait" ||
+                    char.designBreakdown.isBlank() || char.designBreakdown == "Unknown" ||
+                    char.description.isBlank() || char.description == "Desc"
+                }
+                
+                Text("Database Size: ${allCharacters.size} Characters", fontWeight = FontWeight.SemiBold)
+                Text("Characters Loaded: ${allCharacters.size}")
+                Text("Character Metadata Loaded: ${allCharacters.size - missingMetadata.size} fully loaded")
+                
+                Spacer(modifier = Modifier.height(8.dp))
+                Text("Missing Metadata Report:", fontWeight = FontWeight.SemiBold)
+                if (missingMetadata.isEmpty()) {
+                    Text("All characters have complete metadata.", color = MaterialTheme.colorScheme.primary)
+                } else {
+                    missingMetadata.forEach {
+                        Text("- ${it.name} (${it.id})", color = MaterialTheme.colorScheme.error)
+                    }
+                }
+                
+                Spacer(modifier = Modifier.height(16.dp))
+                HorizontalDivider()
+            }
+
+            item {
                 Text("Detected Face Features", style = MaterialTheme.typography.titleLarge)
                 if (faceResult != null) {
                     val axes = faceResult!!.axes
@@ -61,9 +93,13 @@ fun DebugScreen(viewModel: MainViewModel, onBack: () -> Unit) {
                     
                     Spacer(modifier = Modifier.height(16.dp))
                     Text("Hierarchical Cluster", style = MaterialTheme.typography.titleLarge)
+                    
                     val (primaryCluster, confidence) = ClusterManager.determineUserCluster(axes)
-                    Text("Detected Cluster: $primaryCluster", fontWeight = FontWeight.Bold)
-                    Text("Confidence: ${String.format(Locale.US, "%.1f", confidence * 100)}%")
+                    val primaryLanguage = ClusterManager.getDesignLanguageSummary(primaryCluster)
+                    
+                    Text("Primary Design Language: $primaryLanguage", fontWeight = FontWeight.Bold)
+                    Text("Detected Cluster: $primaryCluster")
+                    Text("Cluster Confidence: ${String.format(Locale.US, "%.1f", confidence * 100)}%")
                     
                     if (confidence < 0.7f) {
                         val nearest = ClusterManager.getNearestClusters(primaryCluster)
@@ -79,7 +115,7 @@ fun DebugScreen(viewModel: MainViewModel, onBack: () -> Unit) {
 
             item {
                 HorizontalDivider()
-                Text("Database & Matches", style = MaterialTheme.typography.titleLarge)
+                Text("Top 20 Matches", style = MaterialTheme.typography.titleLarge)
                 Spacer(modifier = Modifier.height(8.dp))
                 if (isAnalyzing) {
                     CircularProgressIndicator()
@@ -98,10 +134,10 @@ fun DebugScreen(viewModel: MainViewModel, onBack: () -> Unit) {
                             fontWeight = FontWeight.Bold
                         )
                         Text("Cluster: ${match.character.cluster}", style = MaterialTheme.typography.bodySmall)
-                        Text("Distance: ${String.format(Locale.US, "%.4f", match.distance)}")
+                        Text("Similarity Score: ${String.format(Locale.US, "%.4f", match.score)}")
                         Spacer(modifier = Modifier.height(8.dp))
-                        Text("Contributions:", fontWeight = FontWeight.SemiBold)
-                        match.contributions.entries.sortedByDescending { it.value }.forEach { (name, value) ->
+                        Text("Feature Contributions:", fontWeight = FontWeight.SemiBold)
+                        match.contributions.entries.sortedBy { it.value }.forEach { (name, value) ->
                             Text("$name: ${String.format(Locale.US, "%.3f", value)}")
                         }
                     }

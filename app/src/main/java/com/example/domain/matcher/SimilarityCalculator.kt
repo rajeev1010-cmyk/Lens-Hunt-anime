@@ -5,18 +5,18 @@ import kotlin.math.sqrt
 
 object SimilarityCalculator {
     private val weights = floatArrayOf(
-        2.0f, // 0: faceLength
-        2.0f, // 1: jawSharpness
-        1.5f, // 2: eyeNarrowness
-        0.5f, // 3: browWeight
-        0.25f, // 4: hairDarkness
-        0.25f, // 5: hairVolume
-        0.5f, // 6: expressionNeutrality
-        1.0f, // 7: symmetry
-        0.1f, // 8: contrast
-        2.0f, // 9: angularity
-        0.1f, // 10: glasses
-        0.1f  // 11: warmth
+        1.0f, // 0: faceLength (Proportions 10%)
+        1.5f, // 1: jawSharpness (Jaw Shape 15%)
+        2.0f, // 2: eyeNarrowness (Eyes 20%)
+        0.25f, // 3: browWeight (Expression 2.5%)
+        0.25f, // 4: hairDarkness (Hair 2.5%)
+        0.25f, // 5: hairVolume (Hair 2.5%)
+        0.25f, // 6: expressionNeutrality (Expression 2.5%)
+        1.0f, // 7: symmetry (Symmetry 10%)
+        0.0f, // 8: contrast (0%)
+        3.5f, // 9: angularity (Face Geometry 35%)
+        0.0f, // 10: glasses (0%)
+        0.0f  // 11: warmth (0%)
     )
     
     private val featureNames = listOf(

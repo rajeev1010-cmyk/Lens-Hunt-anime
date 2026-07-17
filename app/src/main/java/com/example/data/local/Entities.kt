@@ -11,23 +11,14 @@ data class CharacterEntity(
     val name: String,
     val series: String,
     val designer: String,
-    val studio: String,
     val franchise: String,
-    val collection: String,
     val cluster: String,
     val visualTraits: String, 
     val designLanguage: String, 
-    val shapeLanguage: String,
-    val primaryColors: String, 
-    val silhouette: String,
-    val archetype: String,
-    val temperament: String,
-    val keywords: String, 
-    val copyrightNotice: String,
+    val designPrinciples: String,
+    val designBreakdown: String,
     val description: String,
-    @Embedded val profile: VisualAxes,
-    val communicates: String, 
-    val through: String 
+    @Embedded val profile: VisualAxes
 )
 
 @Entity(tableName = "history")

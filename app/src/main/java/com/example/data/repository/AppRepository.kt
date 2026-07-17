@@ -29,10 +29,16 @@ class AppRepository(private val dao: AppDao) {
         val characters = dao.getAllCharacters()
         if (characters.isEmpty()) return emptyList()
         
-        // Log missing metadata (ISSUE 5)
+        // ISSUE 8: Database Validation (Log missing metadata)
         characters.forEach { char ->
-            if (char.designer == "Unknown" || char.designLanguage == "Design" || 
-                char.description == "Desc" || char.visualTraits == "Trait") {
+            val isMissing = char.designer.isBlank() || char.designer == "Unknown" ||
+                char.designLanguage.isBlank() || char.designLanguage == "Design" ||
+                char.designPrinciples.isBlank() || char.designPrinciples == "Unknown" ||
+                char.visualTraits.isBlank() || char.visualTraits == "Trait" ||
+                char.designBreakdown.isBlank() || char.designBreakdown == "Unknown" ||
+                char.description.isBlank() || char.description == "Desc"
+                
+            if (isMissing) {
                 Log.w("DIAGNOSTIC", "Missing metadata for character: ${char.name} (${char.id})")
             }
         }
@@ -54,47 +60,48 @@ class AppRepository(private val dao: AppDao) {
             Triple(character, distance, contributions)
         }
 
-        // ISSUE 1: Normalize scores between 70% and 98% based on min/max distance
         val minDist = rawResults.minOfOrNull { it.second } ?: 0f
         val maxDist = rawResults.maxOfOrNull { it.second } ?: 1f
         val range = max(0.0001f, maxDist - minDist)
 
         var results = rawResults.map { (character, distance, contributions) ->
-            // Scale score: Nearest gets 0.98, farthest gets 0.70
             var normalizedScore = 0.98f - 0.28f * ((distance - minDist) / range)
             
-            // Cluster penalty/bonus
             if (character.cluster == primaryCluster) {
-                normalizedScore += 0.02f // slight boost
+                normalizedScore += 0.02f
             } else if (confidence < 0.7f && character.cluster in targetClusters) {
-                normalizedScore -= 0.03f // slight penalty
+                normalizedScore -= 0.03f
             } else {
-                normalizedScore -= 0.15f // heavy penalty
+                normalizedScore -= 0.15f
             }
 
-            normalizedScore = normalizedScore.coerceIn(0f, 0.98f) // Cap at 98%
+            normalizedScore = normalizedScore.coerceIn(0f, 0.98f)
             MatchResult(character, normalizedScore, 0, distance, contributions)
         }.sortedByDescending { it.score }
         
-        // ISSUE 3: Penalize nearly identical characters (diversity check)
+        // ISSUE 4 & 5: Fix Similarity Scores & Improve Diversity
         val diverseResults = mutableListOf<MatchResult>()
+        var rank = 0
         for (result in results) {
-            var penalty = 0f
-            // check against already accepted results
+            // Natural decay so they aren't all 95%+
+            var penalty = rank * 0.04f 
+            
+            // Diversity penalty if too similar to already accepted characters
             for (accepted in diverseResults) {
                 val distanceBetweenThem = SimilarityCalculator.calculateWithDetails(
                     result.character.profile.toArray(),
                     accepted.character.profile.toArray()
                 ).second
                 
-                // If they are very similar to an already accepted higher-rank result, penalize them
-                if (distanceBetweenThem < 0.2f) {
-                    penalty += 0.05f
+                if (distanceBetweenThem < 0.3f) {
+                    penalty += 0.06f
                 }
             }
-            val finalScore = (result.score - penalty).coerceIn(0f, 0.98f)
+            
+            val finalScore = (result.score - penalty).coerceIn(0.50f, 0.98f)
             val percentage = (finalScore * 100).toInt().coerceIn(0, 100)
             diverseResults.add(MatchResult(result.character, finalScore, percentage, result.distance, result.contributions))
+            rank++
         }
 
         return diverseResults.sortedByDescending { it.score }.take(5)

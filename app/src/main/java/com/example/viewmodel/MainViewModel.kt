@@ -47,9 +47,15 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     private var lastMatchTime = 0L
 
+    private val _allCharacters = MutableStateFlow<List<com.example.data.local.CharacterEntity>>(emptyList())
+    val allCharacters: StateFlow<List<com.example.data.local.CharacterEntity>> = _allCharacters.asStateFlow()
+
     init {
         viewModelScope.launch(Dispatchers.IO) {
             repository.seedDatabaseIfEmpty()
+            repository.allCharacters.collect { chars ->
+                _allCharacters.value = chars
+            }
         }
     }
 

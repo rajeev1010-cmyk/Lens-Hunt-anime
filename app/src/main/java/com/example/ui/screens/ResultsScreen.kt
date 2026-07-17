@@ -52,7 +52,7 @@ fun ResultsScreen(viewModel: MainViewModel, onBack: () -> Unit) {
         } else {
             val topMatch = topMatches.first()
             val primaryCluster = topMatch.character.cluster
-            val designLanguage = ClusterManager.getDesignLanguageSummary(primaryCluster)
+            val designLanguage = topMatch.character.designLanguage
 
             LazyColumn(
                 modifier = Modifier
@@ -99,7 +99,7 @@ fun ResultsScreen(viewModel: MainViewModel, onBack: () -> Unit) {
 
                 item {
                     Text(
-                        "TOP 5 EXAMPLES OF YOUR DESIGN LANGUAGE",
+                        "Characters That Share Your Design Language",
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.Bold,
                         color = MaterialTheme.colorScheme.primary
@@ -131,10 +131,12 @@ fun ResultsScreen(viewModel: MainViewModel, onBack: () -> Unit) {
                             Text(char.series, style = MaterialTheme.typography.labelLarge)
                             
                             Spacer(modifier = Modifier.height(16.dp))
-                            Text("Matched because of:", fontWeight = FontWeight.Bold)
+                            Text("Why this character shares your design language", fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.primary)
+                            Spacer(modifier = Modifier.height(4.dp))
+                            Text("Your face has:", fontWeight = FontWeight.SemiBold, style = MaterialTheme.typography.bodyMedium)
                             
                             val topFeatures = match.contributions.entries
-                                .filter { it.key != "hairDarkness" && it.key != "hairVolume" || it.value < 0.05f } 
+                                .filter { it.key != "hairDarkness" && it.key != "hairVolume" && it.key != "glasses" && it.key != "contrast" && it.key != "warmth" } 
                                 .sortedBy { it.value } 
                                 .take(4)
                             
@@ -144,14 +146,9 @@ fun ResultsScreen(viewModel: MainViewModel, onBack: () -> Unit) {
                                     "jawSharpness" -> "Specific jawline definition"
                                     "eyeNarrowness" -> "Similar eye shape & size"
                                     "browWeight" -> "Similar brow prominence"
-                                    "symmetry" -> "Comparable facial symmetry"
+                                    "symmetry" -> "High facial symmetry"
                                     "expressionNeutrality" -> "Similar baseline expression"
-                                    "angularity" -> "Similar facial roundness/angularity"
-                                    "contrast" -> "Similar contrast levels"
-                                    "warmth" -> "Similar warmth/coolness"
-                                    "glasses" -> "Eyewear structure"
-                                    "hairDarkness" -> "Similar hair shading"
-                                    "hairVolume" -> "Similar hair volume"
+                                    "angularity" -> "Distinct facial geometry and angularity"
                                     else -> entry.key
                                 }
                             }
@@ -159,6 +156,13 @@ fun ResultsScreen(viewModel: MainViewModel, onBack: () -> Unit) {
                             explanations.forEach { exp ->
                                 Text("• $exp", style = MaterialTheme.typography.bodyMedium)
                             }
+
+                            Spacer(modifier = Modifier.height(8.dp))
+                            Text(
+                                "These characteristics are strongly present in ${char.name}'s character design.",
+                                style = MaterialTheme.typography.bodyMedium,
+                                fontStyle = androidx.compose.ui.text.font.FontStyle.Italic
+                            )
                             
                             Spacer(modifier = Modifier.height(16.dp))
                             HorizontalDivider()
@@ -169,13 +173,17 @@ fun ResultsScreen(viewModel: MainViewModel, onBack: () -> Unit) {
                             Spacer(modifier = Modifier.height(4.dp))
                             
                             Text("Principles:", fontWeight = FontWeight.Bold, style = MaterialTheme.typography.bodySmall)
-                            Text(char.designLanguage, style = MaterialTheme.typography.bodySmall)
+                            Text(char.designPrinciples, style = MaterialTheme.typography.bodySmall)
                             Spacer(modifier = Modifier.height(4.dp))
                             
                             Text("Visual Traits:", fontWeight = FontWeight.Bold, style = MaterialTheme.typography.bodySmall)
                             Text(char.visualTraits, style = MaterialTheme.typography.bodySmall)
                             Spacer(modifier = Modifier.height(4.dp))
                             
+                            Text("Design Breakdown:", fontWeight = FontWeight.Bold, style = MaterialTheme.typography.bodySmall)
+                            Text(char.designBreakdown, style = MaterialTheme.typography.bodySmall)
+                            Spacer(modifier = Modifier.height(4.dp))
+
                             Text("Description:", fontWeight = FontWeight.Bold, style = MaterialTheme.typography.bodySmall)
                             Text(char.description, style = MaterialTheme.typography.bodySmall)
                         }
