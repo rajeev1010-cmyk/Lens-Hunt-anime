@@ -4,29 +4,27 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.example.viewmodel.MainViewModel
-
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.platform.LocalContext
-import kotlinx.coroutines.launch
+import com.example.domain.matcher.ClusterManager
 import com.example.util.ShareCardGenerator
+import com.example.viewmodel.MainViewModel
+import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
 fun ResultsScreen(viewModel: MainViewModel, onBack: () -> Unit) {
     val topMatches by viewModel.topMatches.collectAsState()
@@ -52,8 +50,9 @@ fun ResultsScreen(viewModel: MainViewModel, onBack: () -> Unit) {
             }
         } else {
             val topMatch = topMatches.first()
-            val character = topMatch.character
-            
+            val primaryCluster = topMatch.character.cluster
+            val designLanguage = ClusterManager.getDesignLanguageSummary(primaryCluster)
+
             LazyColumn(
                 modifier = Modifier
                     .fillMaxSize()
@@ -62,109 +61,106 @@ fun ResultsScreen(viewModel: MainViewModel, onBack: () -> Unit) {
                 verticalArrangement = Arrangement.spacedBy(24.dp)
             ) {
                 item {
-                    // Polaroid Character Card
+                    // Header Card
                     Card(
                         modifier = Modifier.fillMaxWidth(),
                         shape = RoundedCornerShape(16.dp),
-                        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
+                        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer)
                     ) {
-                        Column(modifier = Modifier.padding(16.dp)) {
+                        Column(modifier = Modifier.padding(16.dp), horizontalAlignment = Alignment.CenterHorizontally) {
                             Text(
-                                "YOUR ANIME TWIN",
+                                "YOUR FACIAL DESIGN LANGUAGE",
                                 style = MaterialTheme.typography.labelMedium,
-                                color = MaterialTheme.colorScheme.primary,
+                                color = MaterialTheme.colorScheme.onPrimaryContainer,
                                 fontWeight = FontWeight.Bold,
                                 modifier = Modifier.padding(bottom = 8.dp)
                             )
-                            
+                            Text(
+                                text = designLanguage,
+                                style = MaterialTheme.typography.headlineMedium,
+                                fontWeight = FontWeight.ExtraBold,
+                                color = MaterialTheme.colorScheme.primary
+                            )
+                            Spacer(modifier = Modifier.height(16.dp))
+
                             if (userSelfie != null) {
                                 Image(
                                     bitmap = userSelfie!!.asImageBitmap(),
                                     contentDescription = "User Selfie",
                                     modifier = Modifier
-                                        .fillMaxWidth()
-                                        .aspectRatio(3f/4f)
-                                        .clip(RoundedCornerShape(8.dp)),
+                                        .size(120.dp)
+                                        .clip(RoundedCornerShape(16.dp)),
                                     contentScale = ContentScale.Crop
                                 )
-                            } else {
-                                Box(modifier = Modifier
-                                    .fillMaxWidth()
-                                    .aspectRatio(3f/4f)
-                                    .background(Color.Gray, RoundedCornerShape(8.dp)))
+                            }
+                        }
+                    }
+                }
+
+                item {
+                    Text(
+                        "TOP 5 EXAMPLES OF YOUR DESIGN LANGUAGE",
+                        style = MaterialTheme.typography.titleMedium,
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.primary
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+                }
+
+                items(topMatches.take(5)) { match ->
+                    val char = match.character
+                    Card(
+                        modifier = Modifier.fillMaxWidth(),
+                        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
+                    ) {
+                        Column(modifier = Modifier.padding(16.dp)) {
+                            Row(verticalAlignment = Alignment.CenterVertically) {
+                                Text(
+                                    "${match.similarityPercentage}% Match",
+                                    style = MaterialTheme.typography.titleMedium,
+                                    fontWeight = FontWeight.Bold,
+                                    color = MaterialTheme.colorScheme.primary
+                                )
+                                Spacer(modifier = Modifier.width(16.dp))
+                                Text(
+                                    char.name,
+                                    style = MaterialTheme.typography.titleLarge,
+                                    fontWeight = FontWeight.ExtraBold
+                                )
+                            }
+                            Text(char.series, style = MaterialTheme.typography.labelLarge)
+                            Spacer(modifier = Modifier.height(8.dp))
+                            Text("Matched because of:", fontWeight = FontWeight.Bold)
+                            
+                            // Explain based on contributions
+                            // We sort contributions to find features that were closest (i.e. smallest diff squared)
+                            // Actually, small diff squared means they match well.
+                            val topFeatures = match.contributions.entries
+                                .filter { it.key != "hairDarkness" && it.key != "hairVolume" || it.value < 0.05f } // low influence for hair
+                                .sortedBy { it.value } // Smallest diff means best match
+                                .take(4)
+                                
+                            val explanations = topFeatures.map { entry ->
+                                when (entry.key) {
+                                    "faceLength" -> "Balanced facial proportions"
+                                    "jawSharpness" -> "Specific jawline definition"
+                                    "eyeNarrowness" -> "Similar eye shape & size"
+                                    "browWeight" -> "Similar brow prominence"
+                                    "symmetry" -> "Comparable facial symmetry"
+                                    "expressionNeutrality" -> "Similar baseline expression"
+                                    "angularity" -> "Similar facial roundness/angularity"
+                                    "contrast" -> "Similar contrast levels"
+                                    "warmth" -> "Similar warmth/coolness"
+                                    "glasses" -> "Eyewear structure"
+                                    "hairDarkness" -> "Similar hair shading"
+                                    "hairVolume" -> "Similar hair volume"
+                                    else -> entry.key
+                                }
                             }
                             
-                            Spacer(modifier = Modifier.height(16.dp))
-                            
-                            Text(
-                                "${topMatch.similarityPercentage}% Match",
-                                style = MaterialTheme.typography.titleLarge,
-                                fontWeight = FontWeight.Bold,
-                                color = MaterialTheme.colorScheme.primary
-                            )
-                            Text("Closest Design Match", style = MaterialTheme.typography.labelMedium)
-                            Text(character.name, style = MaterialTheme.typography.headlineMedium, fontWeight = FontWeight.Bold)
-                            Text(character.series, style = MaterialTheme.typography.bodyLarge)
-                        }
-                    }
-                }
-
-                item {
-                    HorizontalDivider()
-                    Spacer(modifier = Modifier.height(16.dp))
-                    Text("WHY THIS MATCH", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
-                    Spacer(modifier = Modifier.height(8.dp))
-                    val traits = character.visualTraits.split(",").map { it.trim() }
-                    traits.forEach { trait ->
-                        Text("• $trait", style = MaterialTheme.typography.bodyMedium)
-                    }
-                }
-
-                item {
-                    HorizontalDivider()
-                    Spacer(modifier = Modifier.height(16.dp))
-                    Text("CHARACTER DESIGN PRINCIPLES", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
-                    Spacer(modifier = Modifier.height(8.dp))
-                    val principles = character.description.split(".").filter { it.isNotBlank() }
-                    principles.forEach { principle ->
-                        Text("• ${principle.trim()}", style = MaterialTheme.typography.bodyMedium)
-                    }
-                }
-
-                item {
-                    HorizontalDivider()
-                    Spacer(modifier = Modifier.height(16.dp))
-                    Text("CHARACTER DESIGNER", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
-                    Spacer(modifier = Modifier.height(8.dp))
-                    Text(character.designer, style = MaterialTheme.typography.bodyLarge, fontWeight = FontWeight.SemiBold)
-                    Text(character.studio, style = MaterialTheme.typography.bodyMedium)
-                    // If no bio is present, just a generic one
-                    Text("Known for expressive facial construction, refined proportions, and realistic character designs.", style = MaterialTheme.typography.bodySmall, modifier = Modifier.padding(top = 4.dp))
-                }
-
-                item {
-                    HorizontalDivider()
-                    Spacer(modifier = Modifier.height(16.dp))
-                    Text("DESIGN LANGUAGE", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
-                    Spacer(modifier = Modifier.height(8.dp))
-                    Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                        val tags = character.designLanguage.split(",").map { it.trim() }
-                        tags.take(4).forEach { tag ->
-                            SuggestionChip(onClick = {}, label = { Text(tag) })
-                        }
-                    }
-                }
-
-                item {
-                    HorizontalDivider()
-                    Spacer(modifier = Modifier.height(16.dp))
-                    Text("VISUAL TRAITS", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
-                    Spacer(modifier = Modifier.height(8.dp))
-                    @OptIn(ExperimentalLayoutApi::class)
-                    FlowRow(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                        val keywords = character.keywords.split(",").map { it.trim() }
-                        keywords.take(6).forEach { chip ->
-                            FilterChip(selected = true, onClick = {}, label = { Text(chip) })
+                            explanations.forEach { exp ->
+                                Text("• $exp", style = MaterialTheme.typography.bodyMedium)
+                            }
                         }
                     }
                 }
@@ -183,16 +179,7 @@ fun ResultsScreen(viewModel: MainViewModel, onBack: () -> Unit) {
                     ) {
                         Text("Generate Share Card")
                     }
-                }
-
-                item {
-                    Spacer(modifier = Modifier.height(16.dp))
-                    Text(
-                        "This comparison is based on artistic facial design similarities and does not identify real people.",
-                        style = MaterialTheme.typography.labelSmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        modifier = Modifier.padding(bottom = 32.dp)
-                    )
+                    Spacer(modifier = Modifier.height(32.dp))
                 }
             }
         }

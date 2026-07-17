@@ -14,6 +14,7 @@ data class CharacterEntity(
     val studio: String,
     val franchise: String,
     val collection: String,
+    val cluster: String,
     val visualTraits: String, 
     val designLanguage: String, 
     val shapeLanguage: String,

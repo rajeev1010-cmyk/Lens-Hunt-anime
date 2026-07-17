@@ -22,7 +22,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         application,
         AppDatabase::class.java,
         "lens_hunt_db"
-    ).build()
+    ).fallbackToDestructiveMigration().build()
 
     private val repository = AppRepository(db.appDao())
 

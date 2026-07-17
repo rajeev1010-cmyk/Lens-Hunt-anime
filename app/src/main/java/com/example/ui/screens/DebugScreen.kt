@@ -12,6 +12,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.example.domain.matcher.ClusterManager
 import com.example.viewmodel.MainViewModel
 import java.util.Locale
 
@@ -57,13 +58,27 @@ fun DebugScreen(viewModel: MainViewModel, onBack: () -> Unit) {
                     Text("angularity: ${String.format(Locale.US, "%.3f", axes.angularity)}")
                     Text("glasses: ${String.format(Locale.US, "%.3f", axes.glasses)}")
                     Text("warmth: ${String.format(Locale.US, "%.3f", axes.warmth)}")
+                    
+                    Spacer(modifier = Modifier.height(16.dp))
+                    Text("Hierarchical Cluster", style = MaterialTheme.typography.titleLarge)
+                    val (primaryCluster, confidence) = ClusterManager.determineUserCluster(axes)
+                    Text("Detected Cluster: $primaryCluster", fontWeight = FontWeight.Bold)
+                    Text("Confidence: ${String.format(Locale.US, "%.1f", confidence * 100)}%")
+                    
+                    if (confidence < 0.7f) {
+                        val nearest = ClusterManager.getNearestClusters(primaryCluster)
+                        Text("Low confidence. Searching neighbours:", color = MaterialTheme.colorScheme.error)
+                        nearest.forEach {
+                            Text("- $it")
+                        }
+                    }
                 } else {
                     Text("No face detected")
                 }
             }
 
             item {
-                Divider()
+                HorizontalDivider()
                 Text("Database & Matches", style = MaterialTheme.typography.titleLarge)
                 Spacer(modifier = Modifier.height(8.dp))
                 if (isAnalyzing) {
@@ -82,11 +97,12 @@ fun DebugScreen(viewModel: MainViewModel, onBack: () -> Unit) {
                             style = MaterialTheme.typography.titleMedium,
                             fontWeight = FontWeight.Bold
                         )
+                        Text("Cluster: ${match.character.cluster}", style = MaterialTheme.typography.bodySmall)
                         Text("Distance: ${String.format(Locale.US, "%.4f", match.distance)}")
                         Spacer(modifier = Modifier.height(8.dp))
                         Text("Contributions:", fontWeight = FontWeight.SemiBold)
-                        match.contributions.forEach { (name, value) ->
-                            Text("$name: ${String.format(Locale.US, "%+.3f", value)}")
+                        match.contributions.entries.sortedByDescending { it.value }.forEach { (name, value) ->
+                            Text("$name: ${String.format(Locale.US, "%.3f", value)}")
                         }
                     }
                 }

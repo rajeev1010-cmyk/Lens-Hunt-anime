@@ -5,18 +5,18 @@ import kotlin.math.sqrt
 
 object SimilarityCalculator {
     private val weights = floatArrayOf(
-        1.8f, // faceLength
-        2.0f, // jawSharpness
-        2.0f, // eyeNarrowness
-        1.5f, // browWeight
-        0.5f, // hairDarkness
-        0.5f, // hairVolume
-        0.7f, // expressionNeutrality
-        1.5f, // symmetry
-        0.6f, // contrast
-        2.0f, // angularity
-        0.3f, // glasses
-        0.4f  // warmth
+        2.0f, // 0: faceLength
+        2.0f, // 1: jawSharpness
+        1.5f, // 2: eyeNarrowness
+        0.5f, // 3: browWeight
+        0.25f, // 4: hairDarkness
+        0.25f, // 5: hairVolume
+        0.5f, // 6: expressionNeutrality
+        1.0f, // 7: symmetry
+        0.1f, // 8: contrast
+        2.0f, // 9: angularity
+        0.1f, // 10: glasses
+        0.1f  // 11: warmth
     )
     
     private val featureNames = listOf(
@@ -36,7 +36,7 @@ object SimilarityCalculator {
             val componentDistanceSq = (diff * diff) * w
             sumSq += componentDistanceSq
             maxPossibleSumSq += 1.0f * w
-            contributions[featureNames.getOrElse(i) { "feature$i" }] = diff * w // show weighted diff direction
+            contributions[featureNames.getOrElse(i) { "feature$i" }] = componentDistanceSq // Use component distance as contribution
         }
         val distance = sqrt(sumSq)
         val maxDistance = sqrt(maxPossibleSumSq)

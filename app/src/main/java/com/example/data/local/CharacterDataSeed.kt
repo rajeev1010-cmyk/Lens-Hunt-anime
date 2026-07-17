@@ -1,140 +1,272 @@
 package com.example.data.local
-
 import com.example.data.model.VisualAxes
 
 object CharacterDataSeed {
     val characters = listOf(
+
         CharacterEntity(
-            id = "levi-ackerman",
-            name = "Levi Ackerman",
-            series = "Attack on Titan",
-            designer = "Hajime Isayama",
-            studio = "Wit Studio / MAPPA",
-            franchise = "Attack on Titan",
-            collection = "anime",
-            visualTraits = "Sharp jaw,Narrow eyes,Minimal expression,Short dark undercut",
-            designLanguage = "Precision,Discipline,Efficiency",
-            shapeLanguage = "Triangles and rectangles",
-            primaryColors = "#3B3F45,#C8C2B4,#5D4A36",
-            silhouette = "Slim vertical",
-            archetype = "The Ace",
-            temperament = "Controlled",
-            keywords = "stoic,compact,elite,clean",
-            copyrightNotice = "Character © its rightful owners. Referenced here for educational design commentary only; no artwork is reproduced.",
-            description = "A design built on subtraction: nothing decorative, nothing loose, nothing wasted.",
-            profile = VisualAxes(faceLength = 0.62f, jawSharpness = 0.85f, eyeNarrowness = 0.9f, browWeight = 0.7f, hairDarkness = 0.9f, hairVolume = 0.25f, expressionNeutrality = 0.95f, contrast = 0.7f, angularity = 0.85f),
-            communicates = "Precision,Control,Calmness,Efficiency",
-            through = "narrow eyes,compact silhouette,muted palette,clean geometry"
+            id = "levi", name = "Levi", series = "Unknown", designer = "Unknown", studio = "Unknown",
+            franchise = "Unknown", collection = "anime", cluster = "Cluster A - Hyper Realistic", visualTraits = "Trait",
+            designLanguage = "Design", shapeLanguage = "Shape", primaryColors = "#000000",
+            silhouette = "Silhouette", archetype = "Archetype", temperament = "Temperament",
+            keywords = "Keyword", copyrightNotice = "Copyright", description = "Desc",
+            profile = VisualAxes(faceLength = 0.55f, jawSharpness = 0.80f, eyeNarrowness = 0.67f, angularity = 0.73f, symmetry = 0.90f, expressionNeutrality = 0.64f), communicates = "Comm", through = "Through"
         ),
         CharacterEntity(
-            id = "gojo-satoru",
-            name = "Gojo Satoru",
-            series = "Jujutsu Kaisen",
-            designer = "Gege Akutami",
-            studio = "MAPPA",
-            franchise = "Jujutsu Kaisen",
-            collection = "anime",
-            visualTraits = "Blindfold/eyewear,Tall silhouette,White spiked hair,Confident smirk",
-            designLanguage = "Overwhelming ease,Mystery,Play",
-            shapeLanguage = "Vertical rectangles with triangular hair",
-            primaryColors = "#FFFFFF,#101018,#59C1E8",
-            silhouette = "Tall vertical",
-            archetype = "The Untouchable Mentor",
-            temperament = "Playful",
-            keywords = "masked eyes,tall,white hair,smug",
-            copyrightNotice = "Character © its rightful owners. Referenced here for educational design commentary only; no artwork is reproduced.",
-            description = "Covered eyes force the design to act through posture and mouth — confidence drawn without pupils.",
-            profile = VisualAxes(faceLength = 0.7f, jawSharpness = 0.7f, eyeNarrowness = 0.6f, browWeight = 0.3f, hairDarkness = 0.05f, hairVolume = 0.7f, expressionNeutrality = 0.35f, contrast = 0.85f, angularity = 0.7f, glasses = 0.9f),
-            communicates = "Effortless power,Unreadability,Charisma",
-            through = "hidden eyes,high-contrast palette,loose posture over tall frame,a smile doing the acting"
+            id = "mikasa", name = "Mikasa", series = "Unknown", designer = "Unknown", studio = "Unknown",
+            franchise = "Unknown", collection = "anime", cluster = "Cluster A - Hyper Realistic", visualTraits = "Trait",
+            designLanguage = "Design", shapeLanguage = "Shape", primaryColors = "#000000",
+            silhouette = "Silhouette", archetype = "Archetype", temperament = "Temperament",
+            keywords = "Keyword", copyrightNotice = "Copyright", description = "Desc",
+            profile = VisualAxes(faceLength = 0.61f, jawSharpness = 0.73f, eyeNarrowness = 0.65f, angularity = 0.64f, symmetry = 0.75f, expressionNeutrality = 0.92f), communicates = "Comm", through = "Through"
         ),
         CharacterEntity(
-            id = "sasuke-uchiha",
-            name = "Sasuke Uchiha",
-            series = "Naruto",
-            designer = "Masashi Kishimoto",
-            studio = "Pierrot",
-            franchise = "Naruto",
-            collection = "anime",
-            visualTraits = "Angular face,Narrow dark eyes,Raven hair with back spikes,Cool detachment",
-            designLanguage = "Rivalry,Elegance,Distance",
-            shapeLanguage = "Triangles",
-            primaryColors = "#1B2430,#3E4C63,#8A0F1E",
-            silhouette = "Sharp, wind-swept",
-            archetype = "The Rival",
-            temperament = "Aloof",
-            keywords = "brooding,prodigy,dark hair,sharp",
-            copyrightNotice = "Character © its rightful owners. Referenced here for educational design commentary only; no artwork is reproduced.",
-            description = "The visual opposite of his rival by construction: cool hues, downward lines, closed posture.",
-            profile = VisualAxes(faceLength = 0.65f, jawSharpness = 0.8f, eyeNarrowness = 0.8f, browWeight = 0.6f, hairDarkness = 0.95f, hairVolume = 0.6f, expressionNeutrality = 0.8f, contrast = 0.7f, angularity = 0.8f, warmth = 0.3f),
-            communicates = "Talent,Isolation,Contained intensity",
-            through = "cool palette against a warm-hero rival,triangular hair mass,half-lidded eye frames,minimal costume ornament"
+            id = "violet", name = "Violet", series = "Unknown", designer = "Unknown", studio = "Unknown",
+            franchise = "Unknown", collection = "anime", cluster = "Cluster A - Hyper Realistic", visualTraits = "Trait",
+            designLanguage = "Design", shapeLanguage = "Shape", primaryColors = "#000000",
+            silhouette = "Silhouette", archetype = "Archetype", temperament = "Temperament",
+            keywords = "Keyword", copyrightNotice = "Copyright", description = "Desc",
+            profile = VisualAxes(faceLength = 0.59f, jawSharpness = 0.88f, eyeNarrowness = 0.75f, angularity = 0.68f, symmetry = 0.81f, expressionNeutrality = 0.82f), communicates = "Comm", through = "Through"
         ),
         CharacterEntity(
-            id = "mikasa-ackerman",
-            name = "Mikasa Ackerman",
-            series = "Attack on Titan",
-            designer = "Hajime Isayama",
-            studio = "Wit Studio / MAPPA",
-            franchise = "Attack on Titan",
-            collection = "anime",
-            visualTraits = "Level gaze,Short black bob,Red scarf,Athletic frame",
-            designLanguage = "Loyalty,Lethality,Restraint",
-            shapeLanguage = "Rectangles with one soft accent",
-            primaryColors = "#2E2E34,#B8AC98,#A3272E",
-            silhouette = "Balanced vertical",
-            archetype = "The Protector",
-            temperament = "Steadfast",
-            keywords = "scarf,calm,strong,bob cut",
-            copyrightNotice = "Character © its rightful owners. Referenced here for educational design commentary only; no artwork is reproduced.",
-            description = "One warm accessory carries the entire emotional backstory; everything else stays soldier-plain.",
-            profile = VisualAxes(faceLength = 0.55f, jawSharpness = 0.6f, eyeNarrowness = 0.65f, browWeight = 0.55f, hairDarkness = 0.95f, hairVolume = 0.4f, expressionNeutrality = 0.85f, symmetry = 0.75f, contrast = 0.6f, angularity = 0.6f),
-            communicates = "Devotion,Competence,Quiet intensity",
-            through = "the single red scarf against muted uniform,level symmetrical features,practical hair,still posture"
+            id = "loid", name = "Loid", series = "Unknown", designer = "Unknown", studio = "Unknown",
+            franchise = "Unknown", collection = "anime", cluster = "Cluster A - Hyper Realistic", visualTraits = "Trait",
+            designLanguage = "Design", shapeLanguage = "Shape", primaryColors = "#000000",
+            silhouette = "Silhouette", archetype = "Archetype", temperament = "Temperament",
+            keywords = "Keyword", copyrightNotice = "Copyright", description = "Desc",
+            profile = VisualAxes(faceLength = 0.62f, jawSharpness = 0.74f, eyeNarrowness = 0.56f, angularity = 0.88f, symmetry = 0.76f, expressionNeutrality = 0.73f), communicates = "Comm", through = "Through"
         ),
         CharacterEntity(
-            id = "sung-jinwoo",
-            name = "Sung Jinwoo",
-            series = "Solo Leveling",
-            designer = "DUBU (REDICE)",
-            studio = "A-1 Pictures",
-            franchise = "Solo Leveling",
-            collection = "anime",
-            visualTraits = "Sharp long face,Piercing narrow eyes,Black layered hair,Shadowed palette",
-            designLanguage = "Ascension,Menace,Solitude",
-            shapeLanguage = "Long triangles",
-            primaryColors = "#0E1116,#5A32A8,#B9C2CF",
-            silhouette = "Long vertical blade",
-            archetype = "The Ascendant",
-            temperament = "Resolved",
-            keywords = "shadow,hunter,purple,sharp",
-            copyrightNotice = "Character © its rightful owners. Referenced here for educational design commentary only; no artwork is reproduced.",
-            description = "A design that literally darkens as the character grows — value scripting as power curve.",
-            profile = VisualAxes(faceLength = 0.8f, jawSharpness = 0.85f, eyeNarrowness = 0.85f, browWeight = 0.6f, hairDarkness = 0.95f, hairVolume = 0.55f, expressionNeutrality = 0.75f, contrast = 0.8f, angularity = 0.85f, warmth = 0.2f),
-            communicates = "Growth into power,Danger,Focus",
-            through = "progressively darker palette,elongated face and frame,eye highlights removed at peak moments,monochrome with one violet accent"
+            id = "yor", name = "Yor", series = "Unknown", designer = "Unknown", studio = "Unknown",
+            franchise = "Unknown", collection = "anime", cluster = "Cluster A - Hyper Realistic", visualTraits = "Trait",
+            designLanguage = "Design", shapeLanguage = "Shape", primaryColors = "#000000",
+            silhouette = "Silhouette", archetype = "Archetype", temperament = "Temperament",
+            keywords = "Keyword", copyrightNotice = "Copyright", description = "Desc",
+            profile = VisualAxes(faceLength = 0.56f, jawSharpness = 0.63f, eyeNarrowness = 0.86f, angularity = 0.65f, symmetry = 0.90f, expressionNeutrality = 0.65f), communicates = "Comm", through = "Through"
         ),
         CharacterEntity(
-            id = "violet-evergarden",
-            name = "Violet Evergarden",
-            series = "Violet Evergarden",
-            designer = "Akiko Takase",
-            studio = "Kyoto Animation",
-            franchise = "Violet Evergarden",
-            collection = "anime",
-            visualTraits = "Doll-like symmetry,Wide still eyes,Long braided blond hair,White gloves",
-            designLanguage = "Rebirth,Restraint,Grace",
-            shapeLanguage = "Soft verticals, ribbon curves",
-            primaryColors = "#F3EEE4,#20406B,#D9B44A",
-            silhouette = "Elegant column",
-            archetype = "The Reborn Weapon",
-            temperament = "Reserved",
-            keywords = "gloves,braids,elegant,still",
-            copyrightNotice = "Character © its rightful owners. Referenced here for educational design commentary only; no artwork is reproduced.",
-            description = "A former weapon redesigned in ribbons — the costume records the direction of change.",
-            profile = VisualAxes(faceLength = 0.55f, jawSharpness = 0.35f, eyeNarrowness = 0.2f, browWeight = 0.3f, hairDarkness = 0.2f, hairVolume = 0.75f, expressionNeutrality = 0.9f, symmetry = 0.9f, contrast = 0.5f, angularity = 0.25f, warmth = 0.55f),
-            communicates = "Grace over history of violence,Emotional distance closing slowly",
-            through = "extreme symmetry,soft silhouette on a rigid posture,gloves staging the story at the hands,one emerald accent"
-        )
+            id = "spike", name = "Spike", series = "Unknown", designer = "Unknown", studio = "Unknown",
+            franchise = "Unknown", collection = "anime", cluster = "Cluster A - Hyper Realistic", visualTraits = "Trait",
+            designLanguage = "Design", shapeLanguage = "Shape", primaryColors = "#000000",
+            silhouette = "Silhouette", archetype = "Archetype", temperament = "Temperament",
+            keywords = "Keyword", copyrightNotice = "Copyright", description = "Desc",
+            profile = VisualAxes(faceLength = 0.64f, jawSharpness = 0.76f, eyeNarrowness = 0.71f, angularity = 0.86f, symmetry = 0.86f, expressionNeutrality = 0.68f), communicates = "Comm", through = "Through"
+        ),
+        CharacterEntity(
+            id = "rukia", name = "Rukia", series = "Unknown", designer = "Unknown", studio = "Unknown",
+            franchise = "Unknown", collection = "anime", cluster = "Cluster A - Hyper Realistic", visualTraits = "Trait",
+            designLanguage = "Design", shapeLanguage = "Shape", primaryColors = "#000000",
+            silhouette = "Silhouette", archetype = "Archetype", temperament = "Temperament",
+            keywords = "Keyword", copyrightNotice = "Copyright", description = "Desc",
+            profile = VisualAxes(faceLength = 0.67f, jawSharpness = 0.89f, eyeNarrowness = 0.53f, angularity = 0.89f, symmetry = 0.91f, expressionNeutrality = 0.60f), communicates = "Comm", through = "Through"
+        ),
+        CharacterEntity(
+            id = "eren", name = "Eren", series = "Unknown", designer = "Unknown", studio = "Unknown",
+            franchise = "Unknown", collection = "anime", cluster = "Cluster A - Hyper Realistic", visualTraits = "Trait",
+            designLanguage = "Design", shapeLanguage = "Shape", primaryColors = "#000000",
+            silhouette = "Silhouette", archetype = "Archetype", temperament = "Temperament",
+            keywords = "Keyword", copyrightNotice = "Copyright", description = "Desc",
+            profile = VisualAxes(faceLength = 0.62f, jawSharpness = 0.84f, eyeNarrowness = 0.69f, angularity = 0.77f, symmetry = 0.83f, expressionNeutrality = 0.68f), communicates = "Comm", through = "Through"
+        ),
+        CharacterEntity(
+            id = "gojo", name = "Gojo", series = "Unknown", designer = "Unknown", studio = "Unknown",
+            franchise = "Unknown", collection = "anime", cluster = "Cluster B - Semi Realistic", visualTraits = "Trait",
+            designLanguage = "Design", shapeLanguage = "Shape", primaryColors = "#000000",
+            silhouette = "Silhouette", archetype = "Archetype", temperament = "Temperament",
+            keywords = "Keyword", copyrightNotice = "Copyright", description = "Desc",
+            profile = VisualAxes(faceLength = 0.69f, jawSharpness = 0.56f, eyeNarrowness = 0.68f, angularity = 0.54f, symmetry = 0.66f, expressionNeutrality = 0.41f), communicates = "Comm", through = "Through"
+        ),
+        CharacterEntity(
+            id = "sasuke", name = "Sasuke", series = "Unknown", designer = "Unknown", studio = "Unknown",
+            franchise = "Unknown", collection = "anime", cluster = "Cluster B - Semi Realistic", visualTraits = "Trait",
+            designLanguage = "Design", shapeLanguage = "Shape", primaryColors = "#000000",
+            silhouette = "Silhouette", archetype = "Archetype", temperament = "Temperament",
+            keywords = "Keyword", copyrightNotice = "Copyright", description = "Desc",
+            profile = VisualAxes(faceLength = 0.56f, jawSharpness = 0.68f, eyeNarrowness = 0.62f, angularity = 0.71f, symmetry = 0.81f, expressionNeutrality = 0.43f), communicates = "Comm", through = "Through"
+        ),
+        CharacterEntity(
+            id = "sung-jinwoo", name = "Sung Jinwoo", series = "Unknown", designer = "Unknown", studio = "Unknown",
+            franchise = "Unknown", collection = "anime", cluster = "Cluster B - Semi Realistic", visualTraits = "Trait",
+            designLanguage = "Design", shapeLanguage = "Shape", primaryColors = "#000000",
+            silhouette = "Silhouette", archetype = "Archetype", temperament = "Temperament",
+            keywords = "Keyword", copyrightNotice = "Copyright", description = "Desc",
+            profile = VisualAxes(faceLength = 0.64f, jawSharpness = 0.69f, eyeNarrowness = 0.67f, angularity = 0.68f, symmetry = 0.80f, expressionNeutrality = 0.73f), communicates = "Comm", through = "Through"
+        ),
+        CharacterEntity(
+            id = "cloud", name = "Cloud", series = "Unknown", designer = "Unknown", studio = "Unknown",
+            franchise = "Unknown", collection = "anime", cluster = "Cluster B - Semi Realistic", visualTraits = "Trait",
+            designLanguage = "Design", shapeLanguage = "Shape", primaryColors = "#000000",
+            silhouette = "Silhouette", archetype = "Archetype", temperament = "Temperament",
+            keywords = "Keyword", copyrightNotice = "Copyright", description = "Desc",
+            profile = VisualAxes(faceLength = 0.63f, jawSharpness = 0.71f, eyeNarrowness = 0.66f, angularity = 0.55f, symmetry = 0.71f, expressionNeutrality = 0.60f), communicates = "Comm", through = "Through"
+        ),
+        CharacterEntity(
+            id = "2b", name = "2B", series = "Unknown", designer = "Unknown", studio = "Unknown",
+            franchise = "Unknown", collection = "anime", cluster = "Cluster B - Semi Realistic", visualTraits = "Trait",
+            designLanguage = "Design", shapeLanguage = "Shape", primaryColors = "#000000",
+            silhouette = "Silhouette", archetype = "Archetype", temperament = "Temperament",
+            keywords = "Keyword", copyrightNotice = "Copyright", description = "Desc",
+            profile = VisualAxes(faceLength = 0.64f, jawSharpness = 0.58f, eyeNarrowness = 0.41f, angularity = 0.56f, symmetry = 0.63f, expressionNeutrality = 0.65f), communicates = "Comm", through = "Through"
+        ),
+        CharacterEntity(
+            id = "makima", name = "Makima", series = "Unknown", designer = "Unknown", studio = "Unknown",
+            franchise = "Unknown", collection = "anime", cluster = "Cluster B - Semi Realistic", visualTraits = "Trait",
+            designLanguage = "Design", shapeLanguage = "Shape", primaryColors = "#000000",
+            silhouette = "Silhouette", archetype = "Archetype", temperament = "Temperament",
+            keywords = "Keyword", copyrightNotice = "Copyright", description = "Desc",
+            profile = VisualAxes(faceLength = 0.50f, jawSharpness = 0.73f, eyeNarrowness = 0.62f, angularity = 0.52f, symmetry = 0.63f, expressionNeutrality = 0.72f), communicates = "Comm", through = "Through"
+        ),
+        CharacterEntity(
+            id = "ichigo", name = "Ichigo", series = "Unknown", designer = "Unknown", studio = "Unknown",
+            franchise = "Unknown", collection = "anime", cluster = "Cluster B - Semi Realistic", visualTraits = "Trait",
+            designLanguage = "Design", shapeLanguage = "Shape", primaryColors = "#000000",
+            silhouette = "Silhouette", archetype = "Archetype", temperament = "Temperament",
+            keywords = "Keyword", copyrightNotice = "Copyright", description = "Desc",
+            profile = VisualAxes(faceLength = 0.65f, jawSharpness = 0.55f, eyeNarrowness = 0.68f, angularity = 0.69f, symmetry = 0.75f, expressionNeutrality = 0.48f), communicates = "Comm", through = "Through"
+        ),
+        CharacterEntity(
+            id = "naruto", name = "Naruto", series = "Unknown", designer = "Unknown", studio = "Unknown",
+            franchise = "Unknown", collection = "anime", cluster = "Cluster C - Stylized Shonen", visualTraits = "Trait",
+            designLanguage = "Design", shapeLanguage = "Shape", primaryColors = "#000000",
+            silhouette = "Silhouette", archetype = "Archetype", temperament = "Temperament",
+            keywords = "Keyword", copyrightNotice = "Copyright", description = "Desc",
+            profile = VisualAxes(faceLength = 0.54f, jawSharpness = 0.63f, eyeNarrowness = 0.49f, angularity = 0.57f, symmetry = 0.68f, contrast = 0.77f), communicates = "Comm", through = "Through"
+        ),
+        CharacterEntity(
+            id = "tanjiro", name = "Tanjiro", series = "Unknown", designer = "Unknown", studio = "Unknown",
+            franchise = "Unknown", collection = "anime", cluster = "Cluster C - Stylized Shonen", visualTraits = "Trait",
+            designLanguage = "Design", shapeLanguage = "Shape", primaryColors = "#000000",
+            silhouette = "Silhouette", archetype = "Archetype", temperament = "Temperament",
+            keywords = "Keyword", copyrightNotice = "Copyright", description = "Desc",
+            profile = VisualAxes(faceLength = 0.52f, jawSharpness = 0.87f, eyeNarrowness = 0.40f, angularity = 0.47f, symmetry = 0.78f, contrast = 0.87f), communicates = "Comm", through = "Through"
+        ),
+        CharacterEntity(
+            id = "edward", name = "Edward", series = "Unknown", designer = "Unknown", studio = "Unknown",
+            franchise = "Unknown", collection = "anime", cluster = "Cluster C - Stylized Shonen", visualTraits = "Trait",
+            designLanguage = "Design", shapeLanguage = "Shape", primaryColors = "#000000",
+            silhouette = "Silhouette", archetype = "Archetype", temperament = "Temperament",
+            keywords = "Keyword", copyrightNotice = "Copyright", description = "Desc",
+            profile = VisualAxes(faceLength = 0.44f, jawSharpness = 0.64f, eyeNarrowness = 0.38f, angularity = 0.69f, symmetry = 0.63f, contrast = 0.87f), communicates = "Comm", through = "Through"
+        ),
+        CharacterEntity(
+            id = "gon", name = "Gon", series = "Unknown", designer = "Unknown", studio = "Unknown",
+            franchise = "Unknown", collection = "anime", cluster = "Cluster C - Stylized Shonen", visualTraits = "Trait",
+            designLanguage = "Design", shapeLanguage = "Shape", primaryColors = "#000000",
+            silhouette = "Silhouette", archetype = "Archetype", temperament = "Temperament",
+            keywords = "Keyword", copyrightNotice = "Copyright", description = "Desc",
+            profile = VisualAxes(faceLength = 0.44f, jawSharpness = 0.83f, eyeNarrowness = 0.31f, angularity = 0.46f, symmetry = 0.54f, contrast = 0.67f), communicates = "Comm", through = "Through"
+        ),
+        CharacterEntity(
+            id = "bakugo", name = "Bakugo", series = "Unknown", designer = "Unknown", studio = "Unknown",
+            franchise = "Unknown", collection = "anime", cluster = "Cluster C - Stylized Shonen", visualTraits = "Trait",
+            designLanguage = "Design", shapeLanguage = "Shape", primaryColors = "#000000",
+            silhouette = "Silhouette", archetype = "Archetype", temperament = "Temperament",
+            keywords = "Keyword", copyrightNotice = "Copyright", description = "Desc",
+            profile = VisualAxes(faceLength = 0.33f, jawSharpness = 0.61f, eyeNarrowness = 0.26f, angularity = 0.57f, symmetry = 0.78f, contrast = 0.75f), communicates = "Comm", through = "Through"
+        ),
+        CharacterEntity(
+            id = "killua", name = "Killua", series = "Unknown", designer = "Unknown", studio = "Unknown",
+            franchise = "Unknown", collection = "anime", cluster = "Cluster C - Stylized Shonen", visualTraits = "Trait",
+            designLanguage = "Design", shapeLanguage = "Shape", primaryColors = "#000000",
+            silhouette = "Silhouette", archetype = "Archetype", temperament = "Temperament",
+            keywords = "Keyword", copyrightNotice = "Copyright", description = "Desc",
+            profile = VisualAxes(faceLength = 0.39f, jawSharpness = 0.79f, eyeNarrowness = 0.33f, angularity = 0.50f, symmetry = 0.69f, contrast = 0.76f), communicates = "Comm", through = "Through"
+        ),
+        CharacterEntity(
+            id = "denji", name = "Denji", series = "Unknown", designer = "Unknown", studio = "Unknown",
+            franchise = "Unknown", collection = "anime", cluster = "Cluster C - Stylized Shonen", visualTraits = "Trait",
+            designLanguage = "Design", shapeLanguage = "Shape", primaryColors = "#000000",
+            silhouette = "Silhouette", archetype = "Archetype", temperament = "Temperament",
+            keywords = "Keyword", copyrightNotice = "Copyright", description = "Desc",
+            profile = VisualAxes(faceLength = 0.51f, jawSharpness = 0.60f, eyeNarrowness = 0.30f, angularity = 0.53f, symmetry = 0.68f, contrast = 0.84f), communicates = "Comm", through = "Through"
+        ),
+        CharacterEntity(
+            id = "luffy", name = "Luffy", series = "Unknown", designer = "Unknown", studio = "Unknown",
+            franchise = "Unknown", collection = "anime", cluster = "Cluster D - Highly Stylized", visualTraits = "Trait",
+            designLanguage = "Design", shapeLanguage = "Shape", primaryColors = "#000000",
+            silhouette = "Silhouette", archetype = "Archetype", temperament = "Temperament",
+            keywords = "Keyword", copyrightNotice = "Copyright", description = "Desc",
+            profile = VisualAxes(faceLength = 0.33f, jawSharpness = 0.33f, eyeNarrowness = 0.27f, angularity = 0.29f, symmetry = 0.42f, warmth = 0.81f), communicates = "Comm", through = "Through"
+        ),
+        CharacterEntity(
+            id = "goku", name = "Goku", series = "Unknown", designer = "Unknown", studio = "Unknown",
+            franchise = "Unknown", collection = "anime", cluster = "Cluster D - Highly Stylized", visualTraits = "Trait",
+            designLanguage = "Design", shapeLanguage = "Shape", primaryColors = "#000000",
+            silhouette = "Silhouette", archetype = "Archetype", temperament = "Temperament",
+            keywords = "Keyword", copyrightNotice = "Copyright", description = "Desc",
+            profile = VisualAxes(faceLength = 0.26f, jawSharpness = 0.50f, eyeNarrowness = 0.21f, angularity = 0.50f, symmetry = 0.40f, warmth = 0.80f), communicates = "Comm", through = "Through"
+        ),
+        CharacterEntity(
+            id = "vegeta", name = "Vegeta", series = "Unknown", designer = "Unknown", studio = "Unknown",
+            franchise = "Unknown", collection = "anime", cluster = "Cluster D - Highly Stylized", visualTraits = "Trait",
+            designLanguage = "Design", shapeLanguage = "Shape", primaryColors = "#000000",
+            silhouette = "Silhouette", archetype = "Archetype", temperament = "Temperament",
+            keywords = "Keyword", copyrightNotice = "Copyright", description = "Desc",
+            profile = VisualAxes(faceLength = 0.41f, jawSharpness = 0.51f, eyeNarrowness = 0.13f, angularity = 0.26f, symmetry = 0.63f, warmth = 0.84f), communicates = "Comm", through = "Through"
+        ),
+        CharacterEntity(
+            id = "anya", name = "Anya", series = "Unknown", designer = "Unknown", studio = "Unknown",
+            franchise = "Unknown", collection = "anime", cluster = "Cluster D - Highly Stylized", visualTraits = "Trait",
+            designLanguage = "Design", shapeLanguage = "Shape", primaryColors = "#000000",
+            silhouette = "Silhouette", archetype = "Archetype", temperament = "Temperament",
+            keywords = "Keyword", copyrightNotice = "Copyright", description = "Desc",
+            profile = VisualAxes(faceLength = 0.24f, jawSharpness = 0.45f, eyeNarrowness = 0.21f, angularity = 0.22f, symmetry = 0.64f, warmth = 0.70f), communicates = "Comm", through = "Through"
+        ),
+        CharacterEntity(
+            id = "power", name = "Power", series = "Unknown", designer = "Unknown", studio = "Unknown",
+            franchise = "Unknown", collection = "anime", cluster = "Cluster D - Highly Stylized", visualTraits = "Trait",
+            designLanguage = "Design", shapeLanguage = "Shape", primaryColors = "#000000",
+            silhouette = "Silhouette", archetype = "Archetype", temperament = "Temperament",
+            keywords = "Keyword", copyrightNotice = "Copyright", description = "Desc",
+            profile = VisualAxes(faceLength = 0.45f, jawSharpness = 0.53f, eyeNarrowness = 0.13f, angularity = 0.32f, symmetry = 0.54f, warmth = 0.83f), communicates = "Comm", through = "Through"
+        ),
+        CharacterEntity(
+            id = "sailor-moon", name = "Sailor Moon", series = "Unknown", designer = "Unknown", studio = "Unknown",
+            franchise = "Unknown", collection = "anime", cluster = "Cluster D - Highly Stylized", visualTraits = "Trait",
+            designLanguage = "Design", shapeLanguage = "Shape", primaryColors = "#000000",
+            silhouette = "Silhouette", archetype = "Archetype", temperament = "Temperament",
+            keywords = "Keyword", copyrightNotice = "Copyright", description = "Desc",
+            profile = VisualAxes(faceLength = 0.42f, jawSharpness = 0.42f, eyeNarrowness = 0.11f, angularity = 0.45f, symmetry = 0.48f, warmth = 0.71f), communicates = "Comm", through = "Through"
+        ),
+        CharacterEntity(
+            id = "ainz", name = "Ainz", series = "Unknown", designer = "Unknown", studio = "Unknown",
+            franchise = "Unknown", collection = "anime", cluster = "Cluster E - Non Human / Fantasy", visualTraits = "Trait",
+            designLanguage = "Design", shapeLanguage = "Shape", primaryColors = "#000000",
+            silhouette = "Silhouette", archetype = "Archetype", temperament = "Temperament",
+            keywords = "Keyword", copyrightNotice = "Copyright", description = "Desc",
+            profile = VisualAxes(faceLength = 0.62f, jawSharpness = 0.80f, eyeNarrowness = 0.64f, contrast = 0.94f, browWeight = 0.96f, expressionNeutrality = 0.30f), communicates = "Comm", through = "Through"
+        ),
+        CharacterEntity(
+            id = "rimuru", name = "Rimuru", series = "Unknown", designer = "Unknown", studio = "Unknown",
+            franchise = "Unknown", collection = "anime", cluster = "Cluster E - Non Human / Fantasy", visualTraits = "Trait",
+            designLanguage = "Design", shapeLanguage = "Shape", primaryColors = "#000000",
+            silhouette = "Silhouette", archetype = "Archetype", temperament = "Temperament",
+            keywords = "Keyword", copyrightNotice = "Copyright", description = "Desc",
+            profile = VisualAxes(faceLength = 0.56f, jawSharpness = 0.67f, eyeNarrowness = 0.84f, contrast = 0.96f, browWeight = 0.72f, expressionNeutrality = 0.17f), communicates = "Comm", through = "Through"
+        ),
+        CharacterEntity(
+            id = "kaneki-transformation", name = "Kaneki Transformation", series = "Unknown", designer = "Unknown", studio = "Unknown",
+            franchise = "Unknown", collection = "anime", cluster = "Cluster E - Non Human / Fantasy", visualTraits = "Trait",
+            designLanguage = "Design", shapeLanguage = "Shape", primaryColors = "#000000",
+            silhouette = "Silhouette", archetype = "Archetype", temperament = "Temperament",
+            keywords = "Keyword", copyrightNotice = "Copyright", description = "Desc",
+            profile = VisualAxes(faceLength = 0.69f, jawSharpness = 0.79f, eyeNarrowness = 0.65f, contrast = 0.93f, browWeight = 0.87f, expressionNeutrality = 0.11f), communicates = "Comm", through = "Through"
+        ),
+        CharacterEntity(
+            id = "batman-masked", name = "Batman (masked)", series = "Unknown", designer = "Unknown", studio = "Unknown",
+            franchise = "Unknown", collection = "anime", cluster = "Cluster E - Non Human / Fantasy", visualTraits = "Trait",
+            designLanguage = "Design", shapeLanguage = "Shape", primaryColors = "#000000",
+            silhouette = "Silhouette", archetype = "Archetype", temperament = "Temperament",
+            keywords = "Keyword", copyrightNotice = "Copyright", description = "Desc",
+            profile = VisualAxes(faceLength = 0.75f, jawSharpness = 0.72f, eyeNarrowness = 0.72f, contrast = 0.81f, browWeight = 0.95f, expressionNeutrality = 0.34f), communicates = "Comm", through = "Through"
+        ),
+        CharacterEntity(
+            id = "spider-man-masked", name = "Spider-Man (masked)", series = "Unknown", designer = "Unknown", studio = "Unknown",
+            franchise = "Unknown", collection = "anime", cluster = "Cluster E - Non Human / Fantasy", visualTraits = "Trait",
+            designLanguage = "Design", shapeLanguage = "Shape", primaryColors = "#000000",
+            silhouette = "Silhouette", archetype = "Archetype", temperament = "Temperament",
+            keywords = "Keyword", copyrightNotice = "Copyright", description = "Desc",
+            profile = VisualAxes(faceLength = 0.66f, jawSharpness = 0.57f, eyeNarrowness = 0.56f, contrast = 0.95f, browWeight = 0.88f, expressionNeutrality = 0.32f), communicates = "Comm", through = "Through"
+        ),
     )
 }
