@@ -36,11 +36,11 @@ import java.util.concurrent.Executors
 
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
-fun CameraScreen(viewModel: MainViewModel, onNavigateToResults: () -> Unit) {
+fun CameraScreen(viewModel: MainViewModel, onNavigateToResults: () -> Unit, onNavigateToDebug: () -> Unit = {}) {
     val cameraPermissionState = rememberPermissionState(Manifest.permission.CAMERA)
 
     if (cameraPermissionState.status.isGranted) {
-        CameraPreview(viewModel, onNavigateToResults)
+        CameraPreview(viewModel, onNavigateToResults, onNavigateToDebug)
     } else {
         Column(
             modifier = Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background),
@@ -57,7 +57,7 @@ fun CameraScreen(viewModel: MainViewModel, onNavigateToResults: () -> Unit) {
 }
 
 @Composable
-fun CameraPreview(viewModel: MainViewModel, onNavigateToResults: () -> Unit) {
+fun CameraPreview(viewModel: MainViewModel, onNavigateToResults: () -> Unit, onNavigateToDebug: () -> Unit) {
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
     val analyzer = remember { FaceAnalyzer() }
@@ -130,17 +130,26 @@ fun CameraPreview(viewModel: MainViewModel, onNavigateToResults: () -> Unit) {
             exit = fadeOut(),
             modifier = Modifier.align(Alignment.BottomCenter).padding(bottom = 32.dp)
         ) {
-            Button(
-                onClick = { 
-                    previewViewRef?.bitmap?.let { viewModel.saveSelfie(it) }
-                    viewModel.saveCurrentMatch()
-                    onNavigateToResults() 
-                },
-                modifier = Modifier.size(80.dp),
-                shape = RoundedCornerShape(40.dp),
-                colors = ButtonDefaults.buttonColors(containerColor = Color.White)
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(16.dp)
             ) {
-                Box(modifier = Modifier.fillMaxSize().background(Color.White, RoundedCornerShape(50)).border(4.dp, Color.Black, RoundedCornerShape(50)))
+                Button(onClick = onNavigateToDebug) {
+                    Text("Debug")
+                }
+                
+                Button(
+                    onClick = { 
+                        previewViewRef?.bitmap?.let { viewModel.saveSelfie(it) }
+                        viewModel.saveCurrentMatch()
+                        onNavigateToResults() 
+                    },
+                    modifier = Modifier.size(80.dp),
+                    shape = RoundedCornerShape(40.dp),
+                    colors = ButtonDefaults.buttonColors(containerColor = Color.White)
+                ) {
+                    Box(modifier = Modifier.fillMaxSize().background(Color.White, RoundedCornerShape(50)).border(4.dp, Color.Black, RoundedCornerShape(50)))
+                }
             }
         }
     }

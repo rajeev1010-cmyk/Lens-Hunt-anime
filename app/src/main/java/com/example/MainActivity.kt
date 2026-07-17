@@ -34,11 +34,18 @@ class MainActivity : ComponentActivity() {
                         composable("camera") {
                             CameraScreen(
                                 viewModel = viewModel,
-                                onNavigateToResults = { navController.navigate("results") }
+                                onNavigateToResults = { navController.navigate("results") },
+                                onNavigateToDebug = { navController.navigate("debug") }
                             )
                         }
                         composable("results") {
                             ResultsScreen(
+                                viewModel = viewModel,
+                                onBack = { navController.popBackStack() }
+                            )
+                        }
+                        composable("debug") {
+                            com.example.ui.screens.DebugScreen(
                                 viewModel = viewModel,
                                 onBack = { navController.popBackStack() }
                             )
