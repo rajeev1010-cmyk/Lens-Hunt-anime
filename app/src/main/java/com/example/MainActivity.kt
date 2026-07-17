@@ -13,7 +13,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.ui.screens.CameraScreen
+import com.example.ui.screens.HomeScreen
 import com.example.ui.screens.ResultsScreen
+import com.example.ui.screens.DebugScreen
 import com.example.ui.theme.MyApplicationTheme
 import com.example.viewmodel.MainViewModel
 
@@ -30,11 +32,22 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     val navController = rememberNavController()
-                    NavHost(navController = navController, startDestination = "camera") {
+                    NavHost(navController = navController, startDestination = "home") {
+                        composable("home") {
+                            HomeScreen(
+                                viewModel = viewModel,
+                                onNavigateToCamera = { navController.navigate("camera") },
+                                onNavigateToResults = { navController.navigate("results") },
+                                onNavigateToDebug = { navController.navigate("debug") }
+                            )
+                        }
                         composable("camera") {
                             CameraScreen(
                                 viewModel = viewModel,
-                                onNavigateToResults = { navController.navigate("results") },
+                                onNavigateToResults = {
+                                    navController.popBackStack("home", false)
+                                    navController.navigate("results")
+                                },
                                 onNavigateToDebug = { navController.navigate("debug") }
                             )
                         }
@@ -45,7 +58,7 @@ class MainActivity : ComponentActivity() {
                             )
                         }
                         composable("debug") {
-                            com.example.ui.screens.DebugScreen(
+                            DebugScreen(
                                 viewModel = viewModel,
                                 onBack = { navController.popBackStack() }
                             )
@@ -56,4 +69,3 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
-

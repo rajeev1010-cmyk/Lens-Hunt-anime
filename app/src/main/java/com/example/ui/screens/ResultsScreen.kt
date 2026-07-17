@@ -1,7 +1,6 @@
 package com.example.ui.screens
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -9,11 +8,13 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -82,7 +83,6 @@ fun ResultsScreen(viewModel: MainViewModel, onBack: () -> Unit) {
                                 color = MaterialTheme.colorScheme.primary
                             )
                             Spacer(modifier = Modifier.height(16.dp))
-
                             if (userSelfie != null) {
                                 Image(
                                     bitmap = userSelfie!!.asImageBitmap(),
@@ -129,17 +129,15 @@ fun ResultsScreen(viewModel: MainViewModel, onBack: () -> Unit) {
                                 )
                             }
                             Text(char.series, style = MaterialTheme.typography.labelLarge)
-                            Spacer(modifier = Modifier.height(8.dp))
+                            
+                            Spacer(modifier = Modifier.height(16.dp))
                             Text("Matched because of:", fontWeight = FontWeight.Bold)
                             
-                            // Explain based on contributions
-                            // We sort contributions to find features that were closest (i.e. smallest diff squared)
-                            // Actually, small diff squared means they match well.
                             val topFeatures = match.contributions.entries
-                                .filter { it.key != "hairDarkness" && it.key != "hairVolume" || it.value < 0.05f } // low influence for hair
-                                .sortedBy { it.value } // Smallest diff means best match
+                                .filter { it.key != "hairDarkness" && it.key != "hairVolume" || it.value < 0.05f } 
+                                .sortedBy { it.value } 
                                 .take(4)
-                                
+                            
                             val explanations = topFeatures.map { entry ->
                                 when (entry.key) {
                                     "faceLength" -> "Balanced facial proportions"
@@ -161,6 +159,25 @@ fun ResultsScreen(viewModel: MainViewModel, onBack: () -> Unit) {
                             explanations.forEach { exp ->
                                 Text("• $exp", style = MaterialTheme.typography.bodyMedium)
                             }
+                            
+                            Spacer(modifier = Modifier.height(16.dp))
+                            HorizontalDivider()
+                            Spacer(modifier = Modifier.height(16.dp))
+                            
+                            Text("Designer:", fontWeight = FontWeight.Bold, style = MaterialTheme.typography.bodySmall)
+                            Text(char.designer, style = MaterialTheme.typography.bodySmall)
+                            Spacer(modifier = Modifier.height(4.dp))
+                            
+                            Text("Principles:", fontWeight = FontWeight.Bold, style = MaterialTheme.typography.bodySmall)
+                            Text(char.designLanguage, style = MaterialTheme.typography.bodySmall)
+                            Spacer(modifier = Modifier.height(4.dp))
+                            
+                            Text("Visual Traits:", fontWeight = FontWeight.Bold, style = MaterialTheme.typography.bodySmall)
+                            Text(char.visualTraits, style = MaterialTheme.typography.bodySmall)
+                            Spacer(modifier = Modifier.height(4.dp))
+                            
+                            Text("Description:", fontWeight = FontWeight.Bold, style = MaterialTheme.typography.bodySmall)
+                            Text(char.description, style = MaterialTheme.typography.bodySmall)
                         }
                     }
                 }
@@ -169,7 +186,7 @@ fun ResultsScreen(viewModel: MainViewModel, onBack: () -> Unit) {
                     Spacer(modifier = Modifier.height(16.dp))
                     Button(
                         onClick = {
-                            if (userSelfie != null && topMatch != null) {
+                            if (userSelfie != null) {
                                 coroutineScope.launch {
                                     ShareCardGenerator.generateAndShare(context, userSelfie!!, topMatch)
                                 }

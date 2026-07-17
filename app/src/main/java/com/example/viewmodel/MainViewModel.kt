@@ -1,12 +1,16 @@
 package com.example.viewmodel
 
 import android.app.Application
+import android.content.Context
+import android.net.Uri
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.room.Room
 import com.example.data.local.AppDatabase
 import com.example.data.model.VisualAxes
 import com.example.data.repository.AppRepository
+import com.example.domain.analyzer.FaceAnalysisResult
+import com.example.domain.analyzer.FaceAnalyzer
 import com.example.domain.matcher.MatchResult
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -14,10 +18,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-import com.example.domain.analyzer.FaceAnalysisResult
-
 class MainViewModel(application: Application) : AndroidViewModel(application) {
-
     private val db = Room.databaseBuilder(
         application,
         AppDatabase::class.java,
@@ -25,6 +26,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     ).fallbackToDestructiveMigration().build()
 
     private val repository = AppRepository(db.appDao())
+    private val faceAnalyzer = FaceAnalyzer()
 
     private val _topMatches = MutableStateFlow<List<MatchResult>>(emptyList())
     val topMatches: StateFlow<List<MatchResult>> = _topMatches.asStateFlow()
@@ -58,6 +60,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     fun onFaceAnalyzed(result: FaceAnalysisResult?) {
         _faceResult.value = result
         _userProfile.value = result?.axes
+        
         if (result == null) {
             _topMatches.value = emptyList()
             return
@@ -74,6 +77,21 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             val matches = repository.findMatches(result.axes)
             _topMatches.value = matches
             _isAnalyzing.value = false
+        }
+    }
+    
+    fun analyzePhoto(context: Context, uri: Uri, onComplete: (Boolean) -> Unit) {
+        _isAnalyzing.value = true
+        faceAnalyzer.analyzeUri(context, uri) { result, bitmap ->
+            if (result != null && bitmap != null) {
+                saveSelfie(bitmap)
+                onFaceAnalyzed(result)
+                saveCurrentMatch()
+                onComplete(true)
+            } else {
+                _isAnalyzing.value = false
+                onComplete(false)
+            }
         }
     }
 

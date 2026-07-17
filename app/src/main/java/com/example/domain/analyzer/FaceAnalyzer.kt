@@ -1,6 +1,12 @@
 package com.example.domain.analyzer
 
 import android.annotation.SuppressLint
+import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.ImageDecoder
+import android.net.Uri
+import android.os.Build
+import android.provider.MediaStore
 import androidx.camera.core.ImageProxy
 import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.face.Face
@@ -47,6 +53,39 @@ class FaceAnalyzer {
         }
     }
 
+    fun analyzeUri(context: Context, uri: Uri, onResult: (FaceAnalysisResult?, Bitmap?) -> Unit) {
+        try {
+            val inputImage = InputImage.fromFilePath(context, uri)
+            // Load bitmap for UI
+            val bitmap = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                val source = ImageDecoder.createSource(context.contentResolver, uri)
+                ImageDecoder.decodeBitmap(source) { decoder, _, _ ->
+                    decoder.isMutableRequired = true
+                }
+            } else {
+                @Suppress("DEPRECATION")
+                MediaStore.Images.Media.getBitmap(context.contentResolver, uri)
+            }
+            
+            detector.process(inputImage)
+                .addOnSuccessListener { faces ->
+                    if (faces.isNotEmpty()) {
+                        val face = faces.first()
+                        val axes = extractFeatures(face)
+                        onResult(FaceAnalysisResult(axes, face.boundingBox, inputImage.width, inputImage.height, 0), bitmap)
+                    } else {
+                        onResult(null, bitmap)
+                    }
+                }
+                .addOnFailureListener {
+                    onResult(null, bitmap)
+                }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            onResult(null, null)
+        }
+    }
+
     private fun extractFeatures(face: Face): VisualAxes {
         val boundingBox = face.boundingBox
         val width = boundingBox.width().toFloat()
@@ -59,7 +98,6 @@ class FaceAnalyzer {
         // Eye Narrowness (Based on eye open probability)
         val leftOpen = face.leftEyeOpenProbability ?: 0.5f
         val rightOpen = face.rightEyeOpenProbability ?: 0.5f
-        // If eyes are wide open, eyeNarrowness is low. If closed, it's high.
         val avgOpen = (leftOpen + rightOpen) / 2f
         val eyeNarrowness = 1.0f - avgOpen
 
@@ -82,7 +120,7 @@ class FaceAnalyzer {
         // Jaw Sharpness - proxy using euler angles/size ratio
         val jawSharpness = ((width / height) * 0.7f).coerceIn(0.2f, 0.8f)
 
-        // Contrast / Angularity / Warmth - random deterministic or placeholder since they depend on image pixels we don't process here
+        // Contrast / Angularity / Warmth - pseudo random deterministic
         val seed = ((smileProb * 100).toInt() + (leftOpen * 100).toInt()) % 100 / 100f
         val angularity = 0.3f + seed * 0.4f
         val contrast = 0.4f + seed * 0.3f

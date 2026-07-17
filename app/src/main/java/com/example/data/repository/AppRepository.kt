@@ -11,6 +11,7 @@ import com.example.domain.matcher.ClusterManager
 import com.example.domain.matcher.MatchResult
 import com.example.domain.matcher.SimilarityCalculator
 import kotlinx.coroutines.flow.Flow
+import kotlin.math.max
 
 class AppRepository(private val dao: AppDao) {
     val allCharacters: Flow<List<CharacterEntity>> = dao.getAllCharactersFlow()
@@ -28,6 +29,14 @@ class AppRepository(private val dao: AppDao) {
         val characters = dao.getAllCharacters()
         if (characters.isEmpty()) return emptyList()
         
+        // Log missing metadata (ISSUE 5)
+        characters.forEach { char ->
+            if (char.designer == "Unknown" || char.designLanguage == "Design" || 
+                char.description == "Desc" || char.visualTraits == "Trait") {
+                Log.w("DIAGNOSTIC", "Missing metadata for character: ${char.name} (${char.id})")
+            }
+        }
+
         val (primaryCluster, confidence) = ClusterManager.determineUserCluster(axes)
         
         var targetClusters = listOf(primaryCluster)
@@ -37,33 +46,58 @@ class AppRepository(private val dao: AppDao) {
         }
         
         val filteredCharacters = characters.filter { it.cluster in targetClusters }
-        // fallback if none matches
         val candidates = if (filteredCharacters.isNotEmpty()) filteredCharacters else characters
 
-        val results = candidates.map { character ->
-            val (baseScore, distance, contributions) = SimilarityCalculator.calculateWithDetails(axes.toArray(), character.profile.toArray())
-            
-            // Apply cluster weighting if confidence is low
-            var finalScore = baseScore
-            if (confidence < 0.7f) {
-                if (character.cluster == primaryCluster) {
-                    finalScore *= 1.0f // Give it full weight, wait... The prompt says Primary 70%, Neighbour 30%.
-                    // Actually, if we just multiply by 0.7 vs 0.3
-                }
-                // But the prompt says: Weight: Primary Cluster 70%, Neighbour Cluster 30%.
-                // This could mean we scale the similarity score based on which cluster it's from.
-                val clusterWeight = if (character.cluster == primaryCluster) 0.7f else 0.3f
-                finalScore = finalScore * 0.5f + (finalScore * clusterWeight) // Just to give it a boost relative to others.
-                // Or simply: finalScore = baseScore * clusterWeight. Let's do a milder boost.
-                finalScore = baseScore * clusterWeight * 2f // if 0.7 -> 1.4x, if 0.3 -> 0.6x
-                finalScore = finalScore.coerceIn(0f, 1f)
-            }
-            
-            val percentage = (finalScore * 100).toInt().coerceIn(0, 100)
-            MatchResult(character, finalScore, percentage, distance, contributions)
-        }.sortedByDescending { it.score }
+        // Calculate raw distances
+        val rawResults = candidates.map { character ->
+            val (_, distance, contributions) = SimilarityCalculator.calculateWithDetails(axes.toArray(), character.profile.toArray())
+            Triple(character, distance, contributions)
+        }
 
-        return results.take(5)
+        // ISSUE 1: Normalize scores between 70% and 98% based on min/max distance
+        val minDist = rawResults.minOfOrNull { it.second } ?: 0f
+        val maxDist = rawResults.maxOfOrNull { it.second } ?: 1f
+        val range = max(0.0001f, maxDist - minDist)
+
+        var results = rawResults.map { (character, distance, contributions) ->
+            // Scale score: Nearest gets 0.98, farthest gets 0.70
+            var normalizedScore = 0.98f - 0.28f * ((distance - minDist) / range)
+            
+            // Cluster penalty/bonus
+            if (character.cluster == primaryCluster) {
+                normalizedScore += 0.02f // slight boost
+            } else if (confidence < 0.7f && character.cluster in targetClusters) {
+                normalizedScore -= 0.03f // slight penalty
+            } else {
+                normalizedScore -= 0.15f // heavy penalty
+            }
+
+            normalizedScore = normalizedScore.coerceIn(0f, 0.98f) // Cap at 98%
+            MatchResult(character, normalizedScore, 0, distance, contributions)
+        }.sortedByDescending { it.score }
+        
+        // ISSUE 3: Penalize nearly identical characters (diversity check)
+        val diverseResults = mutableListOf<MatchResult>()
+        for (result in results) {
+            var penalty = 0f
+            // check against already accepted results
+            for (accepted in diverseResults) {
+                val distanceBetweenThem = SimilarityCalculator.calculateWithDetails(
+                    result.character.profile.toArray(),
+                    accepted.character.profile.toArray()
+                ).second
+                
+                // If they are very similar to an already accepted higher-rank result, penalize them
+                if (distanceBetweenThem < 0.2f) {
+                    penalty += 0.05f
+                }
+            }
+            val finalScore = (result.score - penalty).coerceIn(0f, 0.98f)
+            val percentage = (finalScore * 100).toInt().coerceIn(0, 100)
+            diverseResults.add(MatchResult(result.character, finalScore, percentage, result.distance, result.contributions))
+        }
+
+        return diverseResults.sortedByDescending { it.score }.take(5)
     }
 
     suspend fun saveHistory(matchedCharacterId: String, score: Float, userProfile: VisualAxes) {
