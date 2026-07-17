@@ -118,9 +118,7 @@ fun CameraPreview(viewModel: MainViewModel, onNavigateToResults: () -> Unit, onN
             modifier = Modifier.fillMaxSize()
         )
 
-        FaceOverlay(
-            result = faceResult,
-            match = topMatches.firstOrNull(),
+        SelfieOverlay(
             modifier = Modifier.fillMaxSize()
         )
 
@@ -128,7 +126,7 @@ fun CameraPreview(viewModel: MainViewModel, onNavigateToResults: () -> Unit, onN
             visible = topMatches.isNotEmpty(),
             enter = fadeIn() + slideInVertically(initialOffsetY = { it / 2 }),
             exit = fadeOut(),
-            modifier = Modifier.align(Alignment.BottomCenter).padding(bottom = 32.dp)
+            modifier = Modifier.align(Alignment.BottomCenter).padding(bottom = 140.dp)
         ) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
