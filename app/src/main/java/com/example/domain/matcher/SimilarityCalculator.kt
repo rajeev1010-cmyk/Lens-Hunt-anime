@@ -3,19 +3,17 @@ package com.example.domain.matcher
 import com.example.data.model.VisualAxes
 import kotlin.math.sqrt
 
-object CosineSimilarity {
+object SimilarityCalculator {
     fun calculate(v1: FloatArray, v2: FloatArray): Float {
         if (v1.size != v2.size) return 0f
-        var dotProduct = 0f
-        var normA = 0f
-        var normB = 0f
+        var sumSq = 0f
         for (i in v1.indices) {
-            dotProduct += v1[i] * v2[i]
-            normA += v1[i] * v1[i]
-            normB += v2[i] * v2[i]
+            val diff = v1[i] - v2[i]
+            sumSq += diff * diff
         }
-        if (normA == 0f || normB == 0f) return 0f
-        return dotProduct / (sqrt(normA) * sqrt(normB))
+        val distance = sqrt(sumSq)
+        val maxDistance = sqrt(v1.size.toFloat()) // max possible distance if all diffs are 1.0
+        return (1.0f - (distance / maxDistance)).coerceIn(0f, 1f)
     }
 
     fun calculate(v1: VisualAxes, v2: VisualAxes): Float {

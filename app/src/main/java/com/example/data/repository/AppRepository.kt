@@ -6,8 +6,8 @@ import com.example.data.local.CharacterEntity
 import com.example.data.local.HistoryEntity
 import com.example.data.local.SettingsEntity
 import com.example.data.model.VisualAxes
-import com.example.domain.matcher.CosineSimilarity
 import com.example.domain.matcher.MatchResult
+import com.example.domain.matcher.SimilarityCalculator
 import kotlinx.coroutines.flow.Flow
 
 class AppRepository(private val dao: AppDao) {
@@ -28,7 +28,7 @@ class AppRepository(private val dao: AppDao) {
         if (characters.isEmpty()) return emptyList()
 
         return characters.map { character ->
-            val score = CosineSimilarity.calculate(axes, character.profile)
+            val score = SimilarityCalculator.calculate(axes, character.profile)
             val percentage = (score * 100).toInt().coerceIn(0, 100)
             MatchResult(character, score, percentage)
         }.sortedByDescending { it.score }
