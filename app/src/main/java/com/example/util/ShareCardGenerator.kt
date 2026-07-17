@@ -12,6 +12,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.File
 import java.io.FileOutputStream
+import androidx.core.content.ContextCompat
+import com.gianthunt.lenshunt.R
 
 object ShareCardGenerator {
     suspend fun generateAndShare(context: Context, selfie: Bitmap, matchResult: MatchResult) {
@@ -55,9 +57,10 @@ object ShareCardGenerator {
         }
         val headerGoldPaint = Paint(headerPaint).apply { color = goldColor }
         
-        canvas.drawText("THE", 90f, 100f, Paint(headerPaint).apply { textSize = 20f })
-        canvas.drawText("GIANT", 90f, 160f, headerGoldPaint.apply { textSize = 70f; typeface = Typeface.create(Typeface.SANS_SERIF, Typeface.BOLD) })
-        canvas.drawText("HUNT", 200f, 200f, headerPaint.apply { textSize = 40f })
+        // Left: Giant Hunt Logo
+        val giantDrawable = ContextCompat.getDrawable(context, R.drawable.logo_giant_hunt)
+        giantDrawable?.setBounds(80, 80, 80 + 360, 80 + 120)
+        giantDrawable?.draw(canvas)
         
         canvas.drawText("OFFICIAL", width - 320f, 130f, Paint(headerPaint).apply { textSize = 32f })
         canvas.drawText("ATTEMPT", width - 320f, 170f, Paint(headerPaint).apply { textSize = 32f })
@@ -66,10 +69,10 @@ object ShareCardGenerator {
         canvas.drawLine(width / 2f + 120f, 100f, width / 2f + 120f, 180f, innerBorderPaint)
         canvas.drawLine(width / 2f - 120f, 100f, width / 2f - 120f, 180f, innerBorderPaint)
         
-        val gwrPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply { color = Color.WHITE; style = Paint.Style.STROKE; strokeWidth = 3f }
-        canvas.drawCircle(width / 2f, 140f, 60f, gwrPaint)
-        canvas.drawCircle(width / 2f, 140f, 50f, gwrPaint.apply { strokeWidth = 1f })
-        canvas.drawText("GWR", width / 2f - 32f, 150f, Paint(headerPaint).apply { textSize = 24f })
+        // Center: GWR Logo
+        val gwrDrawable = ContextCompat.getDrawable(context, R.drawable.logo_gwr)
+        gwrDrawable?.setBounds((width / 2f - 80f).toInt(), 70, (width / 2f + 80f).toInt(), 210)
+        gwrDrawable?.draw(canvas)
 
         // ANIME TWIN MATCH Divider
         var currentY = 280f

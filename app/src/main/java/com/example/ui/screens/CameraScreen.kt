@@ -118,6 +118,12 @@ fun CameraPreview(viewModel: MainViewModel, onNavigateToResults: () -> Unit, onN
             modifier = Modifier.fillMaxSize()
         )
 
+        FaceOverlay(
+            result = faceResult,
+            match = topMatches.firstOrNull(),
+            modifier = Modifier.fillMaxSize()
+        )
+        
         SelfieOverlay(
             modifier = Modifier.fillMaxSize()
         )

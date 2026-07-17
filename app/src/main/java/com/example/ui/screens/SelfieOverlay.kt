@@ -21,6 +21,9 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Face
 import androidx.compose.material.icons.outlined.LightMode
 import androidx.compose.material.icons.outlined.SentimentSatisfied
+import androidx.compose.foundation.Image
+import androidx.compose.ui.layout.ContentScale
+import com.gianthunt.lenshunt.R
 
 val GiantGold = Color(0xFFECA72C)
 
@@ -132,27 +135,21 @@ fun SelfieOverlay(modifier: Modifier = Modifier) {
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                // Left: THE GIANT HUNT
-                Column {
-                    Text("THE", color = Color.White, fontSize = 12.sp, fontWeight = FontWeight.Bold)
-                    Row(verticalAlignment = Alignment.Bottom) {
-                        Text("GIANT", color = GiantGold, fontSize = 32.sp, fontWeight = FontWeight.Black)
-                        Spacer(modifier = Modifier.width(4.dp))
-                    }
-                    Text("HUNT", color = Color.White, fontSize = 18.sp, fontWeight = FontWeight.Bold, modifier = Modifier.padding(start = 24.dp))
-                }
+                // Left: THE GIANT HUNT Logo
+                Image(
+                    painter = androidx.compose.ui.res.painterResource(id = R.drawable.logo_giant_hunt),
+                    contentDescription = "The Giant Hunt",
+                    modifier = Modifier.width(120.dp).height(48.dp),
+                    contentScale = ContentScale.Fit
+                )
                 
-                // Center: GWR Logo Placeholder
-                Box(
+                // Center: GWR Logo
+                Image(
+                    painter = androidx.compose.ui.res.painterResource(id = R.drawable.logo_gwr),
+                    contentDescription = "GWR",
                     modifier = Modifier.size(60.dp),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Canvas(modifier = Modifier.matchParentSize()) {
-                        drawCircle(color = Color.White, style = Stroke(width = 2.dp.toPx()))
-                        drawCircle(color = Color.White, radius = size.minDimension / 2 - 8.dp.toPx(), style = Stroke(width = 1.dp.toPx()))
-                    }
-                    Text("GWR", color = Color.White, fontSize = 12.sp, fontWeight = FontWeight.Bold)
-                }
+                    contentScale = ContentScale.Fit
+                )
 
                 // Right: OFFICIAL ATTEMPT
                 Column(horizontalAlignment = Alignment.End) {
