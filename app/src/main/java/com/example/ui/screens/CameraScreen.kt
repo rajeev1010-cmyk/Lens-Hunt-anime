@@ -67,6 +67,7 @@ fun CameraPreview(viewModel: MainViewModel, onNavigateToResults: () -> Unit, onN
     val isAnalyzing by viewModel.isAnalyzing.collectAsState()
     val faceResult by viewModel.faceResult.collectAsState()
     var previewViewRef by remember { mutableStateOf<PreviewView?>(null) }
+    var lensFacing by remember { mutableStateOf(CameraSelector.LENS_FACING_FRONT) }
 
     Box(modifier = Modifier.fillMaxSize()) {
         AndroidView(
@@ -79,54 +80,79 @@ fun CameraPreview(viewModel: MainViewModel, onNavigateToResults: () -> Unit, onN
                     scaleType = PreviewView.ScaleType.FILL_CENTER
                 }
                 previewViewRef = previewView
-
-                val cameraProviderFuture = ProcessCameraProvider.getInstance(ctx)
-                cameraProviderFuture.addListener({
-                    val cameraProvider = cameraProviderFuture.get()
-                    val preview = Preview.Builder().build().also {
-                        it.setSurfaceProvider(previewView.surfaceProvider)
-                    }
-
-                    val imageAnalyzer = ImageAnalysis.Builder()
-                        .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
-                        .build()
-                        .also {
-                            it.setAnalyzer(cameraExecutor) { imageProxy ->
-                                analyzer.analyze(imageProxy) { result ->
-                                    viewModel.onFaceAnalyzed(result)
-                                }
-                            }
-                        }
-
-                    val cameraSelector = CameraSelector.DEFAULT_FRONT_CAMERA
-
-                    try {
-                        cameraProvider.unbindAll()
-                        cameraProvider.bindToLifecycle(
-                            lifecycleOwner,
-                            cameraSelector,
-                            preview,
-                            imageAnalyzer
-                        )
-                    } catch (exc: Exception) {
-                        Log.e("CameraScreen", "Use case binding failed", exc)
-                    }
-                }, ContextCompat.getMainExecutor(ctx))
-
                 previewView
             },
             modifier = Modifier.fillMaxSize()
         )
 
+        LaunchedEffect(lensFacing, previewViewRef) {
+            val previewView = previewViewRef ?: return@LaunchedEffect
+            val cameraProviderFuture = ProcessCameraProvider.getInstance(context)
+            cameraProviderFuture.addListener({
+                val cameraProvider = cameraProviderFuture.get()
+                val preview = Preview.Builder().build().also {
+                    it.setSurfaceProvider(previewView.surfaceProvider)
+                }
+
+                val imageAnalyzer = ImageAnalysis.Builder()
+                    .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
+                    .build()
+                    .also {
+                        it.setAnalyzer(cameraExecutor) { imageProxy ->
+                            analyzer.analyze(imageProxy) { result ->
+                                viewModel.onFaceAnalyzed(result)
+                            }
+                        }
+                    }
+
+                val cameraSelector = CameraSelector.Builder().requireLensFacing(lensFacing).build()
+
+                try {
+                    cameraProvider.unbindAll()
+                    cameraProvider.bindToLifecycle(
+                        lifecycleOwner,
+                        cameraSelector,
+                        preview,
+                        imageAnalyzer
+                    )
+                } catch (exc: Exception) {
+                    Log.e("CameraScreen", "Use case binding failed", exc)
+                }
+            }, ContextCompat.getMainExecutor(context))
+        }
+
         FaceOverlay(
             result = faceResult,
             match = topMatches.firstOrNull(),
+            isFrontCamera = lensFacing == CameraSelector.LENS_FACING_FRONT,
             modifier = Modifier.fillMaxSize()
         )
         
         SelfieOverlay(
             modifier = Modifier.fillMaxSize()
         )
+
+        // Camera Switch Button
+        IconButton(
+            onClick = {
+                lensFacing = if (lensFacing == CameraSelector.LENS_FACING_FRONT) {
+                    CameraSelector.LENS_FACING_BACK
+                } else {
+                    CameraSelector.LENS_FACING_FRONT
+                }
+            },
+            modifier = Modifier
+                .align(Alignment.TopEnd)
+                .padding(top = 100.dp, end = 16.dp)
+                .size(48.dp)
+                .background(Color.Black.copy(alpha = 0.5f), RoundedCornerShape(24.dp))
+        ) {
+            Text(
+                text = "⟳",
+                color = Color.White,
+                style = MaterialTheme.typography.headlineMedium
+            )
+        }
 
         AnimatedVisibility(
             visible = topMatches.isNotEmpty(),

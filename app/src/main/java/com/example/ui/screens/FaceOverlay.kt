@@ -28,6 +28,7 @@ import com.example.domain.matcher.MatchResult
 fun FaceOverlay(
     result: FaceAnalysisResult?,
     match: MatchResult?,
+    isFrontCamera: Boolean = true,
     modifier: Modifier = Modifier
 ) {
     if (result == null) return
@@ -63,10 +64,18 @@ fun FaceOverlay(
         val offsetX = (viewWidthPx - scaledImageWidth) / 2f
         val offsetY = (viewHeightPx - scaledImageHeight) / 2f
 
-        // Front camera usually mirrored
-        val leftPx = viewWidthPx - (result.boundingBox.right * scale + offsetX)
+        // Front camera preview is usually mirrored, back camera is not
+        val leftPx = if (isFrontCamera) {
+            viewWidthPx - (result.boundingBox.right * scale + offsetX)
+        } else {
+            result.boundingBox.left * scale + offsetX
+        }
         val topPx = result.boundingBox.top * scale + offsetY
-        val rightPx = viewWidthPx - (result.boundingBox.left * scale + offsetX)
+        val rightPx = if (isFrontCamera) {
+            viewWidthPx - (result.boundingBox.left * scale + offsetX)
+        } else {
+            result.boundingBox.right * scale + offsetX
+        }
         val bottomPx = result.boundingBox.bottom * scale + offsetY
 
         val widthPx = rightPx - leftPx
