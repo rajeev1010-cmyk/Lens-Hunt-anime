@@ -136,38 +136,17 @@ object ShareCardGenerator {
         // 3. YOUR ANIME TWIN (Right photo box) Label overlay
         // Let's draw a nice dark translucent pill overlay over the right box (silhouette is already there in bg image)
         val rightBoxX = 686f
-        val nameOverlayRect = RectF(rightBoxX, boxY + photoHeight - 80f, rightBoxX + photoWidth, boxY + photoHeight)
-        val overlayPath = Path().apply {
-            addRoundRect(
-                nameOverlayRect,
-                floatArrayOf(0f, 0f, 0f, 0f, photoRadius, photoRadius, photoRadius, photoRadius),
-                Path.Direction.CW
-            )
-        }
-        val overlayPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-            color = Color.parseColor("#CC0B0B0B") // 80% opaque dark
-            style = Paint.Style.FILL
-        }
-        canvas.save()
-        canvas.clipPath(overlayPath)
-        canvas.drawRect(nameOverlayRect, overlayPaint)
-        canvas.restore()
-        
-        // Outline for overlay
-        val overlayBorderPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-            color = goldColorValue
-            style = Paint.Style.STROKE
-            strokeWidth = 2f
-        }
-        canvas.drawRoundRect(nameOverlayRect, photoRadius, photoRadius, overlayBorderPaint)
-
         val charNamePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-            color = Color.WHITE
-            textSize = 28f
+            color = goldColorValue
+            textSize = 56f
             textAlign = Paint.Align.CENTER
-            typeface = Typeface.create(Typeface.SANS_SERIF, Typeface.BOLD)
+            typeface = Typeface.create(Typeface.DEFAULT, Typeface.BOLD_ITALIC)
+            setShadowLayer(16f, 0f, 6f, Color.BLACK)
         }
-        canvas.drawText(matchResult.character.name, rightBoxX + photoWidth / 2f, boxY + photoHeight - 30f, charNamePaint)
+        
+        // Draw the name in the center of the right box
+        val textY = boxY + (photoHeight / 2f) + (charNamePaint.textSize / 3f)
+        canvas.drawText(matchResult.character.name, rightBoxX + photoWidth / 2f, textY, charNamePaint)
 
         // 4. Center Rings - MATCH percentage info
         val centerCx = width / 2f
@@ -186,32 +165,38 @@ object ShareCardGenerator {
         canvas.drawText("CONFIDENCE", centerCx, centerCy + 70f, matchTextPaint.apply { textSize = 16f; color = goldColorValue })
 
         // 5. Details Section (Dynamic Fields)
-        val valuePaint = TextPaint(Paint.ANTI_ALIAS_FLAG).apply {
+        val valuePaintBold = TextPaint(Paint.ANTI_ALIAS_FLAG).apply {
             color = Color.WHITE
             textSize = 24f
             typeface = Typeface.create(Typeface.SANS_SERIF, Typeface.BOLD)
             setShadowLayer(2f, 0f, 2f, Color.BLACK)
         }
+        val valuePaintNormal = TextPaint(Paint.ANTI_ALIAS_FLAG).apply {
+            color = Color.parseColor("#CCCCCC")
+            textSize = 24f
+            typeface = Typeface.create(Typeface.SANS_SERIF, Typeface.NORMAL)
+            setShadowLayer(2f, 0f, 2f, Color.BLACK)
+        }
 
         // Creator/Designer Value (Left)
-        canvas.drawText(matchResult.character.designer, 110f, 995f, valuePaint)
+        canvas.drawText(matchResult.character.designer, 110f, 1045f, valuePaintBold)
 
         // Design Language Value (Right)
-        canvas.drawText(matchResult.character.designLanguage, 590f, 995f, valuePaint)
+        canvas.drawText(matchResult.character.designLanguage, 590f, 1045f, valuePaintBold)
 
         // Visual Traits Value (Span)
         val traitsLayout = StaticLayout.Builder.obtain(
             matchResult.character.visualTraits,
             0,
             matchResult.character.visualTraits.length,
-            valuePaint,
+            valuePaintBold,
             860
         )
             .setAlignment(Layout.Alignment.ALIGN_NORMAL)
             .setMaxLines(3)
             .build()
         canvas.save()
-        canvas.translate(110f, 1130f)
+        canvas.translate(110f, 1180f)
         traitsLayout.draw(canvas)
         canvas.restore()
 
@@ -220,14 +205,14 @@ object ShareCardGenerator {
             matchResult.character.description,
             0,
             matchResult.character.description.length,
-            valuePaint.apply { typeface = Typeface.create(Typeface.SANS_SERIF, Typeface.NORMAL); color = Color.parseColor("#CCCCCC") },
+            valuePaintNormal,
             380
         )
             .setAlignment(Layout.Alignment.ALIGN_NORMAL)
             .setMaxLines(12)
             .build()
         canvas.save()
-        canvas.translate(110f, 1370f)
+        canvas.translate(110f, 1420f)
         descLayout.draw(canvas)
         canvas.restore()
 
@@ -236,14 +221,14 @@ object ShareCardGenerator {
             matchResult.character.designPrinciples,
             0,
             matchResult.character.designPrinciples.length,
-            valuePaint,
+            valuePaintBold,
             380
         )
             .setAlignment(Layout.Alignment.ALIGN_NORMAL)
             .setMaxLines(12)
             .build()
         canvas.save()
-        canvas.translate(590f, 1370f)
+        canvas.translate(590f, 1420f)
         principlesLayout.draw(canvas)
         canvas.restore()
 
