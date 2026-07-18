@@ -37,7 +37,8 @@ class FaceAnalyzer {
                     if (faces.isNotEmpty()) {
                         val face = faces.first()
                         val axes = extractFeatures(face)
-                        onResult(FaceAnalysisResult(axes, face.boundingBox, image.width, image.height, imageProxy.imageInfo.rotationDegrees))
+                        val presentation = detectVisualPresentation(axes)
+                        onResult(FaceAnalysisResult(axes, face.boundingBox, image.width, image.height, imageProxy.imageInfo.rotationDegrees, presentation.first, presentation.second))
                     } else {
                         onResult(null)
                     }
@@ -72,7 +73,8 @@ class FaceAnalyzer {
                     if (faces.isNotEmpty()) {
                         val face = faces.first()
                         val axes = extractFeatures(face)
-                        onResult(FaceAnalysisResult(axes, face.boundingBox, inputImage.width, inputImage.height, 0), bitmap)
+                        val presentation = detectVisualPresentation(axes)
+                        onResult(FaceAnalysisResult(axes, face.boundingBox, inputImage.width, inputImage.height, 0, presentation.first, presentation.second), bitmap)
                     } else {
                         onResult(null, bitmap)
                     }
@@ -83,6 +85,15 @@ class FaceAnalyzer {
         } catch (e: Exception) {
             e.printStackTrace()
             onResult(null, null)
+        }
+    }
+
+    private fun detectVisualPresentation(axes: VisualAxes): Pair<String, Float> {
+        val score = (axes.jawSharpness + axes.browWeight + axes.angularity) / 3f
+        return when {
+            score > 0.55f -> "male" to score.coerceIn(0f, 1f)
+            score < 0.45f -> "female" to (1f - score).coerceIn(0f, 1f)
+            else -> "unknown" to 0.5f
         }
     }
 

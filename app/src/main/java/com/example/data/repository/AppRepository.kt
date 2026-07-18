@@ -25,10 +25,33 @@ class AppRepository(private val dao: AppDao) {
         }
     }
 
-    suspend fun findMatches(axes: VisualAxes): List<MatchResult> {
+    suspend fun findMatches(axes: VisualAxes, visualPresentation: String, presentationConfidence: Float): Pair<List<MatchResult>, com.example.domain.matcher.MatchDebugInfo> {
         val characters = dao.getAllCharacters()
-        if (characters.isEmpty()) return emptyList()
+        if (characters.isEmpty()) return Pair(emptyList(), com.example.domain.matcher.MatchDebugInfo())
         
+        // Step 2 - Filter Character Database
+        val candidatesByPresentation = if (presentationConfidence >= 0.6f) {
+            when (visualPresentation) {
+                "male" -> characters.filter { it.gender == "male" || it.gender == "nonbinary" }
+                "female" -> characters.filter { it.gender == "female" || it.gender == "nonbinary" }
+                else -> characters
+            }
+        } else {
+            characters
+        }
+        
+        val debugInfo = com.example.domain.matcher.MatchDebugInfo(
+            visualPresentation = visualPresentation,
+            presentationConfidence = presentationConfidence,
+            charactersLoaded = characters.size,
+            charactersAfterFiltering = candidatesByPresentation.size
+        )
+        
+        // Log Debug Info
+        Log.d("MATCHING", "Detected Visual Presentation: $visualPresentation (conf: $presentationConfidence)")
+        Log.d("MATCHING", "Characters Loaded: ${characters.size}")
+        Log.d("MATCHING", "Characters After Filtering: ${candidatesByPresentation.size}")
+
         // ISSUE 8: Database Validation (Log missing metadata)
         characters.forEach { char ->
             val isMissing = char.designer.isBlank() || char.designer == "Unknown" ||
@@ -51,8 +74,8 @@ class AppRepository(private val dao: AppDao) {
             targetClusters = targetClusters + nearest
         }
         
-        val filteredCharacters = characters.filter { it.cluster in targetClusters }
-        val candidates = if (filteredCharacters.isNotEmpty()) filteredCharacters else characters
+        val filteredCharacters = candidatesByPresentation.filter { it.cluster in targetClusters }
+        val candidates = if (filteredCharacters.isNotEmpty()) filteredCharacters else candidatesByPresentation
 
         // Calculate raw distances
         val rawResults = candidates.map { character ->
@@ -73,6 +96,10 @@ class AppRepository(private val dao: AppDao) {
                 normalizedScore -= 0.03f
             } else {
                 normalizedScore -= 0.15f
+            }
+            
+            if (character.gender == "nonbinary" && visualPresentation != "unknown" && presentationConfidence >= 0.6f) {
+                normalizedScore -= 0.03f
             }
 
             normalizedScore = normalizedScore.coerceIn(0f, 0.98f)
@@ -104,7 +131,7 @@ class AppRepository(private val dao: AppDao) {
             rank++
         }
 
-        return diverseResults.sortedByDescending { it.score }.take(5)
+        return Pair(diverseResults.sortedByDescending { it.score }.take(10), debugInfo)
     }
 
     suspend fun saveHistory(matchedCharacterId: String, score: Float, userProfile: VisualAxes) {

@@ -2,5 +2,6 @@
   "name": "Lens Hunt",
   "description": "AI-powered Anime Character Discovery application.",
   "requestFramePermissions": [],
-  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"],
+  "APP_VERSION": "0.1.3"
 }

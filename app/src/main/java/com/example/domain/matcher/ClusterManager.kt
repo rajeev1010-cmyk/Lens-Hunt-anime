@@ -3,9 +3,9 @@ package com.example.domain.matcher
 import com.example.data.model.VisualAxes
 
 object ClusterManager {
-    const val CLUSTER_A = "Cluster A - Hyper Realistic"
-    const val CLUSTER_B = "Cluster B - Semi Realistic"
-    const val CLUSTER_C = "Cluster C - Stylized Shonen"
+    const val CLUSTER_A = "Cluster A - Clean & Stoic"
+    const val CLUSTER_B = "Cluster B - Sharp & Cool"
+    const val CLUSTER_C = "Cluster C - Mature & Structured"
     const val CLUSTER_D = "Cluster D - Highly Stylized"
     const val CLUSTER_E = "Cluster E - Non Human / Fantasy"
 

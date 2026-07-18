@@ -24,6 +24,8 @@ fun DebugScreen(viewModel: MainViewModel, onBack: () -> Unit) {
     val isAnalyzing by viewModel.isAnalyzing.collectAsState()
     val allCharacters by viewModel.allCharacters.collectAsState()
 
+    val matchDebugInfo by viewModel.matchDebugInfo.collectAsState()
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -75,6 +77,20 @@ fun DebugScreen(viewModel: MainViewModel, onBack: () -> Unit) {
             }
 
             item {
+                Text("Visual Presentation Filter", style = MaterialTheme.typography.titleLarge)
+                Spacer(modifier = Modifier.height(8.dp))
+                matchDebugInfo?.let { debugInfo ->
+                    Text("Detected Visual Presentation: ${debugInfo.visualPresentation}")
+                    Text("Presentation Confidence: ${String.format(Locale.US, "%.1f", debugInfo.presentationConfidence * 100)}%")
+                    Text("Characters Loaded: ${debugInfo.charactersLoaded}")
+                    Text("Characters After Filtering: ${debugInfo.charactersAfterFiltering}")
+                } ?: run {
+                    Text("No presentation data available.")
+                }
+                Spacer(modifier = Modifier.height(16.dp))
+                HorizontalDivider()
+            }
+            item {
                 Text("Detected Face Features", style = MaterialTheme.typography.titleLarge)
                 if (faceResult != null) {
                     val axes = faceResult!!.axes
@@ -115,14 +131,13 @@ fun DebugScreen(viewModel: MainViewModel, onBack: () -> Unit) {
 
             item {
                 HorizontalDivider()
-                Text("Top 20 Matches", style = MaterialTheme.typography.titleLarge)
+                Text("Top 10 Matches", style = MaterialTheme.typography.titleLarge)
                 Spacer(modifier = Modifier.height(8.dp))
                 if (isAnalyzing) {
                     CircularProgressIndicator()
                 }
             }
-
-            items(topMatches.take(20)) { match ->
+            items(topMatches.take(10)) { match ->
                 Card(
                     modifier = Modifier.fillMaxWidth(),
                     colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
@@ -135,6 +150,7 @@ fun DebugScreen(viewModel: MainViewModel, onBack: () -> Unit) {
                         )
                         Text("Cluster: ${match.character.cluster}", style = MaterialTheme.typography.bodySmall)
                         Text("Similarity Score: ${String.format(Locale.US, "%.4f", match.score)}")
+                        Text("Euclidean Distance: ${String.format(Locale.US, "%.4f", match.distance)}")
                         Spacer(modifier = Modifier.height(8.dp))
                         Text("Feature Contributions:", fontWeight = FontWeight.SemiBold)
                         match.contributions.entries.sortedBy { it.value }.forEach { (name, value) ->

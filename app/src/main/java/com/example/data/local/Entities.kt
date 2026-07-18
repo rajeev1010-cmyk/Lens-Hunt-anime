@@ -9,6 +9,7 @@ import com.example.data.model.VisualAxes
 data class CharacterEntity(
     @PrimaryKey val id: String,
     val name: String,
+    val gender: String,
     val series: String,
     val designer: String,
     val franchise: String,

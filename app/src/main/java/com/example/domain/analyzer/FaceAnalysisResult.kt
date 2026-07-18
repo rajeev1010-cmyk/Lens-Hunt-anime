@@ -8,5 +8,7 @@ data class FaceAnalysisResult(
     val boundingBox: Rect,
     val imageWidth: Int,
     val imageHeight: Int,
-    val rotationDegrees: Int
+    val rotationDegrees: Int,
+    val visualPresentation: String = "unknown",
+    val presentationConfidence: Float = 0f
 )

@@ -31,6 +31,9 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     private val _topMatches = MutableStateFlow<List<MatchResult>>(emptyList())
     val topMatches: StateFlow<List<MatchResult>> = _topMatches.asStateFlow()
 
+    private val _matchDebugInfo = MutableStateFlow<com.example.domain.matcher.MatchDebugInfo?>(null)
+    val matchDebugInfo: StateFlow<com.example.domain.matcher.MatchDebugInfo?> = _matchDebugInfo.asStateFlow()
+
     private val _isAnalyzing = MutableStateFlow(false)
     val isAnalyzing: StateFlow<Boolean> = _isAnalyzing.asStateFlow()
 
@@ -80,8 +83,9 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
         viewModelScope.launch(Dispatchers.IO) {
             _isAnalyzing.value = true
-            val matches = repository.findMatches(result.axes)
+            val (matches, debugInfo) = repository.findMatches(result.axes, result.visualPresentation, result.presentationConfidence)
             _topMatches.value = matches
+            _matchDebugInfo.value = debugInfo
             _isAnalyzing.value = false
         }
     }
