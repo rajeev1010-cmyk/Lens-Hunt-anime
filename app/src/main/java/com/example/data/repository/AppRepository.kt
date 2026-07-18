@@ -25,19 +25,31 @@ class AppRepository(private val dao: AppDao) {
         }
     }
 
-    suspend fun findMatches(axes: VisualAxes, visualPresentation: String, presentationConfidence: Float): Pair<List<MatchResult>, com.example.domain.matcher.MatchDebugInfo> {
+    suspend fun findMatches(
+        axes: VisualAxes,
+        visualPresentation: String,
+        presentationConfidence: Float,
+        genderFilter: String = "AUTO"
+    ): Pair<List<MatchResult>, com.example.domain.matcher.MatchDebugInfo> {
         val characters = dao.getAllCharacters()
         if (characters.isEmpty()) return Pair(emptyList(), com.example.domain.matcher.MatchDebugInfo())
         
         // Step 2 - Filter Character Database
-        val candidatesByPresentation = if (presentationConfidence >= 0.6f) {
-            when (visualPresentation) {
-                "male" -> characters.filter { it.gender == "male" || it.gender == "nonbinary" }
-                "female" -> characters.filter { it.gender == "female" || it.gender == "nonbinary" }
-                else -> characters
+        val candidatesByPresentation = when (genderFilter.uppercase()) {
+            "MALE" -> characters.filter { it.gender == "male" || it.gender == "nonbinary" }
+            "FEMALE" -> characters.filter { it.gender == "female" || it.gender == "nonbinary" }
+            "ANY" -> characters
+            else -> {
+                if (presentationConfidence >= 0.6f) {
+                    when (visualPresentation) {
+                        "male" -> characters.filter { it.gender == "male" || it.gender == "nonbinary" }
+                        "female" -> characters.filter { it.gender == "female" || it.gender == "nonbinary" }
+                        else -> characters
+                    }
+                } else {
+                    characters
+                }
             }
-        } else {
-            characters
         }
         
         val debugInfo = com.example.domain.matcher.MatchDebugInfo(

@@ -26,157 +26,155 @@ object ShareCardGenerator {
         val goldColor = Color.parseColor("#ECA72C")
         val blackColor = Color.parseColor("#050505")
         
-        canvas.drawColor(blackColor)
-        
-        val borderPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-            color = goldColor
-            style = Paint.Style.STROKE
-            strokeWidth = 4f
-        }
-        val innerBorderPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-            color = goldColor
-            style = Paint.Style.STROKE
-            strokeWidth = 1f
-        }
-        canvas.drawRect(24f, 24f, width - 24f, height - 24f, borderPaint)
-        canvas.drawRect(36f, 36f, width - 36f, height - 36f, innerBorderPaint)
+        // 1. Load background image from R.drawable.animetwin_sharecard
+        val backgroundSrc = BitmapFactory.decodeResource(context.resources, R.drawable.animetwin_sharecard)
+        if (backgroundSrc != null) {
+            val scaledBg = Bitmap.createScaledBitmap(backgroundSrc, width, height, true)
+            canvas.drawBitmap(scaledBg, 0f, 0f, null)
+        } else {
+            // Fallback: draw dark background, borders, logos, etc. like the original code did
+            canvas.drawColor(blackColor)
+            
+            val borderPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+                color = goldColor
+                style = Paint.Style.STROKE
+                strokeWidth = 4f
+            }
+            val innerBorderPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+                color = goldColor
+                style = Paint.Style.STROKE
+                strokeWidth = 1f
+            }
+            canvas.drawRect(24f, 24f, width - 24f, height - 24f, borderPaint)
+            canvas.drawRect(36f, 36f, width - 36f, height - 36f, innerBorderPaint)
 
-        // Corner squares
-        val cornerPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply { color = goldColor; style = Paint.Style.FILL }
-        canvas.drawRect(20f, 20f, 40f, 40f, cornerPaint)
-        canvas.drawRect(width - 40f, 20f, width - 20f, 40f, cornerPaint)
-        canvas.drawRect(20f, height - 40f, 40f, height - 20f, cornerPaint)
-        canvas.drawRect(width - 40f, height - 40f, width - 20f, height - 20f, cornerPaint)
+            // Corner squares
+            val cornerPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply { color = goldColor; style = Paint.Style.FILL }
+            canvas.drawRect(20f, 20f, 40f, 40f, cornerPaint)
+            canvas.drawRect(width - 40f, 20f, width - 20f, 40f, cornerPaint)
+            canvas.drawRect(20f, height - 40f, 40f, height - 20f, cornerPaint)
+            canvas.drawRect(width - 40f, height - 40f, width - 20f, height - 20f, cornerPaint)
 
-        // Title Area
-        val headerPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-            color = Color.WHITE
-            textSize = 32f
-            typeface = Typeface.create(Typeface.SANS_SERIF, Typeface.BOLD)
-            textAlign = Paint.Align.LEFT
+            // Title Area
+            val headerPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+                color = Color.WHITE
+                textSize = 32f
+                typeface = Typeface.create(Typeface.SANS_SERIF, Typeface.BOLD)
+                textAlign = Paint.Align.LEFT
+            }
+            
+            // Left: Giant Hunt Logo
+            val giantDrawable = ContextCompat.getDrawable(context, R.drawable.logo_giant_hunt)
+            giantDrawable?.setBounds(80, 80, 80 + 360, 80 + 120)
+            giantDrawable?.draw(canvas)
+            
+            canvas.drawText("OFFICIAL", width - 320f, 130f, Paint(headerPaint).apply { textSize = 32f })
+            canvas.drawText("ATTEMPT", width - 320f, 170f, Paint(headerPaint).apply { textSize = 32f })
+            
+            // Divider lines
+            canvas.drawLine(width / 2f + 120f, 100f, width / 2f + 120f, 180f, innerBorderPaint)
+            canvas.drawLine(width / 2f - 120f, 100f, width / 2f - 120f, 180f, innerBorderPaint)
+            
+            // Center: GWR Logo
+            val gwrDrawable = ContextCompat.getDrawable(context, R.drawable.logo_gwr)
+            gwrDrawable?.setBounds((width / 2f - 80f).toInt(), 70, (width / 2f + 80f).toInt(), 210)
+            gwrDrawable?.draw(canvas)
+
+            val currentY = 280f
+            val dividerPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply { color = goldColor; strokeWidth = 1.5f }
+            canvas.drawLine(80f, currentY, 280f, currentY, dividerPaint)
+            canvas.drawPath(Path().apply {
+                moveTo(280f, currentY - 8f)
+                lineTo(290f, currentY)
+                lineTo(280f, currentY + 8f)
+                close()
+            }, cornerPaint)
+            
+            canvas.drawLine(width - 280f, currentY, width - 80f, currentY, dividerPaint)
+            canvas.drawPath(Path().apply {
+                moveTo(width - 280f, currentY - 8f)
+                lineTo(width - 290f, currentY)
+                lineTo(width - 280f, currentY + 8f)
+                close()
+            }, cornerPaint)
+            
+            val sectionTitlePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+                color = goldColor
+                textSize = 32f
+                typeface = Typeface.create(Typeface.SANS_SERIF, Typeface.NORMAL)
+                textAlign = Paint.Align.CENTER
+                letterSpacing = 0.15f
+            }
+            canvas.drawText("ANIME TWIN MATCH", width / 2f, currentY + 12f, sectionTitlePaint)
         }
-        val headerGoldPaint = Paint(headerPaint).apply { color = goldColor }
-        
-        // Left: Giant Hunt Logo
-        val giantDrawable = ContextCompat.getDrawable(context, R.drawable.logo_giant_hunt)
-        giantDrawable?.setBounds(80, 80, 80 + 360, 80 + 120)
-        giantDrawable?.draw(canvas)
-        
-        canvas.drawText("OFFICIAL", width - 320f, 130f, Paint(headerPaint).apply { textSize = 32f })
-        canvas.drawText("ATTEMPT", width - 320f, 170f, Paint(headerPaint).apply { textSize = 32f })
-        
-        // Divider line between GWR and text
-        canvas.drawLine(width / 2f + 120f, 100f, width / 2f + 120f, 180f, innerBorderPaint)
-        canvas.drawLine(width / 2f - 120f, 100f, width / 2f - 120f, 180f, innerBorderPaint)
-        
-        // Center: GWR Logo
-        val gwrDrawable = ContextCompat.getDrawable(context, R.drawable.logo_gwr)
-        gwrDrawable?.setBounds((width / 2f - 80f).toInt(), 70, (width / 2f + 80f).toInt(), 210)
-        gwrDrawable?.draw(canvas)
 
-        // ANIME TWIN MATCH Divider
-        var currentY = 280f
-        val dividerPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply { color = goldColor; strokeWidth = 1.5f }
-        canvas.drawLine(80f, currentY, 280f, currentY, dividerPaint)
-        canvas.drawPath(Path().apply {
-            moveTo(280f, currentY - 8f)
-            lineTo(290f, currentY)
-            lineTo(280f, currentY + 8f)
-            close()
-        }, cornerPaint)
-        
-        canvas.drawLine(width - 280f, currentY, width - 80f, currentY, dividerPaint)
-        canvas.drawPath(Path().apply {
-            moveTo(width - 280f, currentY - 8f)
-            lineTo(width - 290f, currentY)
-            lineTo(width - 280f, currentY + 8f)
-            close()
-        }, cornerPaint)
-        
-        val sectionTitlePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-            color = goldColor
-            textSize = 32f
-            typeface = Typeface.create(Typeface.SANS_SERIF, Typeface.NORMAL)
-            textAlign = Paint.Align.CENTER
-            letterSpacing = 0.15f
-        }
-        canvas.drawText("ANIME TWIN MATCH", width / 2f, currentY + 12f, sectionTitlePaint)
+        // --- Common Drawing parameters ---
+        val goldColorValue = Color.parseColor("#ECA72C")
+        val dividerPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply { color = goldColorValue; strokeWidth = 1.5f }
 
-        // Photo boxes
-        currentY += 80f
-        val photoWidth = 340f
-        val photoHeight = 480f
+        // 2. Selfie Drawing inside Left photo box
+        val leftBoxX = 66f
+        val boxY = 390f
+        val photoWidth = 328f
+        val photoHeight = 478f
         val photoRadius = 24f
-        val leftBoxX = 70f
-        val rightBoxX = width - photoWidth - 70f
 
-        val boxLabelPaint = Paint(sectionTitlePaint).apply { textSize = 22f; letterSpacing = 0.05f }
-        canvas.drawText("YOUR SELFIE", leftBoxX + photoWidth / 2, currentY, boxLabelPaint)
-        canvas.drawText("YOUR ANIME TWIN", rightBoxX + photoWidth / 2, currentY, boxLabelPaint)
-        
-        val boxY = currentY + 30f
-        val boxPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply { color = goldColor; style = Paint.Style.STROKE; strokeWidth = 3f }
-        val fillBoxPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply { color = Color.parseColor("#151515"); style = Paint.Style.FILL }
-        
-        val leftRect = RectF(leftBoxX, boxY, leftBoxX + photoWidth, boxY + photoHeight)
-        val rightRect = RectF(rightBoxX, boxY, rightBoxX + photoWidth, boxY + photoHeight)
-        
+        val borderPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+            color = goldColorValue
+            style = Paint.Style.STROKE
+            strokeWidth = 3f
+        }
+
         val scaledSelfie = scaleAndCropCenter(selfie, photoWidth.toInt(), photoHeight.toInt())
-        val photoPath = Path().apply { addRoundRect(leftRect, photoRadius, photoRadius, Path.Direction.CW) }
+        val photoPath = Path().apply { addRoundRect(RectF(leftBoxX, boxY, leftBoxX + photoWidth, boxY + photoHeight), photoRadius, photoRadius, Path.Direction.CW) }
         canvas.save()
         canvas.clipPath(photoPath)
         canvas.drawBitmap(scaledSelfie, leftBoxX, boxY, null)
         canvas.restore()
-        canvas.drawRoundRect(leftRect, photoRadius, photoRadius, boxPaint)
+        canvas.drawRoundRect(RectF(leftBoxX, boxY, leftBoxX + photoWidth, boxY + photoHeight), photoRadius, photoRadius, borderPaint)
 
-        canvas.drawRoundRect(rightRect, photoRadius, photoRadius, fillBoxPaint)
-        canvas.drawRoundRect(rightRect, photoRadius, photoRadius, boxPaint)
-        val twinNamePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        // 3. YOUR ANIME TWIN (Right photo box) Label overlay
+        // Let's draw a nice dark translucent pill overlay over the right box (silhouette is already there in bg image)
+        val rightBoxX = 686f
+        val nameOverlayRect = RectF(rightBoxX, boxY + photoHeight - 80f, rightBoxX + photoWidth, boxY + photoHeight)
+        val overlayPath = Path().apply {
+            addRoundRect(
+                nameOverlayRect,
+                floatArrayOf(0f, 0f, 0f, 0f, photoRadius, photoRadius, photoRadius, photoRadius),
+                Path.Direction.CW
+            )
+        }
+        val overlayPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+            color = Color.parseColor("#CC0B0B0B") // 80% opaque dark
+            style = Paint.Style.FILL
+        }
+        canvas.save()
+        canvas.clipPath(overlayPath)
+        canvas.drawRect(nameOverlayRect, overlayPaint)
+        canvas.restore()
+        
+        // Outline for overlay
+        val overlayBorderPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+            color = goldColorValue
+            style = Paint.Style.STROKE
+            strokeWidth = 2f
+        }
+        canvas.drawRoundRect(nameOverlayRect, photoRadius, photoRadius, overlayBorderPaint)
+
+        val charNamePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
             color = Color.WHITE
-            textSize = 36f
+            textSize = 28f
             textAlign = Paint.Align.CENTER
             typeface = Typeface.create(Typeface.SANS_SERIF, Typeface.BOLD)
         }
-        canvas.drawText(matchResult.character.name, rightBoxX + photoWidth / 2, boxY + photoHeight / 2, twinNamePaint)
+        canvas.drawText(matchResult.character.name, rightBoxX + photoWidth / 2f, boxY + photoHeight - 30f, charNamePaint)
 
-        // Center Rings
+        // 4. Center Rings - MATCH percentage info
         val centerCx = width / 2f
-        val centerCy = boxY + photoHeight / 2
-        val ringPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply { color = goldColor; style = Paint.Style.STROKE; strokeWidth = 1f }
+        val centerCy = boxY + photoHeight / 2f
         
-        // Draw the concentric circles like the template
-        canvas.drawCircle(centerCx, centerCy, 160f, ringPaint.apply { strokeWidth = 1f; pathEffect = DashPathEffect(floatArrayOf(5f, 5f), 0f) })
-        canvas.drawCircle(centerCx, centerCy, 140f, ringPaint.apply { strokeWidth = 2f; pathEffect = null })
-        canvas.drawCircle(centerCx, centerCy, 120f, ringPaint.apply { strokeWidth = 4f })
-        
-        // Add tiny diamonds on the middle ring
-        val ringDiamondPath = Path().apply {
-            moveTo(0f, -8f)
-            lineTo(8f, 0f)
-            lineTo(0f, 8f)
-            lineTo(-8f, 0f)
-            close()
-        }
-        val p = Paint(Paint.ANTI_ALIAS_FLAG).apply { color = goldColor; style = Paint.Style.FILL }
-        canvas.save()
-        canvas.translate(centerCx, centerCy - 140f)
-        canvas.drawPath(ringDiamondPath, p)
-        canvas.restore()
-        canvas.save()
-        canvas.translate(centerCx, centerCy + 140f)
-        canvas.drawPath(ringDiamondPath, p)
-        canvas.restore()
-        canvas.save()
-        canvas.translate(centerCx - 140f, centerCy)
-        canvas.drawPath(ringDiamondPath, p)
-        canvas.restore()
-        canvas.save()
-        canvas.translate(centerCx + 140f, centerCy)
-        canvas.drawPath(ringDiamondPath, p)
-        canvas.restore()
-
         val matchTextPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-            color = goldColor
+            color = goldColorValue
             textSize = 24f
             textAlign = Paint.Align.CENTER
             typeface = Typeface.create(Typeface.SANS_SERIF, Typeface.BOLD)
@@ -185,109 +183,71 @@ object ShareCardGenerator {
         canvas.drawText("MATCH", centerCx, centerCy - 30f, matchTextPaint)
         canvas.drawText("${matchResult.similarityPercentage}%", centerCx, centerCy + 20f, matchTextPaint.apply { textSize = 48f; color = Color.WHITE })
         canvas.drawLine(centerCx - 60f, centerCy + 40f, centerCx + 60f, centerCy + 40f, dividerPaint)
-        canvas.drawText("CONFIDENCE", centerCx, centerCy + 70f, matchTextPaint.apply { textSize = 16f; color = goldColor })
+        canvas.drawText("CONFIDENCE", centerCx, centerCy + 70f, matchTextPaint.apply { textSize = 16f; color = goldColorValue })
 
-        // Mid Divider below photos
-        currentY = boxY + photoHeight + 80f
-        canvas.drawLine(80f, currentY, width / 2f - 20f, currentY, dividerPaint)
-        canvas.drawLine(width / 2f + 20f, currentY, width - 80f, currentY, dividerPaint)
-        // Diamond
-        val diamondPath = Path().apply {
-            moveTo(width / 2f, currentY - 12f)
-            lineTo(width / 2f + 12f, currentY)
-            lineTo(width / 2f, currentY + 12f)
-            lineTo(width / 2f - 12f, currentY)
-            close()
-        }
-        canvas.drawPath(diamondPath, cornerPaint)
-
-        // Details Section
-        currentY += 100f
-        val leftCol = 160f
-        val rightCol = width / 2f + 120f
-        
-        val labelPaint = Paint(boxLabelPaint).apply { textAlign = Paint.Align.LEFT; textSize = 22f }
+        // 5. Details Section (Dynamic Fields)
         val valuePaint = TextPaint(Paint.ANTI_ALIAS_FLAG).apply {
-            color = Color.parseColor("#CCCCCC") // off white
+            color = Color.WHITE
             textSize = 24f
-            typeface = Typeface.create(Typeface.SANS_SERIF, Typeface.NORMAL)
+            typeface = Typeface.create(Typeface.SANS_SERIF, Typeface.BOLD)
             setShadowLayer(2f, 0f, 2f, Color.BLACK)
         }
-        
-        val iconPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply { color = goldColor; style = Paint.Style.STROKE; strokeWidth = 3f }
 
-        fun drawField(label: String, value: String, x: Float, y: Float) {
-            canvas.drawText(label, x, y, labelPaint)
-            // draw small circle as icon placeholder
-            canvas.drawCircle(x - 40f, y - 8f, 15f, iconPaint)
-            
-            val layout = StaticLayout.Builder.obtain(value, 0, value.length, valuePaint, (width / 2f - 200f).toInt())
-                .setAlignment(Layout.Alignment.ALIGN_NORMAL)
-                .setMaxLines(3)
-                .build()
-            canvas.save()
-            canvas.translate(x, y + 20f)
-            layout.draw(canvas)
-            canvas.restore()
-        }
+        // Creator/Designer Value (Left)
+        canvas.drawText(matchResult.character.designer, 110f, 995f, valuePaint)
 
-        // Row 1
-        drawField("CREATOR / DESIGNER", matchResult.character.designer, leftCol, currentY)
-        drawField("DESIGN LANGUAGE", matchResult.character.designLanguage, rightCol, currentY)
-        
-        // Row 2
-        currentY += 160f
-        drawField("VISUAL TRAITS", matchResult.character.visualTraits, leftCol, currentY)
-        drawField("DESIGN PRINCIPLES", matchResult.character.designPrinciples, rightCol, currentY)
-        
-        // Row 3
-        currentY += 160f
-        drawField("CHARACTER OVERVIEW", matchResult.character.description, leftCol, currentY)
+        // Design Language Value (Right)
+        canvas.drawText(matchResult.character.designLanguage, 590f, 995f, valuePaint)
 
-        // Key Colors
-        currentY += 180f
-        canvas.drawText("KEY COLORS", leftCol, currentY, labelPaint)
-        canvas.drawCircle(leftCol - 40f, currentY - 8f, 15f, iconPaint) // palette icon placeholder
-        val colorRadius = 30f
-        var colorX = leftCol + 180f
-        for (i in 0..4) {
-            canvas.drawCircle(colorX, currentY + 60f, colorRadius, iconPaint)
-            colorX += 90f
-        }
+        // Visual Traits Value (Span)
+        val traitsLayout = StaticLayout.Builder.obtain(
+            matchResult.character.visualTraits,
+            0,
+            matchResult.character.visualTraits.length,
+            valuePaint,
+            860
+        )
+            .setAlignment(Layout.Alignment.ALIGN_NORMAL)
+            .setMaxLines(3)
+            .build()
+        canvas.save()
+        canvas.translate(110f, 1130f)
+        traitsLayout.draw(canvas)
+        canvas.restore()
 
-        // Character Trait
-        currentY += 180f
-        canvas.drawText("CHARACTER TRAIT", leftCol, currentY, labelPaint)
-        canvas.drawCircle(leftCol - 40f, currentY - 8f, 15f, iconPaint) // shield icon placeholder
-        
-        val iconY = currentY + 70f
-        var iconX = leftCol + 60f
-        
-        canvas.drawRect(iconX - 20f, iconY - 25f, iconX + 20f, iconY + 25f, iconPaint) 
-        canvas.drawLine(iconX + 60f, iconY - 30f, iconX + 60f, iconY + 30f, dividerPaint)
-        iconX += 120f
-        canvas.drawCircle(iconX, iconY, 25f, iconPaint) 
-        canvas.drawLine(iconX + 60f, iconY - 30f, iconX + 60f, iconY + 30f, dividerPaint)
-        iconX += 120f
-        canvas.drawCircle(iconX, iconY, 25f, iconPaint) 
-        canvas.drawLine(iconX + 60f, iconY - 30f, iconX + 60f, iconY + 30f, dividerPaint)
-        iconX += 120f
-        canvas.drawRect(iconX - 10f, iconY - 20f, iconX + 10f, iconY + 20f, iconPaint) 
-        canvas.drawLine(iconX + 60f, iconY - 30f, iconX + 60f, iconY + 30f, dividerPaint)
-        iconX += 120f
-        canvas.drawCircle(iconX, iconY, 25f, iconPaint)
+        // Character Description Value (Left)
+        val descLayout = StaticLayout.Builder.obtain(
+            matchResult.character.description,
+            0,
+            matchResult.character.description.length,
+            valuePaint.apply { typeface = Typeface.create(Typeface.SANS_SERIF, Typeface.NORMAL); color = Color.parseColor("#CCCCCC") },
+            380
+        )
+            .setAlignment(Layout.Alignment.ALIGN_NORMAL)
+            .setMaxLines(12)
+            .build()
+        canvas.save()
+        canvas.translate(110f, 1370f)
+        descLayout.draw(canvas)
+        canvas.restore()
 
-        // Footer
-        currentY = height - 100f
-        val footerPaint = Paint(labelPaint).apply { textSize = 20f }
-        canvas.drawText("REAL WORLD IDENTITY", leftCol, currentY, footerPaint)
-        canvas.drawCircle(leftCol - 30f, currentY - 6f, 12f, iconPaint)
-        
-        canvas.drawLine(width / 2f, currentY - 30f, width / 2f, currentY + 10f, dividerPaint)
-        
-        canvas.drawText("GIANTVERSE.COM", rightCol + 40f, currentY, footerPaint)
-        canvas.drawCircle(rightCol + 10f, currentY - 6f, 12f, iconPaint)
-        
+        // Design Principles Value (Right)
+        val principlesLayout = StaticLayout.Builder.obtain(
+            matchResult.character.designPrinciples,
+            0,
+            matchResult.character.designPrinciples.length,
+            valuePaint,
+            380
+        )
+            .setAlignment(Layout.Alignment.ALIGN_NORMAL)
+            .setMaxLines(12)
+            .build()
+        canvas.save()
+        canvas.translate(590f, 1370f)
+        principlesLayout.draw(canvas)
+        canvas.restore()
+
+        // Save Bitmap
         val cachePath = File(context.cacheDir, "images")
         cachePath.mkdirs()
         val file = File(cachePath, "share_card.png")

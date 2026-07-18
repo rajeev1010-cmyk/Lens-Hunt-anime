@@ -13,3 +13,11 @@
 ### 3. High-Fidelity Custom Selfie Interface Overlay
 * **Purpose**: Provides a professionally designed visual frame to guide the selfie capture process.
 * **User Interaction**: When users open the camera to take a selfie for the character discovery process, they are presented with a sleek, fully integrated official-branding frame overlay. This overlay includes aligned branding graphics for "THE GIANT HUNT", "GUINNESS WORLD RECORDS" (GWR), clear "TAKE YOUR SELFIE" instructions, and an easy-to-read "SELFIE TIPS" section, helping them align their face perfectly for optimal AI detection.
+
+### 4. High-Fidelity Dynamic Share Card Rendering
+* **Purpose**: Generates a visually beautiful, high-contrast, premium, official GWR-branded Share Card displaying the user's face, their top character match, and structured designer details.
+* **User Interaction**: After discovering their match, clicking the "Generate Share Card" button creates an image overlaying the user's cropped selfie with the matched character's name, their matching confidence percentage, and detailed, well-aligned background panels for "CREATOR / DESIGNER", "DESIGN LANGUAGE", "VISUAL TRAITS", "CHARACTER OVERVIEW", and "DESIGN PRINCIPLES". This card is ready to be shared with friends.
+
+### 5. Configurable Gender Filter Matching Preferential State
+* **Purpose**: Gives users complete control over the genders of the character database candidates they match against.
+* **User Interaction**: On the home dashboard, users can now choose a preferred Match Filter: AUTO (uses smart AI face presentation classification), MALE (matches only male or non-binary characters), FEMALE (matches only female or non-binary characters), or ANY (allows matching with all 182 anime characters, regardless of gender). The chosen filter dynamically guides the facial discovery algorithm.

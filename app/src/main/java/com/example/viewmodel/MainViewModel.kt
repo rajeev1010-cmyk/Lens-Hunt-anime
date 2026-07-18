@@ -46,6 +46,13 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     private val _userSelfie = MutableStateFlow<android.graphics.Bitmap?>(null)
     val userSelfie: StateFlow<android.graphics.Bitmap?> = _userSelfie.asStateFlow()
 
+    private val _genderFilter = MutableStateFlow("AUTO")
+    val genderFilter: StateFlow<String> = _genderFilter.asStateFlow()
+
+    fun setGenderFilter(filter: String) {
+        _genderFilter.value = filter
+    }
+
     val history = repository.history
 
     private var lastMatchTime = 0L
@@ -83,7 +90,12 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
         viewModelScope.launch(Dispatchers.IO) {
             _isAnalyzing.value = true
-            val (matches, debugInfo) = repository.findMatches(result.axes, result.visualPresentation, result.presentationConfidence)
+            val (matches, debugInfo) = repository.findMatches(
+                result.axes,
+                result.visualPresentation,
+                result.presentationConfidence,
+                _genderFilter.value
+            )
             _topMatches.value = matches
             _matchDebugInfo.value = debugInfo
             _isAnalyzing.value = false
