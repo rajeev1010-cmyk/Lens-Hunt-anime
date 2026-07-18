@@ -75,29 +75,31 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     private val geminiService = GeminiService()
 
     fun captureAndAnalyze(bitmap: Bitmap, onComplete: () -> Unit) {
-        // Create a software copy to prevent hardware bitmap crashes in Gemini/Compose
-        val softwareBitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true) ?: bitmap
         _isAnalyzing.value = true
-        _userSelfie.value = softwareBitmap
+        _userSelfie.value = bitmap
         
         viewModelScope.launch(Dispatchers.Main) {
-            val axes = geminiService.analyzeFace(softwareBitmap)
-            
-            if (axes != null) {
-                _userProfile.value = axes
-                val (matches, debugInfo) = repository.findMatches(
-                    axes,
-                    _faceResult.value?.visualPresentation ?: "unknown",
-                    _faceResult.value?.presentationConfidence ?: 0.5f,
-                    _genderFilter.value
-                )
-                _topMatches.value = matches
-                _matchDebugInfo.value = debugInfo
-                saveCurrentMatch()
+            try {
+                val axes = geminiService.analyzeFace(bitmap)
+                
+                if (axes != null) {
+                    _userProfile.value = axes
+                    val (matches, debugInfo) = repository.findMatches(
+                        axes,
+                        _faceResult.value?.visualPresentation ?: "unknown",
+                        _faceResult.value?.presentationConfidence ?: 0.5f,
+                        _genderFilter.value
+                    )
+                    _topMatches.value = matches
+                    _matchDebugInfo.value = debugInfo
+                    saveCurrentMatch()
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            } finally {
+                _isAnalyzing.value = false
+                onComplete()
             }
-            
-            _isAnalyzing.value = false
-            onComplete()
         }
     }
 
@@ -139,6 +141,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                 saveSelfie(bitmap)
                 onFaceAnalyzed(result)
                 saveCurrentMatch()
+                _isAnalyzing.value = false
                 onComplete(true)
             } else {
                 _isAnalyzing.value = false

@@ -60,13 +60,28 @@ class GeminiService {
             return@withContext null
         }
         
-        // Scale down the bitmap to prevent OOM
-        val maxDim = 800
-        val scale = Math.min(maxDim.toFloat() / bitmap.width, maxDim.toFloat() / bitmap.height)
-        val scaledBitmap = if (scale < 1.0f) {
-            Bitmap.createScaledBitmap(bitmap, (bitmap.width * scale).toInt(), (bitmap.height * scale).toInt(), true)
+        // Convert to software bitmap if it's hardware, to avoid crashes during scaling or Gemini encoding
+        val softwareBitmap = if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O && bitmap.config == Bitmap.Config.HARDWARE) {
+            try {
+                bitmap.copy(Bitmap.Config.ARGB_8888, false) ?: bitmap
+            } catch (e: Exception) {
+                bitmap
+            }
         } else {
             bitmap
+        }
+        
+        // Scale down the bitmap to prevent OOM
+        val maxDim = 800
+        val scale = Math.min(maxDim.toFloat() / softwareBitmap.width, maxDim.toFloat() / softwareBitmap.height)
+        val scaledBitmap = if (scale < 1.0f) {
+            try {
+                Bitmap.createScaledBitmap(softwareBitmap, (softwareBitmap.width * scale).toInt(), (softwareBitmap.height * scale).toInt(), true)
+            } catch (e: Exception) {
+                softwareBitmap
+            }
+        } else {
+            softwareBitmap
         }
 
         try {
