@@ -179,10 +179,10 @@ object ShareCardGenerator {
         }
 
         // Creator/Designer Value (Left)
-        canvas.drawText(matchResult.character.designer, 110f, 1020f, valuePaintBold)
+        canvas.drawText(matchResult.character.designer, 180f, 1020f, valuePaintBold)
 
         // Design Language Value (Right)
-        canvas.drawText(matchResult.character.designLanguage, 590f, 1020f, valuePaintBold)
+        canvas.drawText(matchResult.character.designLanguage, 660f, 1020f, valuePaintBold)
 
         // Visual Traits Value (Span)
         val traitsLayout = StaticLayout.Builder.obtain(
@@ -190,13 +190,13 @@ object ShareCardGenerator {
             0,
             matchResult.character.visualTraits.length,
             valuePaintBold,
-            860
+            820
         )
             .setAlignment(Layout.Alignment.ALIGN_NORMAL)
             .setMaxLines(3)
             .build()
         canvas.save()
-        canvas.translate(110f, 1155f)
+        canvas.translate(180f, 1155f)
         traitsLayout.draw(canvas)
         canvas.restore()
 
@@ -206,29 +206,29 @@ object ShareCardGenerator {
             0,
             matchResult.character.description.length,
             valuePaintNormal,
-            380
+            340
         )
             .setAlignment(Layout.Alignment.ALIGN_NORMAL)
             .setMaxLines(12)
             .build()
         canvas.save()
-        canvas.translate(110f, 1395f)
+        canvas.translate(180f, 1395f)
         descLayout.draw(canvas)
         canvas.restore()
 
         // Design Principles Value (Right)
         val principlesLayout = StaticLayout.Builder.obtain(
-            matchResult.character.designPrinciples,
+            matchResult.character.designBreakdown,
             0,
-            matchResult.character.designPrinciples.length,
-            valuePaintBold,
-            380
+            matchResult.character.designBreakdown.length,
+            valuePaintNormal,
+            340
         )
             .setAlignment(Layout.Alignment.ALIGN_NORMAL)
             .setMaxLines(12)
             .build()
         canvas.save()
-        canvas.translate(590f, 1395f)
+        canvas.translate(660f, 1395f)
         principlesLayout.draw(canvas)
         canvas.restore()
 
