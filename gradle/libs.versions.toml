@@ -44,6 +44,7 @@ googleid = "1.1.1"
 mlkitFaceDetection = "16.1.7"
 
 [libraries]
+generativeai = { group = "com.google.ai.client.generativeai", name = "generativeai", version = "0.9.0" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }

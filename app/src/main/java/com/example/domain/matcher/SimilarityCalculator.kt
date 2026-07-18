@@ -5,24 +5,41 @@ import kotlin.math.sqrt
 
 object SimilarityCalculator {
     private val weights = floatArrayOf(
-        1.0f, // 0: faceLength (Proportions 10%)
-        1.5f, // 1: jawSharpness (Jaw Shape 15%)
-        2.0f, // 2: eyeNarrowness (Eyes 20%)
-        0.25f, // 3: browWeight (Expression 2.5%)
-        0.25f, // 4: hairDarkness (Hair 2.5%)
-        0.25f, // 5: hairVolume (Hair 2.5%)
-        0.25f, // 6: expressionNeutrality (Expression 2.5%)
-        1.0f, // 7: symmetry (Symmetry 10%)
-        0.0f, // 8: contrast (0%)
-        3.5f, // 9: angularity (Face Geometry 35%)
-        0.0f, // 10: glasses (0%)
-        0.0f  // 11: warmth (0%)
+        1.5f, // 0: faceShape
+        1.5f, // 1: jawWidthRatio
+        1.5f, // 2: jawAngle
+        1.0f, // 3: chinLengthRatio
+        1.5f, // 4: chinSharpness
+        0.5f, // 5: foreheadWidthRatio
+        0.5f, // 6: foreheadHeightRatio
+        1.0f, // 7: cheekboneWidthRatio
+        1.5f, // 8: faceHeightRatio
+        2.0f, // 9: eyeSizeRatio
+        1.0f, // 10: eyeSpacingRatio
+        1.5f, // 11: eyeTilt
+        2.0f, // 12: eyeRoundness
+        1.0f, // 13: eyebrowThickness
+        1.0f, // 14: eyebrowCurve
+        0.5f, // 15: noseLengthRatio
+        0.5f, // 16: noseWidthRatio
+        1.0f, // 17: mouthWidthRatio
+        1.0f, // 18: lipThickness
+        0.5f, // 19: earSizeRatio
+        0.5f, // 20: hairlineHeight
+        0.5f, // 21: neckWidthRatio
+        1.0f, // 22: symmetry
+        1.0f  // 23: expressionNeutrality
     )
     
     private val featureNames = listOf(
-        "faceLength", "jawSharpness", "eyeNarrowness", "browWeight",
-        "hairDarkness", "hairVolume", "expressionNeutrality", "symmetry",
-        "contrast", "angularity", "glasses", "warmth"
+        "faceShape", "jawWidthRatio", "jawAngle", "chinLengthRatio", "chinSharpness",
+        "foreheadWidthRatio", "foreheadHeightRatio", "cheekboneWidthRatio", "faceHeightRatio",
+        "eyeSizeRatio", "eyeSpacingRatio", "eyeTilt", "eyeRoundness",
+        "eyebrowThickness", "eyebrowCurve",
+        "noseLengthRatio", "noseWidthRatio",
+        "mouthWidthRatio", "lipThickness",
+        "earSizeRatio", "hairlineHeight", "neckWidthRatio",
+        "symmetry", "expressionNeutrality"
     )
 
     fun calculateWithDetails(v1: FloatArray, v2: FloatArray): Triple<Float, Float, Map<String, Float>> {
@@ -36,7 +53,7 @@ object SimilarityCalculator {
             val componentDistanceSq = (diff * diff) * w
             sumSq += componentDistanceSq
             maxPossibleSumSq += 1.0f * w
-            contributions[featureNames.getOrElse(i) { "feature$i" }] = componentDistanceSq // Use component distance as contribution
+            contributions[featureNames.getOrElse(i) { "feature\$i" }] = componentDistanceSq
         }
         val distance = sqrt(sumSq)
         val maxDistance = sqrt(maxPossibleSumSq)

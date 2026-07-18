@@ -10,6 +10,8 @@ import com.example.data.local.AppDatabase
 import com.example.data.model.VisualAxes
 import com.example.data.repository.AppRepository
 import com.example.domain.analyzer.FaceAnalysisResult
+import com.example.domain.analyzer.GeminiService
+import android.graphics.Bitmap
 import com.example.domain.analyzer.FaceAnalyzer
 import com.example.domain.matcher.MatchResult
 import kotlinx.coroutines.Dispatchers
@@ -66,6 +68,34 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             repository.allCharacters.collect { chars ->
                 _allCharacters.value = chars
             }
+        }
+    }
+
+    
+    private val geminiService = GeminiService()
+
+    fun captureAndAnalyze(bitmap: Bitmap, onComplete: () -> Unit) {
+        _isAnalyzing.value = true
+        _userSelfie.value = bitmap
+        
+        viewModelScope.launch(Dispatchers.Main) {
+            val axes = geminiService.analyzeFace(bitmap)
+            
+            if (axes != null) {
+                _userProfile.value = axes
+                val (matches, debugInfo) = repository.findMatches(
+                    axes,
+                    _faceResult.value?.visualPresentation ?: "unknown",
+                    _faceResult.value?.presentationConfidence ?: 0.5f,
+                    _genderFilter.value
+                )
+                _topMatches.value = matches
+                _matchDebugInfo.value = debugInfo
+                saveCurrentMatch()
+            }
+            
+            _isAnalyzing.value = false
+            onComplete()
         }
     }
 

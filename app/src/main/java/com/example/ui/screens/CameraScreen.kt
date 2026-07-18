@@ -28,6 +28,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
 import com.example.domain.analyzer.FaceAnalyzer
+import androidx.compose.material3.CircularProgressIndicator
 import com.example.viewmodel.MainViewModel
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.isGranted
@@ -53,8 +54,11 @@ fun CameraScreen(viewModel: MainViewModel, onNavigateToResults: () -> Unit, onNa
                 Text("Grant Permission")
             }
         }
+
+
     }
 }
+
 
 @Composable
 fun CameraPreview(viewModel: MainViewModel, onNavigateToResults: () -> Unit, onNavigateToDebug: () -> Unit) {
@@ -155,7 +159,7 @@ fun CameraPreview(viewModel: MainViewModel, onNavigateToResults: () -> Unit, onN
         }
 
         AnimatedVisibility(
-            visible = topMatches.isNotEmpty(),
+            visible = faceResult != null,
             enter = fadeIn() + slideInVertically(initialOffsetY = { it / 2 }),
             exit = fadeOut(),
             modifier = Modifier.align(Alignment.BottomCenter).padding(bottom = 140.dp)
@@ -170,9 +174,12 @@ fun CameraPreview(viewModel: MainViewModel, onNavigateToResults: () -> Unit, onN
                 
                 Button(
                     onClick = { 
-                        previewViewRef?.bitmap?.let { viewModel.saveSelfie(it) }
-                        viewModel.saveCurrentMatch()
-                        onNavigateToResults() 
+                        val bitmap = previewViewRef?.bitmap
+                        if (bitmap != null) {
+                            viewModel.captureAndAnalyze(bitmap) {
+                                onNavigateToResults()
+                            }
+                        }
                     },
                     modifier = Modifier.size(80.dp),
                     shape = RoundedCornerShape(40.dp),
@@ -182,5 +189,21 @@ fun CameraPreview(viewModel: MainViewModel, onNavigateToResults: () -> Unit, onN
                 }
             }
         }
+
+        if (isAnalyzing) {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(Color.Black.copy(alpha = 0.6f)),
+                contentAlignment = Alignment.Center
+            ) {
+                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                    CircularProgressIndicator(color = Color.White)
+                    Spacer(modifier = Modifier.height(16.dp))
+                    Text("Analyzing with Gemini...", color = Color.White, style = MaterialTheme.typography.titleMedium)
+                }
+            }
+        }
     }
 }
+
