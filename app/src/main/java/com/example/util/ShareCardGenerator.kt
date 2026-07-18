@@ -179,10 +179,10 @@ object ShareCardGenerator {
         }
 
         // Creator/Designer Value (Left)
-        canvas.drawText(matchResult.character.designer, 180f, 1020f, valuePaintBold)
+        canvas.drawText(matchResult.character.designer, 210f, 1005f, valuePaintBold)
 
         // Design Language Value (Right)
-        canvas.drawText(matchResult.character.designLanguage, 660f, 1020f, valuePaintBold)
+        canvas.drawText(matchResult.character.designLanguage, 690f, 1005f, valuePaintBold)
 
         // Visual Traits Value (Span)
         val traitsLayout = StaticLayout.Builder.obtain(
