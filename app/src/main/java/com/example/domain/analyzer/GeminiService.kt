@@ -10,10 +10,17 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 class GeminiService {
-    private val model = GenerativeModel(
-        modelName = "gemini-1.5-pro",
-        apiKey = BuildConfig.GEMINI_API_KEY
-    )
+    private val apiKey = BuildConfig.GEMINI_API_KEY
+    private val model by lazy {
+        if (apiKey.isNotBlank()) {
+            GenerativeModel(
+                modelName = "gemini-1.5-pro",
+                apiKey = apiKey
+            )
+        } else {
+            null
+        }
+    }
 
     private val promptText = """
         Analyze this face and extract the 24 facial metrics into the following JSON schema. 
@@ -48,8 +55,12 @@ class GeminiService {
     """.trimIndent()
 
     suspend fun analyzeFace(bitmap: Bitmap): VisualAxes? = withContext(Dispatchers.IO) {
+        if (model == null) {
+            System.err.println("Gemini API Key is missing. Please add it to AI Studio Secrets.")
+            return@withContext null
+        }
         try {
-            val response = model.generateContent(
+            val response = model!!.generateContent(
                 content {
                     image(bitmap)
                     text(promptText)
