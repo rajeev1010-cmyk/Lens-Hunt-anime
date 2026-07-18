@@ -179,10 +179,10 @@ object ShareCardGenerator {
         }
 
         // Creator/Designer Value (Left)
-        canvas.drawText(matchResult.character.designer, 110f, 1045f, valuePaintBold)
+        canvas.drawText(matchResult.character.designer, 110f, 1020f, valuePaintBold)
 
         // Design Language Value (Right)
-        canvas.drawText(matchResult.character.designLanguage, 590f, 1045f, valuePaintBold)
+        canvas.drawText(matchResult.character.designLanguage, 590f, 1020f, valuePaintBold)
 
         // Visual Traits Value (Span)
         val traitsLayout = StaticLayout.Builder.obtain(
@@ -196,7 +196,7 @@ object ShareCardGenerator {
             .setMaxLines(3)
             .build()
         canvas.save()
-        canvas.translate(110f, 1180f)
+        canvas.translate(110f, 1155f)
         traitsLayout.draw(canvas)
         canvas.restore()
 
@@ -212,7 +212,7 @@ object ShareCardGenerator {
             .setMaxLines(12)
             .build()
         canvas.save()
-        canvas.translate(110f, 1420f)
+        canvas.translate(110f, 1395f)
         descLayout.draw(canvas)
         canvas.restore()
 
@@ -228,7 +228,7 @@ object ShareCardGenerator {
             .setMaxLines(12)
             .build()
         canvas.save()
-        canvas.translate(590f, 1420f)
+        canvas.translate(590f, 1395f)
         principlesLayout.draw(canvas)
         canvas.restore()
 
