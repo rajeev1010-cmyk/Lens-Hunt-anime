@@ -59,10 +59,20 @@ class GeminiService {
             System.err.println("Gemini API Key is missing. Please add it to AI Studio Secrets.")
             return@withContext null
         }
+        
+        // Scale down the bitmap to prevent OOM
+        val maxDim = 800
+        val scale = Math.min(maxDim.toFloat() / bitmap.width, maxDim.toFloat() / bitmap.height)
+        val scaledBitmap = if (scale < 1.0f) {
+            Bitmap.createScaledBitmap(bitmap, (bitmap.width * scale).toInt(), (bitmap.height * scale).toInt(), true)
+        } else {
+            bitmap
+        }
+
         try {
             val response = model!!.generateContent(
                 content {
-                    image(bitmap)
+                    image(scaledBitmap)
                     text(promptText)
                 }
             )
@@ -97,7 +107,7 @@ class GeminiService {
                 expressionNeutrality = json.optDouble("expressionNeutrality", 0.5).toFloat(),
                 stylizationIndex = json.optDouble("stylizationIndex", 0.3).toFloat()
             )
-        } catch (e: Exception) {
+        } catch (e: Throwable) {
             e.printStackTrace()
             null
         }

@@ -75,11 +75,13 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     private val geminiService = GeminiService()
 
     fun captureAndAnalyze(bitmap: Bitmap, onComplete: () -> Unit) {
+        // Create a software copy to prevent hardware bitmap crashes in Gemini/Compose
+        val softwareBitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true) ?: bitmap
         _isAnalyzing.value = true
-        _userSelfie.value = bitmap
+        _userSelfie.value = softwareBitmap
         
         viewModelScope.launch(Dispatchers.Main) {
-            val axes = geminiService.analyzeFace(bitmap)
+            val axes = geminiService.analyzeFace(softwareBitmap)
             
             if (axes != null) {
                 _userProfile.value = axes
@@ -119,7 +121,6 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         lastMatchTime = currentTime
 
         viewModelScope.launch(Dispatchers.IO) {
-            _isAnalyzing.value = true
             val (matches, debugInfo) = repository.findMatches(
                 result.axes,
                 result.visualPresentation,
@@ -128,7 +129,6 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             )
             _topMatches.value = matches
             _matchDebugInfo.value = debugInfo
-            _isAnalyzing.value = false
         }
     }
     
