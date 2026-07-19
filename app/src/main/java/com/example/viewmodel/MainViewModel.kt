@@ -19,6 +19,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class MainViewModel(application: Application) : AndroidViewModel(application) {
     private val db = Room.databaseBuilder(
@@ -75,21 +76,38 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     private val geminiService = GeminiService()
 
     fun captureAndAnalyze(bitmap: Bitmap, onComplete: () -> Unit) {
-        _isAnalyzing.value = true
-        _userSelfie.value = bitmap
-        
         viewModelScope.launch(Dispatchers.Main) {
+            _isAnalyzing.value = true
+            
+            // Safely convert hardware bitmap to software bitmap to prevent crashes
+            val softwareBitmap = if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O && bitmap.config == android.graphics.Bitmap.Config.HARDWARE) {
+                try {
+                    val swBitmap = android.graphics.Bitmap.createBitmap(bitmap.width, bitmap.height, android.graphics.Bitmap.Config.ARGB_8888)
+                    val canvas = android.graphics.Canvas(swBitmap)
+                    canvas.drawBitmap(bitmap, 0f, 0f, null)
+                    swBitmap
+                } catch (e: Exception) {
+                    bitmap
+                }
+            } else {
+                bitmap
+            }
+            
+            _userSelfie.value = softwareBitmap
+            
             try {
-                val axes = geminiService.analyzeFace(bitmap)
+                val axes = geminiService.analyzeFace(softwareBitmap)
                 
                 if (axes != null) {
                     _userProfile.value = axes
-                    val (matches, debugInfo) = repository.findMatches(
-                        axes,
-                        _faceResult.value?.visualPresentation ?: "unknown",
-                        _faceResult.value?.presentationConfidence ?: 0.5f,
-                        _genderFilter.value
-                    )
+                    val (matches, debugInfo) = withContext(Dispatchers.IO) {
+                        repository.findMatches(
+                            axes,
+                            _faceResult.value?.visualPresentation ?: "unknown",
+                            _faceResult.value?.presentationConfidence ?: 0.5f,
+                            _genderFilter.value
+                        )
+                    }
                     _topMatches.value = matches
                     _matchDebugInfo.value = debugInfo
                     saveCurrentMatch()
@@ -137,15 +155,30 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     fun analyzePhoto(context: Context, uri: Uri, onComplete: (Boolean) -> Unit) {
         _isAnalyzing.value = true
         faceAnalyzer.analyzeUri(context, uri) { result, bitmap ->
-            if (result != null && bitmap != null) {
-                saveSelfie(bitmap)
-                onFaceAnalyzed(result)
-                saveCurrentMatch()
-                _isAnalyzing.value = false
-                onComplete(true)
-            } else {
-                _isAnalyzing.value = false
-                onComplete(false)
+            viewModelScope.launch(Dispatchers.Main) {
+                if (result != null && bitmap != null) {
+                    saveSelfie(bitmap)
+                    _faceResult.value = result
+                    _userProfile.value = result.axes
+                    
+                    val (matches, debugInfo) = withContext(Dispatchers.IO) {
+                        repository.findMatches(
+                            result.axes,
+                            result.visualPresentation,
+                            result.presentationConfidence,
+                            _genderFilter.value
+                        )
+                    }
+                    _topMatches.value = matches
+                    _matchDebugInfo.value = debugInfo
+                    
+                    saveCurrentMatch()
+                    _isAnalyzing.value = false
+                    onComplete(true)
+                } else {
+                    _isAnalyzing.value = false
+                    onComplete(false)
+                }
             }
         }
     }
