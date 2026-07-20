@@ -28,4 +28,4 @@
 
 ### 7. Precise Share Card Coordinate Alignment & Full-Width Grid Refactoring
 * **Purpose**: Restores absolute pixel-perfect coordinate alignment of share card text elements with the pre-drawn background template and eliminates overflow.
-* **User Interaction**: When users export their share cards, the matched character's name is now perfectly centered vertically within the right-hand container, and the match confidence percentage text is positioned inside the pre-drawn glowing ring without overlapping any header titles. Additionally, the character description and design principles are now displayed in full-width boxes rather than narrow side-by-side columns, preventing long text from overlapping borders and providing a clean, professional visual layout.
+* **User Interaction**: When users export their share cards, the matched character's name is perfectly centered vertically within the right-hand container, and the match confidence percentage text is positioned inside the pre-drawn glowing ring. The dynamic fields are precisely bounded to the 941x1672 canvas coordinates for the "Creator", "Language", "Traits", "Overview", and "Principles" boxes.
