@@ -118,21 +118,25 @@ object ShareCardGenerator {
         val boxY = 615f
         val photoWidth = 274f
         val photoHeight = 459f
-        val photoRadius = 12f
-
-        val borderPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-            color = goldColorValue
-            style = Paint.Style.STROKE
-            strokeWidth = 3f
-        }
+        val cornerCut = 20f
 
         val scaledSelfie = scaleAndCropCenter(selfie, photoWidth.toInt(), photoHeight.toInt())
-        val photoPath = Path().apply { addRoundRect(RectF(leftBoxX, boxY, leftBoxX + photoWidth, boxY + photoHeight), photoRadius, photoRadius, Path.Direction.CW) }
+        val photoPath = Path().apply {
+            moveTo(leftBoxX + cornerCut, boxY)
+            lineTo(leftBoxX + photoWidth - cornerCut, boxY)
+            lineTo(leftBoxX + photoWidth, boxY + cornerCut)
+            lineTo(leftBoxX + photoWidth, boxY + photoHeight - cornerCut)
+            lineTo(leftBoxX + photoWidth - cornerCut, boxY + photoHeight)
+            lineTo(leftBoxX + cornerCut, boxY + photoHeight)
+            lineTo(leftBoxX, boxY + photoHeight - cornerCut)
+            lineTo(leftBoxX, boxY + cornerCut)
+            close()
+        }
+        
         canvas.save()
         canvas.clipPath(photoPath)
         canvas.drawBitmap(scaledSelfie, leftBoxX, boxY, null)
         canvas.restore()
-        canvas.drawRoundRect(RectF(leftBoxX, boxY, leftBoxX + photoWidth, boxY + photoHeight), photoRadius, photoRadius, borderPaint)
 
         // 3. YOUR ANIME TWIN (Right photo box) Label overlay
         // Coordinates: x: 594-897, y: 605-1084 (inner safe: 605-887, y: 615-1074)
@@ -140,9 +144,9 @@ object ShareCardGenerator {
         val rightPhotoWidth = 282f
         val charNamePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
             color = goldColorValue
-            textSize = 40f
+            textSize = 52f
             textAlign = Paint.Align.CENTER
-            typeface = Typeface.create(Typeface.DEFAULT, Typeface.BOLD_ITALIC)
+            typeface = Typeface.create("cursive", Typeface.BOLD)
             setShadowLayer(16f, 0f, 6f, Color.BLACK)
         }
         
@@ -157,13 +161,20 @@ object ShareCardGenerator {
         
         val matchTextPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
             color = goldColorValue
-            textSize = 16f
+            textSize = 18f
             textAlign = Paint.Align.CENTER
             typeface = Typeface.create(Typeface.SANS_SERIF, Typeface.BOLD)
             letterSpacing = 0.05f
         }
-        canvas.drawText("MATCH", centerCx, centerCyText - 25f, matchTextPaint)
-        canvas.drawText("${matchResult.similarityPercentage}%", centerCx, centerCyText + 20f, matchTextPaint.apply { textSize = 40f; color = Color.WHITE })
+        canvas.drawText("MATCH", centerCx, centerCyText - 15f, matchTextPaint)
+        
+        val percentagePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+            color = Color.WHITE
+            textSize = 48f
+            textAlign = Paint.Align.CENTER
+            typeface = Typeface.create(Typeface.SANS_SERIF, Typeface.BOLD)
+        }
+        canvas.drawText("${matchResult.similarityPercentage}%", centerCx, centerCyText + 35f, percentagePaint)
 
         // 5. Details Section (Dynamic Fields)
         val titlePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
