@@ -114,7 +114,7 @@ object ShareCardGenerator {
 
         // 2. Selfie Drawing inside Left photo box
         val leftBoxX = 66f
-        val boxY = 390f
+        val boxY = 600f
         val photoWidth = 328f
         val photoHeight = 478f
         val photoRadius = 24f
@@ -144,15 +144,14 @@ object ShareCardGenerator {
             setShadowLayer(16f, 0f, 6f, Color.BLACK)
         }
         
-        // Draw the name in the center of the right box (the pre-drawn box starts lower on the background, centered around y = 875f)
-        val rightBoxCenterY = 875f
+        // Draw the name in the center of the right box (the pre-drawn box starts lower on the background)
+        val rightBoxCenterY = boxY + (photoHeight / 2f)
         val textY = rightBoxCenterY + (charNamePaint.textSize / 3f)
         canvas.drawText(matchResult.character.name, rightBoxX + photoWidth / 2f, textY, charNamePaint)
 
         // 4. Center Rings - MATCH percentage info
         val centerCx = width / 2f
-        // The pre-drawn glowing circle on the background is centered at y = 810f
-        val centerCyText = 810f
+        val centerCyText = boxY + (photoHeight / 2f)
         
         val matchTextPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
             color = goldColorValue
@@ -161,10 +160,10 @@ object ShareCardGenerator {
             typeface = Typeface.create(Typeface.SANS_SERIF, Typeface.BOLD)
             letterSpacing = 0.05f
         }
-        canvas.drawText("MATCH", centerCx, centerCyText - 30f, matchTextPaint)
-        canvas.drawText("${matchResult.similarityPercentage}%", centerCx, centerCyText + 20f, matchTextPaint.apply { textSize = 48f; color = Color.WHITE })
-        canvas.drawLine(centerCx - 60f, centerCyText + 40f, centerCx + 60f, centerCyText + 40f, dividerPaint)
-        canvas.drawText("CONFIDENCE", centerCx, centerCyText + 70f, matchTextPaint.apply { textSize = 16f; color = goldColorValue })
+        canvas.drawText("MATCH", centerCx, centerCyText - 35f, matchTextPaint)
+        canvas.drawText("${matchResult.similarityPercentage}%", centerCx, centerCyText + 25f, matchTextPaint.apply { textSize = 56f; color = Color.WHITE })
+        canvas.drawLine(centerCx - 70f, centerCyText + 45f, centerCx + 70f, centerCyText + 45f, dividerPaint)
+        canvas.drawText("CONFIDENCE", centerCx, centerCyText + 75f, matchTextPaint.apply { textSize = 16f; color = goldColorValue })
 
         // 5. Details Section (Dynamic Fields)
         val titlePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
@@ -183,7 +182,7 @@ object ShareCardGenerator {
 
         val bodyPaintTaller = TextPaint(Paint.ANTI_ALIAS_FLAG).apply {
             color = Color.WHITE
-            textSize = 21f
+            textSize = 20f
             typeface = Typeface.create(Typeface.SANS_SERIF, Typeface.BOLD)
             setShadowLayer(3f, 0f, 3f, Color.BLACK)
         }
@@ -192,7 +191,7 @@ object ShareCardGenerator {
 
         // Box 1: Creator / Designer (Row 1, Left)
         val box1Left = 66f
-        val box1Top = 1120f
+        val box1Top = 1320f
         
         drawBoxHeader(
             canvas, context, R.drawable.ic_designer, "CREATOR / DESIGNER",
@@ -213,7 +212,7 @@ object ShareCardGenerator {
 
         // Box 2: Design Language (Row 1, Right)
         val box2Left = 560f
-        val box2Top = 1120f
+        val box2Top = 1320f
         
         drawBoxHeader(
             canvas, context, R.drawable.ic_language, "DESIGN LANGUAGE",
@@ -234,7 +233,7 @@ object ShareCardGenerator {
 
         // Box 3: Visual Traits (Row 2, Wide Span, Box 1)
         val box3Left = 66f
-        val box3Top = 1260f
+        val box3Top = 1450f
         
         drawBoxHeader(
             canvas, context, R.drawable.ic_visual, "VISUAL TRAITS",
@@ -264,7 +263,7 @@ object ShareCardGenerator {
 
         // Box 4: Character Overview (Row 3, Wide Span, Box 2)
         val box4Left = 66f
-        val box4Top = 1390f
+        val box4Top = 1580f
         
         drawBoxHeader(
             canvas, context, R.drawable.ic_overview, "CHARACTER OVERVIEW",
@@ -282,10 +281,10 @@ object ShareCardGenerator {
             0,
             matchResult.character.description.length,
             bodyPaintTaller,
-            (1014f - descTextStart - 15f).toInt()
+            (520f - descTextStart - 15f).toInt()
         )
             .setAlignment(Layout.Alignment.ALIGN_NORMAL)
-            .setMaxLines(2)
+            .setMaxLines(4)
             .build()
         canvas.save()
         canvas.translate(descTextStart, box4Top + 56f)
@@ -293,8 +292,8 @@ object ShareCardGenerator {
         canvas.restore()
 
         // Box 5: Design Principles (Row 4, Wide Span, Box 3)
-        val box5Left = 66f
-        val box5Top = 1520f
+        val box5Left = 560f
+        val box5Top = 1580f
         
         drawBoxHeader(
             canvas, context, R.drawable.ic_principles, "DESIGN PRINCIPLES",
@@ -315,7 +314,7 @@ object ShareCardGenerator {
             (1014f - principlesTextStart - 15f).toInt()
         )
             .setAlignment(Layout.Alignment.ALIGN_NORMAL)
-            .setMaxLines(3)
+            .setMaxLines(4)
             .build()
         canvas.save()
         canvas.translate(principlesTextStart, box5Top + 56f)
