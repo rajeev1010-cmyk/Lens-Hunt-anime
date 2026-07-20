@@ -89,7 +89,7 @@ class FaceAnalyzer {
     }
 
     private fun detectVisualPresentation(axes: VisualAxes): Pair<String, Float> {
-        val score = (axes.chinSharpness + axes.eyebrowThickness + axes.faceShape) / 3f
+        val score = (axes.jawSharpness + axes.browWeight + axes.angularity) / 3f
         return when {
             score > 0.55f -> "male" to score.coerceIn(0f, 1f)
             score < 0.45f -> "female" to (1f - score).coerceIn(0f, 1f)
@@ -144,31 +144,18 @@ class FaceAnalyzer {
         val glasses = 0.0f
 
         return VisualAxes(
-            faceShape = 0.5f,
-            jawWidthRatio = 0.5f,
-            jawAngle = 0.5f,
-            chinLengthRatio = 0.5f,
-            chinSharpness = jawSharpness,
-            foreheadWidthRatio = 0.5f,
-            foreheadHeightRatio = 0.5f,
-            cheekboneWidthRatio = 0.5f,
-            faceHeightRatio = faceLength,
-            eyeSizeRatio = 0.5f,
-            eyeSpacingRatio = 0.5f,
-            eyeTilt = 0.5f,
-            eyeRoundness = 0.5f,
-            eyebrowThickness = browWeight,
-            eyebrowCurve = 0.5f,
-            noseLengthRatio = 0.5f,
-            noseWidthRatio = 0.5f,
-            mouthWidthRatio = 0.5f,
-            lipThickness = 0.5f,
-            earSizeRatio = 0.5f,
-            hairlineHeight = 0.5f,
-            neckWidthRatio = 0.5f,
-            symmetry = symmetry,
+            faceLength = faceLength,
+            jawSharpness = jawSharpness,
+            eyeNarrowness = eyeNarrowness,
+            browWeight = browWeight,
+            hairDarkness = hairDarkness,
+            hairVolume = hairVolume,
             expressionNeutrality = expressionNeutrality,
-            stylizationIndex = 0.5f
+            symmetry = symmetry,
+            contrast = contrast,
+            angularity = angularity,
+            glasses = glasses,
+            warmth = warmth
         )
     }
 }

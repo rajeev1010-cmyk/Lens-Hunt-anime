@@ -144,13 +144,15 @@ object ShareCardGenerator {
             setShadowLayer(16f, 0f, 6f, Color.BLACK)
         }
         
-        // Draw the name in the center of the right box
-        val textY = boxY + (photoHeight / 2f) + (charNamePaint.textSize / 3f)
+        // Draw the name in the center of the right box (the pre-drawn box starts lower on the background, centered around y = 875f)
+        val rightBoxCenterY = 875f
+        val textY = rightBoxCenterY + (charNamePaint.textSize / 3f)
         canvas.drawText(matchResult.character.name, rightBoxX + photoWidth / 2f, textY, charNamePaint)
 
         // 4. Center Rings - MATCH percentage info
         val centerCx = width / 2f
-        val centerCy = boxY + photoHeight / 2f
+        // The pre-drawn glowing circle on the background is centered at y = 810f
+        val centerCyText = 810f
         
         val matchTextPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
             color = goldColorValue
@@ -159,76 +161,164 @@ object ShareCardGenerator {
             typeface = Typeface.create(Typeface.SANS_SERIF, Typeface.BOLD)
             letterSpacing = 0.05f
         }
-        canvas.drawText("MATCH", centerCx, centerCy - 30f, matchTextPaint)
-        canvas.drawText("${matchResult.similarityPercentage}%", centerCx, centerCy + 20f, matchTextPaint.apply { textSize = 48f; color = Color.WHITE })
-        canvas.drawLine(centerCx - 60f, centerCy + 40f, centerCx + 60f, centerCy + 40f, dividerPaint)
-        canvas.drawText("CONFIDENCE", centerCx, centerCy + 70f, matchTextPaint.apply { textSize = 16f; color = goldColorValue })
+        canvas.drawText("MATCH", centerCx, centerCyText - 30f, matchTextPaint)
+        canvas.drawText("${matchResult.similarityPercentage}%", centerCx, centerCyText + 20f, matchTextPaint.apply { textSize = 48f; color = Color.WHITE })
+        canvas.drawLine(centerCx - 60f, centerCyText + 40f, centerCx + 60f, centerCyText + 40f, dividerPaint)
+        canvas.drawText("CONFIDENCE", centerCx, centerCyText + 70f, matchTextPaint.apply { textSize = 16f; color = goldColorValue })
 
         // 5. Details Section (Dynamic Fields)
-        val valuePaintBold = TextPaint(Paint.ANTI_ALIAS_FLAG).apply {
+        val titlePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+            color = goldColorValue
+            textSize = 21f
+            typeface = Typeface.create(Typeface.DEFAULT, Typeface.BOLD_ITALIC)
+            letterSpacing = 0.05f
+        }
+
+        val bodyPaintBold = TextPaint(Paint.ANTI_ALIAS_FLAG).apply {
             color = Color.WHITE
             textSize = 24f
             typeface = Typeface.create(Typeface.SANS_SERIF, Typeface.BOLD)
-            setShadowLayer(2f, 0f, 2f, Color.BLACK)
-        }
-        val valuePaintNormal = TextPaint(Paint.ANTI_ALIAS_FLAG).apply {
-            color = Color.parseColor("#CCCCCC")
-            textSize = 24f
-            typeface = Typeface.create(Typeface.SANS_SERIF, Typeface.NORMAL)
-            setShadowLayer(2f, 0f, 2f, Color.BLACK)
+            setShadowLayer(3f, 0f, 3f, Color.BLACK)
         }
 
-        // Creator/Designer Value (Left)
-        canvas.drawText(matchResult.character.designer, 210f, 1005f, valuePaintBold)
+        val bodyPaintTaller = TextPaint(Paint.ANTI_ALIAS_FLAG).apply {
+            color = Color.WHITE
+            textSize = 21f
+            typeface = Typeface.create(Typeface.SANS_SERIF, Typeface.BOLD)
+            setShadowLayer(3f, 0f, 3f, Color.BLACK)
+        }
 
-        // Design Language Value (Right)
-        canvas.drawText(matchResult.character.designLanguage, 690f, 1005f, valuePaintBold)
+        val iconSize = 28f
 
-        // Visual Traits Value (Span)
+        // Box 1: Creator / Designer (Row 1, Left)
+        val box1Left = 66f
+        val box1Top = 1120f
+        
+        drawBoxHeader(
+            canvas, context, R.drawable.ic_designer, "CREATOR / DESIGNER",
+            iconX = box1Left + 20f,
+            iconY = box1Top + 20f,
+            iconSize = iconSize,
+            titleX = box1Left + 20f + iconSize + 12f,
+            titleY = box1Top + 42f,
+            titlePaint = titlePaint,
+            goldColorValue = goldColorValue
+        )
+        canvas.drawText(
+            matchResult.character.designer,
+            box1Left + 20f + iconSize + 12f,
+            box1Top + 85f,
+            bodyPaintBold
+        )
+
+        // Box 2: Design Language (Row 1, Right)
+        val box2Left = 560f
+        val box2Top = 1120f
+        
+        drawBoxHeader(
+            canvas, context, R.drawable.ic_language, "DESIGN LANGUAGE",
+            iconX = box2Left + 20f,
+            iconY = box2Top + 20f,
+            iconSize = iconSize,
+            titleX = box2Left + 20f + iconSize + 12f,
+            titleY = box2Top + 42f,
+            titlePaint = titlePaint,
+            goldColorValue = goldColorValue
+        )
+        canvas.drawText(
+            matchResult.character.designLanguage,
+            box2Left + 20f + iconSize + 12f,
+            box2Top + 85f,
+            bodyPaintBold
+        )
+
+        // Box 3: Visual Traits (Row 2, Wide Span, Box 1)
+        val box3Left = 66f
+        val box3Top = 1260f
+        
+        drawBoxHeader(
+            canvas, context, R.drawable.ic_visual, "VISUAL TRAITS",
+            iconX = box3Left + 20f,
+            iconY = box3Top + 18f,
+            iconSize = iconSize,
+            titleX = box3Left + 20f + iconSize + 12f,
+            titleY = box3Top + 40f,
+            titlePaint = titlePaint,
+            goldColorValue = goldColorValue
+        )
+        val traitsTextStart = box3Left + 20f + iconSize + 12f
         val traitsLayout = StaticLayout.Builder.obtain(
             matchResult.character.visualTraits,
             0,
             matchResult.character.visualTraits.length,
-            valuePaintBold,
-            820
+            bodyPaintBold,
+            (1014f - traitsTextStart - 15f).toInt()
+        )
+            .setAlignment(Layout.Alignment.ALIGN_NORMAL)
+            .setMaxLines(2)
+            .build()
+        canvas.save()
+        canvas.translate(traitsTextStart, box3Top + 56f)
+        traitsLayout.draw(canvas)
+        canvas.restore()
+
+        // Box 4: Character Overview (Row 3, Wide Span, Box 2)
+        val box4Left = 66f
+        val box4Top = 1390f
+        
+        drawBoxHeader(
+            canvas, context, R.drawable.ic_overview, "CHARACTER OVERVIEW",
+            iconX = box4Left + 20f,
+            iconY = box4Top + 18f,
+            iconSize = iconSize,
+            titleX = box4Left + 20f + iconSize + 12f,
+            titleY = box4Top + 40f,
+            titlePaint = titlePaint,
+            goldColorValue = goldColorValue
+        )
+        val descTextStart = box4Left + 20f + iconSize + 12f
+        val descLayout = StaticLayout.Builder.obtain(
+            matchResult.character.description,
+            0,
+            matchResult.character.description.length,
+            bodyPaintTaller,
+            (1014f - descTextStart - 15f).toInt()
+        )
+            .setAlignment(Layout.Alignment.ALIGN_NORMAL)
+            .setMaxLines(2)
+            .build()
+        canvas.save()
+        canvas.translate(descTextStart, box4Top + 56f)
+        descLayout.draw(canvas)
+        canvas.restore()
+
+        // Box 5: Design Principles (Row 4, Wide Span, Box 3)
+        val box5Left = 66f
+        val box5Top = 1520f
+        
+        drawBoxHeader(
+            canvas, context, R.drawable.ic_principles, "DESIGN PRINCIPLES",
+            iconX = box5Left + 20f,
+            iconY = box5Top + 18f,
+            iconSize = iconSize,
+            titleX = box5Left + 20f + iconSize + 12f,
+            titleY = box5Top + 40f,
+            titlePaint = titlePaint,
+            goldColorValue = goldColorValue
+        )
+        val principlesTextStart = box5Left + 20f + iconSize + 12f
+        val principlesLayout = StaticLayout.Builder.obtain(
+            matchResult.character.designBreakdown,
+            0,
+            matchResult.character.designBreakdown.length,
+            bodyPaintTaller,
+            (1014f - principlesTextStart - 15f).toInt()
         )
             .setAlignment(Layout.Alignment.ALIGN_NORMAL)
             .setMaxLines(3)
             .build()
         canvas.save()
-        canvas.translate(180f, 1155f)
-        traitsLayout.draw(canvas)
-        canvas.restore()
-
-        // Character Description Value (Left)
-        val descLayout = StaticLayout.Builder.obtain(
-            matchResult.character.description,
-            0,
-            matchResult.character.description.length,
-            valuePaintNormal,
-            340
-        )
-            .setAlignment(Layout.Alignment.ALIGN_NORMAL)
-            .setMaxLines(12)
-            .build()
-        canvas.save()
-        canvas.translate(180f, 1395f)
-        descLayout.draw(canvas)
-        canvas.restore()
-
-        // Design Principles Value (Right)
-        val principlesLayout = StaticLayout.Builder.obtain(
-            matchResult.character.designBreakdown,
-            0,
-            matchResult.character.designBreakdown.length,
-            valuePaintNormal,
-            340
-        )
-            .setAlignment(Layout.Alignment.ALIGN_NORMAL)
-            .setMaxLines(12)
-            .build()
-        canvas.save()
-        canvas.translate(660f, 1395f)
+        canvas.translate(principlesTextStart, box5Top + 56f)
         principlesLayout.draw(canvas)
         canvas.restore()
 
@@ -269,5 +359,27 @@ object ShareCardGenerator {
         val paint = Paint(Paint.FILTER_BITMAP_FLAG)
         canvas.drawBitmap(bitmap, matrix, paint)
         return target
+    }
+
+    private fun drawBoxHeader(
+        canvas: Canvas,
+        context: Context,
+        iconResId: Int,
+        title: String,
+        iconX: Float,
+        iconY: Float,
+        iconSize: Float,
+        titleX: Float,
+        titleY: Float,
+        titlePaint: Paint,
+        goldColorValue: Int
+    ) {
+        val drawable = ContextCompat.getDrawable(context, iconResId)
+        if (drawable != null) {
+            drawable.setBounds(iconX.toInt(), iconY.toInt(), (iconX + iconSize).toInt(), (iconY + iconSize).toInt())
+            drawable.setTint(goldColorValue)
+            drawable.draw(canvas)
+        }
+        canvas.drawText(title, titleX, titleY, titlePaint)
     }
 }

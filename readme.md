@@ -21,3 +21,11 @@
 ### 5. Configurable Gender Filter Matching Preferential State
 * **Purpose**: Gives users complete control over the genders of the character database candidates they match against.
 * **User Interaction**: On the home dashboard, users can now choose a preferred Match Filter: AUTO (uses smart AI face presentation classification), MALE (matches only male or non-binary characters), FEMALE (matches only female or non-binary characters), or ANY (allows matching with all 182 anime characters, regardless of gender). The chosen filter dynamically guides the facial discovery algorithm.
+
+### 6. Premium SVG-Backed Share Card Layout Alignment
+* **Purpose**: Aligns the share card fields precisely with the custom pre-drawn gold boxes in the new sharing template and adds modern vector icons.
+* **User Interaction**: When users view or share their generated card, all design metadata (including creator details, design language, visual traits, character description, and design breakdown) is beautifully laid out inside custom bounding boxes. Each section is headed by a custom-colored gold SVG vector icon (representing designers, languages, eyes/vision, book layout, and principles) paired with a gold italic title and bold, high-contrast white text, presenting a stunning, highly legible poster.
+
+### 7. Precise Share Card Coordinate Alignment & Full-Width Grid Refactoring
+* **Purpose**: Restores absolute pixel-perfect coordinate alignment of share card text elements with the pre-drawn background template and eliminates overflow.
+* **User Interaction**: When users export their share cards, the matched character's name is now perfectly centered vertically within the right-hand container, and the match confidence percentage text is positioned inside the pre-drawn glowing ring without overlapping any header titles. Additionally, the character description and design principles are now displayed in full-width boxes rather than narrow side-by-side columns, preventing long text from overlapping borders and providing a clean, professional visual layout.

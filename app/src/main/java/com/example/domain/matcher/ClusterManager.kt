@@ -5,57 +5,67 @@ import com.example.data.model.VisualAxes
 object ClusterManager {
     const val CLUSTER_A = "Cluster A - Clean & Stoic"
     const val CLUSTER_B = "Cluster B - Sharp & Cool"
-    const val CLUSTER_C = "Cluster C - Soft & Cute"
-    const val CLUSTER_D = "Cluster D - Expressive & Bold"
-    const val CLUSTER_E = "Cluster E - Unique & Ethereal"
+    const val CLUSTER_C = "Cluster C - Mature & Structured"
+    const val CLUSTER_D = "Cluster D - Highly Stylized"
+    const val CLUSTER_E = "Cluster E - Non Human / Fantasy"
 
     val allClusters = listOf(CLUSTER_A, CLUSTER_B, CLUSTER_C, CLUSTER_D, CLUSTER_E)
 
     fun determineUserCluster(axes: VisualAxes): Pair<String, Float> {
-        val s = axes.stylizationIndex
+        // Calculate scores for each cluster
+        // Hyper Realistic: angularity high, symmetry high, expressionNeutrality high, jawSharpness high
+        val scoreA = (axes.angularity + axes.symmetry + axes.expressionNeutrality + axes.jawSharpness) / 4f
         
-        val primaryCluster = when {
-            s >= 0.8f -> CLUSTER_D
-            s <= 0.3f -> CLUSTER_B
-            // The python script used gender == "female" for C. We don't have gender here, 
-            // so we'll use a mix of faceShape and stylizationIndex
-            axes.faceShape < 0.45f && axes.eyeSizeRatio > 0.6f -> CLUSTER_C
-            s >= 0.5f -> CLUSTER_A
-            else -> CLUSTER_E
-        }
+        // Semi Realistic: balance of stylized and realistic
+        val scoreB = (axes.angularity + axes.symmetry + (1f - axes.eyeNarrowness) + axes.jawSharpness) / 4f * 0.9f
         
-        // Confidence could just be based on distance from the threshold
-        val confidence = when(primaryCluster) {
-            CLUSTER_D -> (s - 0.7f) / 0.3f // 0.8+ is high confidence
-            CLUSTER_B -> (0.4f - s) / 0.4f // <=0.3 is high confidence
-            CLUSTER_C -> (axes.eyeSizeRatio + (1f - axes.faceShape)) / 2f
-            CLUSTER_A -> (s - 0.4f) / 0.4f
-            else -> 0.6f
-        }
+        // Stylized Shonen: low faceLength, high jawSharpness, big eyes (low eyeNarrowness)
+        val scoreC = ((1f - axes.faceLength) + axes.jawSharpness + (1f - axes.eyeNarrowness) + axes.contrast) / 4f
         
-        val adjustedConfidence = (0.5f + (confidence * 0.49f)).coerceIn(0.5f, 0.99f)
+        // Highly Stylized: low faceLength, low angularity (round), big eyes
+        val scoreD = ((1f - axes.faceLength) + (1f - axes.angularity) + (1f - axes.eyeNarrowness) + axes.warmth) / 4f
+        
+        // Non Human / Fantasy: high contrast, extreme features
+        val scoreE = (axes.contrast + axes.browWeight + (1f - axes.expressionNeutrality)) / 3f * 0.8f
 
-        return Pair(primaryCluster, adjustedConfidence)
+        val scores = mapOf(
+            CLUSTER_A to scoreA,
+            CLUSTER_B to scoreB,
+            CLUSTER_C to scoreC,
+            CLUSTER_D to scoreD,
+            CLUSTER_E to scoreE
+        )
+
+        val sorted = scores.entries.sortedByDescending { it.value }
+        val primary = sorted[0]
+        val secondary = sorted[1]
+        
+        // Normalize confidence
+        val total = primary.value + secondary.value
+        val confidence = if (total > 0f) primary.value / total else 0.5f
+
+        // ensure confidence is somewhat realistic between 50% and 99%
+        val adjustedConfidence = (confidence * 100f).coerceIn(50f, 99f) / 100f
+
+        return Pair(primary.key, adjustedConfidence)
     }
-
+    
     fun getNearestClusters(primaryCluster: String): List<String> {
-        return when (primaryCluster) {
-            CLUSTER_D -> listOf(CLUSTER_C, CLUSTER_A)
-            CLUSTER_B -> listOf(CLUSTER_E, CLUSTER_A)
-            CLUSTER_C -> listOf(CLUSTER_D, CLUSTER_E)
-            CLUSTER_A -> listOf(CLUSTER_B, CLUSTER_D)
-            CLUSTER_E -> listOf(CLUSTER_C, CLUSTER_B)
-            else -> emptyList()
-        }
+        val index = allClusters.indexOf(primaryCluster)
+        if (index == -1) return emptyList()
+        val nearest = mutableListOf<String>()
+        if (index > 0) nearest.add(allClusters[index - 1])
+        if (index < allClusters.size - 1) nearest.add(allClusters[index + 1])
+        return nearest
     }
 
     fun getDesignLanguageSummary(cluster: String): String {
         return when (cluster) {
             CLUSTER_A -> "Stoic Guardian"
             CLUSTER_B -> "Elegant Warrior"
-            CLUSTER_C -> "Soft Strategist"
+            CLUSTER_C -> "Sharp Rival"
             CLUSTER_D -> "Expressive Hero"
-            CLUSTER_E -> "Unique & Ethereal"
+            CLUSTER_E -> "Soft Strategist"
             else -> "Gentle Protector"
         }
     }

@@ -109,7 +109,6 @@ dependencies {
   implementation(libs.converter.moshi)
   implementation(libs.mlkit.face.detection)
   implementation(libs.firebase.ai)
-  implementation(libs.generativeai)
   // Uncomment to use Firestore:
   // implementation(libs.firebase.firestore)
 
