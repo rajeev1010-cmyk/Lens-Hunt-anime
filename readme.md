@@ -26,6 +26,6 @@
 * **Purpose**: Aligns the share card fields precisely with the custom pre-drawn gold boxes in the new sharing template and adds modern vector icons.
 * **User Interaction**: When users view or share their generated card, all design metadata (including creator details, design language, visual traits, character description, and design breakdown) is beautifully laid out inside custom bounding boxes. Each section is headed by a custom-colored gold SVG vector icon (representing designers, languages, eyes/vision, book layout, and principles) paired with a gold italic title and bold, high-contrast white text, presenting a stunning, highly legible poster.
 
-### 7. Precise Share Card Coordinate Alignment & Full-Width Grid Refactoring
-* **Purpose**: Restores absolute pixel-perfect coordinate alignment of share card text elements with the pre-drawn background template and eliminates overflow.
-* **User Interaction**: When users export their share cards, the matched character's name is perfectly centered vertically within the right-hand container, and the match confidence percentage text is positioned inside the pre-drawn glowing ring. The dynamic fields are precisely bounded to the 941x1672 canvas coordinates for the "Creator", "Language", "Traits", "Overview", and "Principles" boxes.
+### 8. Further Share Card Alignment and Masking
+* **Purpose**: Improves layout, typography and visual quality of elements in the share card.
+* **User Interaction**: The selfie photo now uses smooth vector masking (BitmapShader) to eliminate jagged aliased edges. The match percentage in the center ring has been vertically centered (shifted down 30px) for better optical alignment. The character name in the right frame now automatically breaks into multiple centered lines for long/multi-word names.

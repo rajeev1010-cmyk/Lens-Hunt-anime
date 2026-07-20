@@ -121,6 +121,13 @@ object ShareCardGenerator {
         val cornerCut = 24f
 
         val scaledSelfie = scaleAndCropCenter(selfie, photoWidth.toInt(), photoHeight.toInt())
+        val photoPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+            val shader = android.graphics.BitmapShader(scaledSelfie, android.graphics.Shader.TileMode.CLAMP, android.graphics.Shader.TileMode.CLAMP)
+            val matrix = android.graphics.Matrix()
+            matrix.setTranslate(leftBoxX, boxY)
+            shader.setLocalMatrix(matrix)
+            this.shader = shader
+        }
         val photoPath = Path().apply {
             moveTo(leftBoxX + cornerCut, boxY)
             lineTo(leftBoxX + photoWidth - cornerCut, boxY)
@@ -133,10 +140,7 @@ object ShareCardGenerator {
             close()
         }
         
-        canvas.save()
-        canvas.clipPath(photoPath)
-        canvas.drawBitmap(scaledSelfie, leftBoxX, boxY, null)
-        canvas.restore()
+        canvas.drawPath(photoPath, photoPaint)
 
         // 3. YOUR ANIME TWIN (Right photo box) Label overlay
         // Coordinates: x: 594-897, y: 605-1084 (inner safe: 605-887, y: 615-1074)
@@ -152,12 +156,18 @@ object ShareCardGenerator {
         
         // Draw the name in the center of the right box
         val rightBoxCenterY = boxY + (photoHeight / 2f)
-        val textY = rightBoxCenterY + (charNamePaint.textSize / 3f)
-        canvas.drawText(matchResult.character.name, rightBoxX + rightPhotoWidth / 2f, textY, charNamePaint)
+        val nameWords = matchResult.character.name.split(" ")
+        val nameLineHeight = charNamePaint.textSize * 1.1f
+        val nameTotalHeight = (nameWords.size - 1) * nameLineHeight
+        val nameStartY = rightBoxCenterY - nameTotalHeight / 2f - (charNamePaint.ascent() + charNamePaint.descent()) / 2f
+        
+        for ((index, word) in nameWords.withIndex()) {
+            canvas.drawText(word, rightBoxX + rightPhotoWidth / 2f, nameStartY + (index * nameLineHeight), charNamePaint)
+        }
 
         // 4. Center Rings - MATCH percentage info
         val centerCx = width / 2f
-        val centerCyText = 692f
+        val centerCyText = 722f
         
         val matchTextPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
             color = goldColorValue
