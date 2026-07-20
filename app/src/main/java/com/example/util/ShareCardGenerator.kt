@@ -118,7 +118,7 @@ object ShareCardGenerator {
         val boxY = 615f
         val photoWidth = 274f
         val photoHeight = 459f
-        val cornerCut = 20f
+        val cornerCut = 24f
 
         val scaledSelfie = scaleAndCropCenter(selfie, photoWidth.toInt(), photoHeight.toInt())
         val photoPath = Path().apply {
@@ -144,7 +144,7 @@ object ShareCardGenerator {
         val rightPhotoWidth = 282f
         val charNamePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
             color = goldColorValue
-            textSize = 52f
+            textSize = 72f
             textAlign = Paint.Align.CENTER
             typeface = Typeface.create("cursive", Typeface.BOLD)
             setShadowLayer(16f, 0f, 6f, Color.BLACK)
@@ -166,15 +166,21 @@ object ShareCardGenerator {
             typeface = Typeface.create(Typeface.SANS_SERIF, Typeface.BOLD)
             letterSpacing = 0.05f
         }
-        canvas.drawText("MATCH", centerCx, centerCyText - 15f, matchTextPaint)
+        canvas.drawText("MATCH", centerCx, centerCyText - 30f, matchTextPaint)
         
         val percentagePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-            color = Color.WHITE
-            textSize = 48f
+            textSize = 80f
             textAlign = Paint.Align.CENTER
-            typeface = Typeface.create(Typeface.SANS_SERIF, Typeface.BOLD)
+            typeface = Typeface.create("cursive", Typeface.BOLD)
+            setShadowLayer(8f, 0f, 4f, Color.BLACK)
+            shader = android.graphics.LinearGradient(
+                centerCx, centerCyText - 20f, centerCx, centerCyText + 50f,
+                intArrayOf(Color.parseColor("#FFF4D0"), goldColorValue, Color.parseColor("#B8860B")),
+                null,
+                android.graphics.Shader.TileMode.CLAMP
+            )
         }
-        canvas.drawText("${matchResult.similarityPercentage}%", centerCx, centerCyText + 35f, percentagePaint)
+        canvas.drawText("${matchResult.similarityPercentage}%", centerCx, centerCyText + 40f, percentagePaint)
 
         // 5. Details Section (Dynamic Fields)
         val titlePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
