@@ -6,6 +6,8 @@ object CharacterDataSeed {
     val characters = listOf(
         CharacterEntity(
             id = "levi",
+            calling = "Hunter",
+            archetype = "Guardian",
             name = "Levi",
             gender = "male",
             series = "Attack on Titan",
@@ -34,6 +36,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "mikasa",
+            calling = "Hunter",
+            archetype = "Guardian",
             name = "Mikasa",
             gender = "female",
             series = "Attack on Titan",
@@ -62,6 +66,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "violet",
+            calling = "Hunter",
+            archetype = "Messenger",
             name = "Violet",
             gender = "female",
             series = "Violet Evergarden",
@@ -90,6 +96,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "loid",
+            calling = "Giant",
+            archetype = "Strategist",
             name = "Loid",
             gender = "male",
             series = "Spy x Family",
@@ -118,6 +126,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "yor",
+            calling = "Hunter",
+            archetype = "Guardian",
             name = "Yor",
             gender = "female",
             series = "Spy x Family",
@@ -146,6 +156,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "spike",
+            calling = "Hunter",
+            archetype = "Pathfinder",
             name = "Spike",
             gender = "male",
             series = "Cowboy Bebop",
@@ -174,6 +186,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "rukia",
+            calling = "Hunter",
+            archetype = "Warden",
             name = "Rukia",
             gender = "female",
             series = "Bleach",
@@ -202,6 +216,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "eren",
+            calling = "Giant",
+            archetype = "Reformer",
             name = "Eren",
             gender = "male",
             series = "Attack on Titan",
@@ -230,6 +246,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "gojo",
+            calling = "Giant",
+            archetype = "Sage",
             name = "Gojo",
             gender = "male",
             series = "Jujutsu Kaisen",
@@ -258,6 +276,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "sasuke",
+            calling = "Hunter",
+            archetype = "Pathfinder",
             name = "Sasuke",
             gender = "male",
             series = "Naruto",
@@ -286,6 +306,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "sung-jinwoo",
+            calling = "Hunter",
+            archetype = "Survivor",
             name = "Sung Jinwoo",
             gender = "male",
             series = "Solo Leveling",
@@ -314,6 +336,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "cloud",
+            calling = "Hunter",
+            archetype = "Guardian",
             name = "Cloud",
             gender = "male",
             series = "Final Fantasy VII",
@@ -342,6 +366,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "2b",
+            calling = "Hunter",
+            archetype = "Warden",
             name = "2B",
             gender = "female",
             series = "NieR:Automata",
@@ -370,6 +396,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "makima",
+            calling = "Giant",
+            archetype = "Bureaucrat",
             name = "Makima",
             gender = "female",
             series = "Chainsaw Man",
@@ -398,6 +426,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "ichigo",
+            calling = "Hunter",
+            archetype = "Guardian",
             name = "Ichigo",
             gender = "male",
             series = "Bleach",
@@ -426,6 +456,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "naruto",
+            calling = "Giant",
+            archetype = "Diplomat",
             name = "Naruto",
             gender = "male",
             series = "Naruto",
@@ -454,6 +486,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "tanjiro",
+            calling = "Hunter",
+            archetype = "Healer",
             name = "Tanjiro",
             gender = "male",
             series = "Demon Slayer",
@@ -482,6 +516,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "edward",
+            calling = "Hunter",
+            archetype = "Inventor",
             name = "Edward",
             gender = "male",
             series = "Fullmetal Alchemist",
@@ -510,6 +546,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "gon",
+            calling = "Hunter",
+            archetype = "Explorer",
             name = "Gon",
             gender = "male",
             series = "Hunter x Hunter",
@@ -538,6 +576,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "bakugo",
+            calling = "Hunter",
+            archetype = "Pathfinder",
             name = "Bakugo",
             gender = "male",
             series = "My Hero Academia",
@@ -566,6 +606,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "killua",
+            calling = "Hunter",
+            archetype = "Guardian",
             name = "Killua",
             gender = "male",
             series = "Hunter x Hunter",
@@ -594,6 +636,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "denji",
+            calling = "Hunter",
+            archetype = "Survivor",
             name = "Denji",
             gender = "male",
             series = "Chainsaw Man",
@@ -622,6 +666,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "luffy",
+            calling = "Hunter",
+            archetype = "Explorer",
             name = "Luffy",
             gender = "male",
             series = "One Piece",
@@ -650,6 +696,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "goku",
+            calling = "Hunter",
+            archetype = "Pathfinder",
             name = "Goku",
             gender = "male",
             series = "Dragon Ball Z",
@@ -678,6 +726,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "vegeta",
+            calling = "Giant",
+            archetype = "Aristocrat",
             name = "Vegeta",
             gender = "male",
             series = "Dragon Ball Z",
@@ -706,6 +756,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "anya",
+            calling = "Hunter",
+            archetype = "Messenger",
             name = "Anya",
             gender = "female",
             series = "Spy x Family",
@@ -734,6 +786,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "power",
+            calling = "Hunter",
+            archetype = "Survivor",
             name = "Power",
             gender = "female",
             series = "Chainsaw Man",
@@ -762,6 +816,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "sailor-moon",
+            calling = "Hunter",
+            archetype = "Guardian",
             name = "Sailor Moon",
             gender = "female",
             series = "Sailor Moon",
@@ -790,6 +846,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "ainz",
+            calling = "Hunter",
+            archetype = "Pathfinder",
             name = "Ainz",
             gender = "male",
             series = "Overlord",
@@ -818,6 +876,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "rimuru",
+            calling = "Hunter",
+            archetype = "Pathfinder",
             name = "Rimuru",
             gender = "nonbinary",
             series = "Slime Isekai",
@@ -846,6 +906,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "kaneki",
+            calling = "Hunter",
+            archetype = "Survivor",
             name = "Kaneki (Ghoul)",
             gender = "male",
             series = "Tokyo Ghoul",
@@ -874,6 +936,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "batman-masked",
+            calling = "Hunter",
+            archetype = "Pathfinder",
             name = "Batman (Masked)",
             gender = "male",
             series = "Batman",
@@ -902,6 +966,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "spider-man-masked",
+            calling = "Hunter",
+            archetype = "Pathfinder",
             name = "Spider-Man",
             gender = "male",
             series = "Spider-Man",
@@ -930,6 +996,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "revy",
+            calling = "Hunter",
+            archetype = "Pathfinder",
             name = "Revy",
             gender = "female",
             series = "Black Lagoon",
@@ -958,6 +1026,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "shizuo-heiwajima",
+            calling = "Hunter",
+            archetype = "Pathfinder",
             name = "Shizuo Heiwajima",
             gender = "male",
             series = "Durarara!!",
@@ -986,6 +1056,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "izaya-orihara",
+            calling = "Hunter",
+            archetype = "Pathfinder",
             name = "Izaya Orihara",
             gender = "male",
             series = "Durarara!!",
@@ -1014,6 +1086,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "maka-albarn",
+            calling = "Hunter",
+            archetype = "Pathfinder",
             name = "Maka Albarn",
             gender = "female",
             series = "Soul Eater",
@@ -1042,6 +1116,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "death-the-kid",
+            calling = "Hunter",
+            archetype = "Pathfinder",
             name = "Death the Kid",
             gender = "male",
             series = "Soul Eater",
@@ -1070,6 +1146,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "lucy",
+            calling = "Hunter",
+            archetype = "Survivor",
             name = "Lucy",
             gender = "female",
             series = "Elfen Lied",
@@ -1098,6 +1176,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "haruhi-suzumiya",
+            calling = "Hunter",
+            archetype = "Pathfinder",
             name = "Haruhi Suzumiya",
             gender = "female",
             series = "The Melancholy of Haruhi Suzumiya",
@@ -1126,6 +1206,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "kyon",
+            calling = "Hunter",
+            archetype = "Pathfinder",
             name = "Kyon",
             gender = "male",
             series = "The Melancholy of Haruhi Suzumiya",
@@ -1154,6 +1236,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "yuki-nagato",
+            calling = "Hunter",
+            archetype = "Pathfinder",
             name = "Yuki Nagato",
             gender = "female",
             series = "The Melancholy of Haruhi Suzumiya",
@@ -1182,6 +1266,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "simon",
+            calling = "Hunter",
+            archetype = "Pathfinder",
             name = "Simon",
             gender = "male",
             series = "Gurren Lagann",
@@ -1210,6 +1296,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "kamina",
+            calling = "Hunter",
+            archetype = "Pathfinder",
             name = "Kamina",
             gender = "male",
             series = "Gurren Lagann",
@@ -1238,6 +1326,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "yoko-littner",
+            calling = "Hunter",
+            archetype = "Pathfinder",
             name = "Yoko Littner",
             gender = "female",
             series = "Gurren Lagann",
@@ -1266,6 +1356,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "kakashi-hatake",
+            calling = "Hunter",
+            archetype = "Pathfinder",
             name = "Kakashi Hatake",
             gender = "male",
             series = "Naruto",
@@ -1294,6 +1386,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "itachi-uchiha",
+            calling = "Hunter",
+            archetype = "Pathfinder",
             name = "Itachi Uchiha",
             gender = "male",
             series = "Naruto",
@@ -1322,6 +1416,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "hinata-hyuga",
+            calling = "Hunter",
+            archetype = "Pathfinder",
             name = "Hinata Hyuga",
             gender = "female",
             series = "Naruto",
@@ -1350,6 +1446,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "roronoa-zoro",
+            calling = "Hunter",
+            archetype = "Pathfinder",
             name = "Roronoa Zoro",
             gender = "male",
             series = "One Piece",
@@ -1378,6 +1476,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "nami",
+            calling = "Hunter",
+            archetype = "Pathfinder",
             name = "Nami",
             gender = "female",
             series = "One Piece",
@@ -1406,6 +1506,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "nico-robin",
+            calling = "Hunter",
+            archetype = "Pathfinder",
             name = "Nico Robin",
             gender = "female",
             series = "One Piece",
@@ -1434,6 +1536,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "shanks",
+            calling = "Hunter",
+            archetype = "Pathfinder",
             name = "Shanks",
             gender = "male",
             series = "One Piece",
@@ -1462,6 +1566,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "motoko-kusanagi",
+            calling = "Hunter",
+            archetype = "Pathfinder",
             name = "Motoko Kusanagi",
             gender = "female",
             series = "Ghost in the Shell",
@@ -1490,6 +1596,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "faye-valentine",
+            calling = "Hunter",
+            archetype = "Pathfinder",
             name = "Faye Valentine",
             gender = "female",
             series = "Cowboy Bebop",
@@ -1518,6 +1626,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "rei-ayanami",
+            calling = "Hunter",
+            archetype = "Pathfinder",
             name = "Rei Ayanami",
             gender = "female",
             series = "Neon Genesis Evangelion",
@@ -1546,6 +1656,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "asuka-langley-soryu",
+            calling = "Hunter",
+            archetype = "Pathfinder",
             name = "Asuka Langley Soryu",
             gender = "female",
             series = "Neon Genesis Evangelion",
@@ -1574,6 +1686,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "shinji-ikari",
+            calling = "Hunter",
+            archetype = "Pathfinder",
             name = "Shinji Ikari",
             gender = "male",
             series = "Neon Genesis Evangelion",
@@ -1602,6 +1716,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "guts",
+            calling = "Hunter",
+            archetype = "Pathfinder",
             name = "Guts",
             gender = "male",
             series = "Berserk",
@@ -1630,6 +1746,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "griffith",
+            calling = "Hunter",
+            archetype = "Pathfinder",
             name = "Griffith",
             gender = "male",
             series = "Berserk",
@@ -1658,6 +1776,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "jotaro-kujo",
+            calling = "Hunter",
+            archetype = "Pathfinder",
             name = "Jotaro Kujo",
             gender = "male",
             series = "JoJo's Bizarre Adventure",
@@ -1686,6 +1806,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "dio-brando",
+            calling = "Hunter",
+            archetype = "Pathfinder",
             name = "Dio Brando",
             gender = "male",
             series = "JoJo's Bizarre Adventure",
@@ -1714,6 +1836,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "inuyasha",
+            calling = "Hunter",
+            archetype = "Pathfinder",
             name = "Inuyasha",
             gender = "male",
             series = "Inuyasha",
@@ -1742,6 +1866,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "kagome-higurashi",
+            calling = "Hunter",
+            archetype = "Pathfinder",
             name = "Kagome Higurashi",
             gender = "female",
             series = "Inuyasha",
@@ -1770,6 +1896,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "rin-tohsaka",
+            calling = "Hunter",
+            archetype = "Pathfinder",
             name = "Rin Tohsaka",
             gender = "female",
             series = "Fate/stay night",
@@ -1798,6 +1926,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "saber",
+            calling = "Hunter",
+            archetype = "Pathfinder",
             name = "Saber",
             gender = "female",
             series = "Fate/stay night",
@@ -1826,6 +1956,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "natsu-dragneel",
+            calling = "Hunter",
+            archetype = "Pathfinder",
             name = "Natsu Dragneel",
             gender = "male",
             series = "Fairy Tail",
@@ -1854,6 +1986,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "erza-scarlet",
+            calling = "Hunter",
+            archetype = "Pathfinder",
             name = "Erza Scarlet",
             gender = "female",
             series = "Fairy Tail",
@@ -1882,6 +2016,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "saitama",
+            calling = "Hunter",
+            archetype = "Pathfinder",
             name = "Saitama",
             gender = "male",
             series = "One Punch Man",
@@ -1910,6 +2046,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "genos",
+            calling = "Hunter",
+            archetype = "Pathfinder",
             name = "Genos",
             gender = "male",
             series = "One Punch Man",
@@ -1938,6 +2076,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "tatsumaki",
+            calling = "Hunter",
+            archetype = "Pathfinder",
             name = "Tatsumaki",
             gender = "female",
             series = "One Punch Man",
@@ -1966,6 +2106,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "touka-kirishima",
+            calling = "Hunter",
+            archetype = "Pathfinder",
             name = "Touka Kirishima",
             gender = "female",
             series = "Tokyo Ghoul",
@@ -1994,6 +2136,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "lelouch-lamperouge",
+            calling = "Hunter",
+            archetype = "Pathfinder",
             name = "Lelouch Lamperouge",
             gender = "male",
             series = "Code Geass",
@@ -2022,6 +2166,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "c-c",
+            calling = "Hunter",
+            archetype = "Pathfinder",
             name = "C.C.",
             gender = "female",
             series = "Code Geass",
@@ -2050,6 +2196,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "subaru-natsuki",
+            calling = "Hunter",
+            archetype = "Pathfinder",
             name = "Subaru Natsuki",
             gender = "male",
             series = "Re:Zero",
@@ -2078,6 +2226,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "emilia",
+            calling = "Hunter",
+            archetype = "Pathfinder",
             name = "Emilia",
             gender = "female",
             series = "Re:Zero",
@@ -2106,6 +2256,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "all-might",
+            calling = "Hunter",
+            archetype = "Pathfinder",
             name = "All Might",
             gender = "male",
             series = "My Hero Academia",
@@ -2134,6 +2286,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "ochaco-uraraka",
+            calling = "Hunter",
+            archetype = "Pathfinder",
             name = "Ochaco Uraraka",
             gender = "female",
             series = "My Hero Academia",
@@ -2162,6 +2316,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "tomura-shigaraki",
+            calling = "Hunter",
+            archetype = "Pathfinder",
             name = "Tomura Shigaraki",
             gender = "male",
             series = "My Hero Academia",
@@ -2190,6 +2346,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "yuji-itadori",
+            calling = "Hunter",
+            archetype = "Guardian",
             name = "Yuji Itadori",
             gender = "male",
             series = "Jujutsu Kaisen",
@@ -2218,6 +2376,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "megumi-fushiguro",
+            calling = "Giant",
+            archetype = "Strategist",
             name = "Megumi Fushiguro",
             gender = "male",
             series = "Jujutsu Kaisen",
@@ -2246,6 +2406,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "nobara-kugisaki",
+            calling = "Hunter",
+            archetype = "Pathfinder",
             name = "Nobara Kugisaki",
             gender = "female",
             series = "Jujutsu Kaisen",
@@ -2274,6 +2436,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "sukuna",
+            calling = "Giant",
+            archetype = "Aristocrat",
             name = "Sukuna",
             gender = "male",
             series = "Jujutsu Kaisen",
@@ -2302,6 +2466,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "nanami-kento",
+            calling = "Giant",
+            archetype = "Bureaucrat",
             name = "Nanami Kento",
             gender = "male",
             series = "Jujutsu Kaisen",
@@ -2330,6 +2496,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "zenitsu-agatsuma",
+            calling = "Hunter",
+            archetype = "Pathfinder",
             name = "Zenitsu Agatsuma",
             gender = "male",
             series = "Demon Slayer",
@@ -2358,6 +2526,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "inosuke-hashibira",
+            calling = "Hunter",
+            archetype = "Pathfinder",
             name = "Inosuke Hashibira",
             gender = "male",
             series = "Demon Slayer",
@@ -2386,6 +2556,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "giyu-tomioka",
+            calling = "Hunter",
+            archetype = "Pathfinder",
             name = "Giyu Tomioka",
             gender = "male",
             series = "Demon Slayer",
@@ -2414,6 +2586,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "muzan-kibutsuji",
+            calling = "Hunter",
+            archetype = "Pathfinder",
             name = "Muzan Kibutsuji",
             gender = "male",
             series = "Demon Slayer",
@@ -2442,6 +2616,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "hinata-shoyo",
+            calling = "Hunter",
+            archetype = "Pathfinder",
             name = "Hinata Shoyo",
             gender = "male",
             series = "Haikyu!!",
@@ -2470,6 +2646,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "kageyama-tobio",
+            calling = "Hunter",
+            archetype = "Pathfinder",
             name = "Kageyama Tobio",
             gender = "male",
             series = "Haikyu!!",
@@ -2498,6 +2676,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "isagi-yoichi",
+            calling = "Hunter",
+            archetype = "Pathfinder",
             name = "Isagi Yoichi",
             gender = "male",
             series = "Blue Lock",
@@ -2526,6 +2706,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "shigeo-kageyama",
+            calling = "Giant",
+            archetype = "Custodian",
             name = "Shigeo Kageyama (Mob)",
             gender = "male",
             series = "Mob Psycho 100",
@@ -2554,6 +2736,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "reigen-arataka",
+            calling = "Giant",
+            archetype = "Sage",
             name = "Reigen Arataka",
             gender = "male",
             series = "Mob Psycho 100",
@@ -2582,6 +2766,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "thorfinn",
+            calling = "Giant",
+            archetype = "Reformer",
             name = "Thorfinn",
             gender = "male",
             series = "Vinland Saga",
@@ -2610,6 +2796,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "atsushi-nakajima",
+            calling = "Hunter",
+            archetype = "Survivor",
             name = "Atsushi Nakajima",
             gender = "male",
             series = "Bungo Stray Dogs",
@@ -2638,6 +2826,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "dazai-osamu",
+            calling = "Giant",
+            archetype = "Strategist",
             name = "Dazai Osamu",
             gender = "male",
             series = "Bungo Stray Dogs",
@@ -2666,6 +2856,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "hisoka-morow",
+            calling = "Hunter",
+            archetype = "Explorer",
             name = "Hisoka Morow",
             gender = "male",
             series = "Hunter x Hunter",
@@ -2694,6 +2886,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "kurapika",
+            calling = "Giant",
+            archetype = "Judge",
             name = "Kurapika",
             gender = "male",
             series = "Hunter x Hunter",
@@ -2722,6 +2916,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "armin-arlert",
+            calling = "Hunter",
+            archetype = "Pathfinder",
             name = "Armin Arlert",
             gender = "male",
             series = "Attack on Titan",
@@ -2750,6 +2946,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "historia-reiss",
+            calling = "Hunter",
+            archetype = "Pathfinder",
             name = "Historia Reiss",
             gender = "female",
             series = "Attack on Titan",
@@ -2778,6 +2976,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "vash-the-stampede",
+            calling = "Hunter",
+            archetype = "Guardian",
             name = "Vash the Stampede",
             gender = "male",
             series = "Trigun",
@@ -2806,6 +3006,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "mugen",
+            calling = "Hunter",
+            archetype = "Explorer",
             name = "Mugen",
             gender = "male",
             series = "Samurai Champloo",
@@ -2834,6 +3036,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "jin",
+            calling = "Hunter",
+            archetype = "Craftsman",
             name = "Jin",
             gender = "male",
             series = "Samurai Champloo",
@@ -2862,6 +3066,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "okabe-rintaro",
+            calling = "Hunter",
+            archetype = "Inventor",
             name = "Okabe Rintaro",
             gender = "male",
             series = "Steins;Gate",
@@ -2890,6 +3096,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "kurisu-makise",
+            calling = "Giant",
+            archetype = "Technocrat",
             name = "Kurisu Makise",
             gender = "female",
             series = "Steins;Gate",
@@ -2918,6 +3126,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "aki-hayakawa",
+            calling = "Hunter",
+            archetype = "Guardian",
             name = "Aki Hayakawa",
             gender = "male",
             series = "Chainsaw Man",
@@ -2946,6 +3156,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "sanji",
+            calling = "Hunter",
+            archetype = "Craftsman",
             name = "Sanji",
             gender = "male",
             series = "One Piece",
@@ -2974,6 +3186,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "tony-tony-chopper",
+            calling = "Hunter",
+            archetype = "Healer",
             name = "Tony Tony Chopper",
             gender = "male",
             series = "One Piece",
@@ -3002,6 +3216,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "piccolo",
+            calling = "Giant",
+            archetype = "Sage",
             name = "Piccolo",
             gender = "male",
             series = "Dragon Ball",
@@ -3030,6 +3246,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "frieza",
+            calling = "Giant",
+            archetype = "Aristocrat",
             name = "Frieza",
             gender = "male",
             series = "Dragon Ball",
@@ -3058,6 +3276,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "sakura-haruno",
+            calling = "Hunter",
+            archetype = "Pathfinder",
             name = "Sakura Haruno",
             gender = "female",
             series = "Naruto",
@@ -3086,6 +3306,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "gaara",
+            calling = "Hunter",
+            archetype = "Pathfinder",
             name = "Gaara",
             gender = "male",
             series = "Naruto",
@@ -3114,6 +3336,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "might-guy",
+            calling = "Hunter",
+            archetype = "Pathfinder",
             name = "Might Guy",
             gender = "male",
             series = "Naruto",
@@ -3142,6 +3366,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "alphonse-elric",
+            calling = "Hunter",
+            archetype = "Pathfinder",
             name = "Alphonse Elric",
             gender = "male",
             series = "Fullmetal Alchemist",
@@ -3170,6 +3396,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "asta",
+            calling = "Hunter",
+            archetype = "Pathfinder",
             name = "Asta",
             gender = "male",
             series = "Black Clover",
@@ -3198,6 +3426,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "yuno",
+            calling = "Hunter",
+            archetype = "Pathfinder",
             name = "Yuno",
             gender = "male",
             series = "Black Clover",
@@ -3226,6 +3456,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "tetsuo-shima",
+            calling = "Hunter",
+            archetype = "Pathfinder",
             name = "Tetsuo Shima",
             gender = "male",
             series = "Akira",
@@ -3254,6 +3486,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "sakura-kinomoto",
+            calling = "Hunter",
+            archetype = "Pathfinder",
             name = "Sakura Kinomoto",
             gender = "female",
             series = "Cardcaptor Sakura",
@@ -3282,6 +3516,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "tohru-honda",
+            calling = "Hunter",
+            archetype = "Pathfinder",
             name = "Tohru Honda",
             gender = "female",
             series = "Fruits Basket",
@@ -3310,6 +3546,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "yusuke-urameshi",
+            calling = "Hunter",
+            archetype = "Pathfinder",
             name = "Yusuke Urameshi",
             gender = "male",
             series = "YuYu Hakusho",
@@ -3338,6 +3576,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "hiei",
+            calling = "Hunter",
+            archetype = "Pathfinder",
             name = "Hiei",
             gender = "male",
             series = "YuYu Hakusho",
@@ -3366,6 +3606,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "kenshin-himura",
+            calling = "Hunter",
+            archetype = "Pathfinder",
             name = "Kenshin Himura",
             gender = "male",
             series = "Rurouni Kenshin",
@@ -3394,6 +3636,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "gintoki-sakata",
+            calling = "Hunter",
+            archetype = "Pathfinder",
             name = "Gintoki Sakata",
             gender = "male",
             series = "Gintama",
@@ -3422,6 +3666,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "kaguya-shinomiya",
+            calling = "Giant",
+            archetype = "Aristocrat",
             name = "Kaguya Shinomiya",
             gender = "female",
             series = "Love is War",
@@ -3450,6 +3696,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "frieren",
+            calling = "Giant",
+            archetype = "Sage",
             name = "Frieren",
             gender = "female",
             series = "Frieren: Beyond Journey's End",
@@ -3478,6 +3726,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "ai-hoshino",
+            calling = "Hunter",
+            archetype = "Storyteller",
             name = "Ai Hoshino",
             gender = "female",
             series = "Oshi no Ko",
@@ -3506,6 +3756,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "tamaki-suoh",
+            calling = "Giant",
+            archetype = "Diplomat",
             name = "Tamaki Suoh",
             gender = "male",
             series = "Ouran High School Host Club",
@@ -3534,6 +3786,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "haruhi-fujioka",
+            calling = "Giant",
+            archetype = "Sage",
             name = "Haruhi Fujioka",
             gender = "female",
             series = "Ouran High School Host Club",
@@ -3562,6 +3816,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "nana-osaki",
+            calling = "Hunter",
+            archetype = "Artisan",
             name = "Nana Osaki",
             gender = "female",
             series = "NANA",
@@ -3590,6 +3846,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "nana-komatsu",
+            calling = "Hunter",
+            archetype = "Messenger",
             name = "Nana Komatsu (Hachi)",
             gender = "female",
             series = "NANA",
@@ -3618,6 +3876,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "ryuji-takasu",
+            calling = "Hunter",
+            archetype = "Healer",
             name = "Ryuji Takasu",
             gender = "male",
             series = "Toradora!",
@@ -3646,6 +3906,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "taiga-aisaka",
+            calling = "Hunter",
+            archetype = "Warden",
             name = "Taiga Aisaka",
             gender = "female",
             series = "Toradora!",
@@ -3674,6 +3936,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "kousei-arima",
+            calling = "Hunter",
+            archetype = "Artisan",
             name = "Kousei Arima",
             gender = "male",
             series = "Your Lie in April",
@@ -3702,6 +3966,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "kaori-miyazono",
+            calling = "Hunter",
+            archetype = "Explorer",
             name = "Kaori Miyazono",
             gender = "female",
             series = "Your Lie in April",
@@ -3730,6 +3996,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "kyo-sohma",
+            calling = "Hunter",
+            archetype = "Survivor",
             name = "Kyo Sohma",
             gender = "male",
             series = "Fruits Basket",
@@ -3758,6 +4026,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "yuki-sohma",
+            calling = "Giant",
+            archetype = "Aristocrat",
             name = "Yuki Sohma",
             gender = "male",
             series = "Fruits Basket",
@@ -3786,6 +4056,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "rin-shima",
+            calling = "Hunter",
+            archetype = "Pathfinder",
             name = "Rin Shima",
             gender = "female",
             series = "Laid-Back Camp",
@@ -3814,6 +4086,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "nadeshiko-kagamihara",
+            calling = "Hunter",
+            archetype = "Pathfinder",
             name = "Nadeshiko Kagamihara",
             gender = "female",
             series = "Laid-Back Camp",
@@ -3842,6 +4116,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "hachiman-hikigaya",
+            calling = "Hunter",
+            archetype = "Pathfinder",
             name = "Hachiman Hikigaya",
             gender = "male",
             series = "My Teen Romantic Comedy SNAFU",
@@ -3870,6 +4146,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "yukino-yukinoshita",
+            calling = "Hunter",
+            archetype = "Pathfinder",
             name = "Yukino Yukinoshita",
             gender = "female",
             series = "My Teen Romantic Comedy SNAFU",
@@ -3898,6 +4176,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "yui-yuigahama",
+            calling = "Hunter",
+            archetype = "Pathfinder",
             name = "Yui Yuigahama",
             gender = "female",
             series = "My Teen Romantic Comedy SNAFU",
@@ -3926,6 +4206,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "senku-ishigami",
+            calling = "Hunter",
+            archetype = "Pathfinder",
             name = "Senku Ishigami",
             gender = "male",
             series = "Dr. STONE",
@@ -3954,6 +4236,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "chrome",
+            calling = "Hunter",
+            archetype = "Pathfinder",
             name = "Chrome",
             gender = "male",
             series = "Dr. STONE",
@@ -3982,6 +4266,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "bojji",
+            calling = "Hunter",
+            archetype = "Pathfinder",
             name = "Bojji",
             gender = "male",
             series = "Ranking of Kings",
@@ -4010,6 +4296,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "kage",
+            calling = "Hunter",
+            archetype = "Pathfinder",
             name = "Kage",
             gender = "male",
             series = "Ranking of Kings",
@@ -4038,6 +4326,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "gabimaru",
+            calling = "Hunter",
+            archetype = "Pathfinder",
             name = "Gabimaru",
             gender = "male",
             series = "Hell's Paradise",
@@ -4066,6 +4356,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "sagiri",
+            calling = "Hunter",
+            archetype = "Pathfinder",
             name = "Sagiri Asaemon",
             gender = "female",
             series = "Hell's Paradise",
@@ -4094,6 +4386,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "shin-nouzen",
+            calling = "Hunter",
+            archetype = "Pathfinder",
             name = "Shin Nouzen",
             gender = "male",
             series = "86",
@@ -4122,6 +4416,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "lena-milize",
+            calling = "Hunter",
+            archetype = "Pathfinder",
             name = "Vladilena Milize",
             gender = "female",
             series = "86",
@@ -4150,6 +4446,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "jonathan-joestar",
+            calling = "Hunter",
+            archetype = "Pathfinder",
             name = "Jonathan Joestar",
             gender = "male",
             series = "JoJo's Bizarre Adventure",
@@ -4178,6 +4476,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "joseph-joestar",
+            calling = "Hunter",
+            archetype = "Pathfinder",
             name = "Joseph Joestar",
             gender = "male",
             series = "JoJo's Bizarre Adventure",
@@ -4206,6 +4506,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "josuke-higashikata",
+            calling = "Hunter",
+            archetype = "Pathfinder",
             name = "Josuke Higashikata",
             gender = "male",
             series = "JoJo's Bizarre Adventure",
@@ -4234,6 +4536,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "giorno-giovanna",
+            calling = "Hunter",
+            archetype = "Pathfinder",
             name = "Giorno Giovanna",
             gender = "male",
             series = "JoJo's Bizarre Adventure",
@@ -4262,6 +4566,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "jolyne-cujoh",
+            calling = "Hunter",
+            archetype = "Pathfinder",
             name = "jolyne-cujoh",
             gender = "female",
             series = "JoJo's Bizarre Adventure",
@@ -4290,6 +4596,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "shinobu-kocho",
+            calling = "Hunter",
+            archetype = "Pathfinder",
             name = "Shinobu Kocho",
             gender = "female",
             series = "Demon Slayer",
@@ -4318,6 +4626,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "kyojuro-rengoku",
+            calling = "Hunter",
+            archetype = "Pathfinder",
             name = "Kyojuro Rengoku",
             gender = "male",
             series = "Demon Slayer",
@@ -4346,6 +4656,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "nezuko-kamado",
+            calling = "Hunter",
+            archetype = "Guardian",
             name = "Nezuko Kamado",
             gender = "female",
             series = "Demon Slayer",
@@ -4374,6 +4686,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "yoriichi-tsugikuni",
+            calling = "Hunter",
+            archetype = "Pathfinder",
             name = "Yoriichi Tsugikuni",
             gender = "male",
             series = "Demon Slayer",
@@ -4402,6 +4716,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "maki-zenin",
+            calling = "Hunter",
+            archetype = "Pathfinder",
             name = "Maki Zenin",
             gender = "female",
             series = "Jujutsu Kaisen",
@@ -4430,6 +4746,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "toge-inumaki",
+            calling = "Hunter",
+            archetype = "Pathfinder",
             name = "Toge Inumaki",
             gender = "male",
             series = "Jujutsu Kaisen",
@@ -4458,6 +4776,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "yuta-okkotsu",
+            calling = "Hunter",
+            archetype = "Pathfinder",
             name = "Yuta Okkotsu",
             gender = "male",
             series = "Jujutsu Kaisen",
@@ -4486,6 +4806,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "toji-fushiguro",
+            calling = "Hunter",
+            archetype = "Pathfinder",
             name = "Toji Fushiguro",
             gender = "male",
             series = "Jujutsu Kaisen",
@@ -4514,6 +4836,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "choso",
+            calling = "Hunter",
+            archetype = "Pathfinder",
             name = "Choso",
             gender = "male",
             series = "Jujutsu Kaisen",
@@ -4542,6 +4866,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "reze",
+            calling = "Hunter",
+            archetype = "Pathfinder",
             name = "Reze",
             gender = "female",
             series = "Chainsaw Man",
@@ -4570,6 +4896,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "himeno",
+            calling = "Hunter",
+            archetype = "Pathfinder",
             name = "Himeno",
             gender = "female",
             series = "Chainsaw Man",
@@ -4598,6 +4926,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "kobeni-higashiyama",
+            calling = "Hunter",
+            archetype = "Pathfinder",
             name = "Kobeni Higashiyama",
             gender = "female",
             series = "Chainsaw Man",
@@ -4626,6 +4956,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "kishibe",
+            calling = "Hunter",
+            archetype = "Pathfinder",
             name = "Kishibe",
             gender = "male",
             series = "Chainsaw Man",
@@ -4654,6 +4986,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "mirai-kuriyama",
+            calling = "Hunter",
+            archetype = "Pathfinder",
             name = "Mirai Kuriyama",
             gender = "female",
             series = "Beyond the Boundary",
@@ -4682,6 +5016,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "shoya-ishida",
+            calling = "Hunter",
+            archetype = "Pathfinder",
             name = "Shoya Ishida",
             gender = "male",
             series = "A Silent Voice",
@@ -4710,6 +5046,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "shoko-nishimiya",
+            calling = "Hunter",
+            archetype = "Pathfinder",
             name = "Shoko Nishimiya",
             gender = "female",
             series = "A Silent Voice",
@@ -4738,6 +5076,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "gilbert-bougainvillea",
+            calling = "Hunter",
+            archetype = "Pathfinder",
             name = "Gilbert Bougainvillea",
             gender = "male",
             series = "Violet Evergarden",
@@ -4766,6 +5106,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "hina-amano",
+            calling = "Hunter",
+            archetype = "Pathfinder",
             name = "Hina Amano",
             gender = "female",
             series = "Weathering with You",
@@ -4794,6 +5136,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "hodaka-morishima",
+            calling = "Hunter",
+            archetype = "Pathfinder",
             name = "Hodaka Morishima",
             gender = "male",
             series = "Weathering with You",
@@ -4822,6 +5166,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "mitsuha-miyamizu",
+            calling = "Hunter",
+            archetype = "Pathfinder",
             name = "Mitsuha Miyamizu",
             gender = "female",
             series = "Your Name.",
@@ -4850,6 +5196,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "taki-tachibana",
+            calling = "Hunter",
+            archetype = "Pathfinder",
             name = "Taki Tachibana",
             gender = "male",
             series = "Your Name.",
@@ -4878,6 +5226,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "shion",
+            calling = "Hunter",
+            archetype = "Pathfinder",
             name = "Shion",
             gender = "female",
             series = "Slime Isekai",
@@ -4906,6 +5256,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "gobta",
+            calling = "Hunter",
+            archetype = "Pathfinder",
             name = "Gobta",
             gender = "male",
             series = "Slime Isekai",
@@ -4934,6 +5286,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "milim-nava",
+            calling = "Giant",
+            archetype = "Aristocrat",
             name = "Milim Nava",
             gender = "female",
             series = "Slime Isekai",
@@ -4962,6 +5316,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "diablo",
+            calling = "Hunter",
+            archetype = "Pathfinder",
             name = "Diablo",
             gender = "male",
             series = "Slime Isekai",
@@ -4990,6 +5346,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "asirpa",
+            calling = "Hunter",
+            archetype = "Pathfinder",
             name = "Asirpa",
             gender = "female",
             series = "Golden Kamuy",
@@ -5018,6 +5376,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "saichi-sugimoto",
+            calling = "Hunter",
+            archetype = "Pathfinder",
             name = "Saichi Sugimoto",
             gender = "male",
             series = "Golden Kamuy",
@@ -5046,6 +5406,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "bochi",
+            calling = "Hunter",
+            archetype = "Pathfinder",
             name = "Hitori Gotoh (Bocchi)",
             gender = "female",
             series = "Bocchi the Rock!",
@@ -5074,6 +5436,8 @@ object CharacterDataSeed {
         ),
         CharacterEntity(
             id = "kita-ikuyo",
+            calling = "Hunter",
+            archetype = "Pathfinder",
             name = "Ikuyo Kita",
             gender = "female",
             series = "Bocchi the Rock!",

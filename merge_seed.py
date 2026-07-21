@@ -78,6 +78,8 @@ object CharacterDataSeed {
             designPrinciples = "{clean(c['shape_language'])}",
             designBreakdown = "{clean(design_breakdown)}",
             description = "{clean(c['description'])}",
+            calling = "{c.get('giantverseArchetype', {}).get('calling', 'Hunter')}",
+            archetype = "{c.get('giantverseArchetype', {}).get('archetype', 'Pathfinder')}",
             profile = VisualAxes(
                 faceLength = {p['faceLength']}f,
                 jawSharpness = {p['jawSharpness']}f,

@@ -20,6 +20,10 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.ui.text.input.KeyboardType
+
 import com.example.viewmodel.MainViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -87,6 +91,41 @@ fun HomeScreen(
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                     
+                    
+                    val firstName by viewModel.firstName.collectAsState()
+                    val dobDay by viewModel.dobDay.collectAsState()
+                    val dobMonth by viewModel.dobMonth.collectAsState()
+
+                    OutlinedTextField(
+                        value = firstName,
+                        onValueChange = { viewModel.setFirstName(it) },
+                        label = { Text("First Name") },
+                        singleLine = true,
+                        modifier = Modifier.fillMaxWidth()
+                    )
+
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(16.dp)
+                    ) {
+                        OutlinedTextField(
+                            value = if (dobDay > 0) dobDay.toString() else "",
+                            onValueChange = { viewModel.setDobDay(it.toIntOrNull() ?: 0) },
+                            label = { Text("Day of Birth (1-31)") },
+                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                            singleLine = true,
+                            modifier = Modifier.weight(1f)
+                        )
+                        OutlinedTextField(
+                            value = if (dobMonth > 0) dobMonth.toString() else "",
+                            onValueChange = { viewModel.setDobMonth(it.toIntOrNull() ?: 0) },
+                            label = { Text("Month (1-12)") },
+                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                            singleLine = true,
+                            modifier = Modifier.weight(1f)
+                        )
+                    }
+
                     Text(
                         "Target Match Filter",
                         style = MaterialTheme.typography.titleMedium,

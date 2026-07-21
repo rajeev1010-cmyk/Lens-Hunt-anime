@@ -19,6 +19,8 @@ data class CharacterEntity(
     val designPrinciples: String,
     val designBreakdown: String,
     val description: String,
+    val calling: String = "",
+    val archetype: String = "",
     @Embedded val profile: VisualAxes
 )
 

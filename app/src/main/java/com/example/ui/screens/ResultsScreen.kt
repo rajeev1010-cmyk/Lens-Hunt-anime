@@ -29,6 +29,8 @@ import kotlinx.coroutines.launch
 @Composable
 fun ResultsScreen(viewModel: MainViewModel, onBack: () -> Unit) {
     val topMatches by viewModel.topMatches.collectAsState()
+    val userAnimeFirstName by viewModel.userAnimeFirstName.collectAsState()
+    val userArchetype by viewModel.userArchetype.collectAsState()
     val userSelfie by viewModel.userSelfie.collectAsState()
     val coroutineScope = rememberCoroutineScope()
     val context = LocalContext.current
@@ -196,7 +198,7 @@ fun ResultsScreen(viewModel: MainViewModel, onBack: () -> Unit) {
                         onClick = {
                             if (userSelfie != null) {
                                 coroutineScope.launch {
-                                    ShareCardGenerator.generateAndShare(context, userSelfie!!, topMatch)
+                                    ShareCardGenerator.generateAndShare(context, userSelfie!!, topMatch, userAnimeFirstName, userArchetype)
                                 }
                             }
                         },
