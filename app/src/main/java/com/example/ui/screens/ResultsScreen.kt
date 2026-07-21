@@ -206,7 +206,7 @@ fun ResultsScreen(viewModel: MainViewModel, onBack: () -> Unit) {
                         onClick = {
                             if (userSelfie != null) {
                                 coroutineScope.launch {
-                                    ShareCardGenerator.generateAndShare(context, userSelfie!!, topMatch, userAnimeFirstName, userArchetype)
+                                    ShareCardGenerator.generateAndShare(context, userSelfie!!, topMatches, userAnimeFirstName, userArchetype)
                                 }
                             }
                         },
