@@ -81,7 +81,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             }
         }
         val bestArchetype = archetypeScores.maxByOrNull { it.value }?.key ?: "Unknown"
-        _userArchetype.value = bestArchetype
+        _userArchetype.value = getRomajiArchetype(bestArchetype)
 
         // 2. Generate anime first name
         val name = _firstName.value.trim().uppercase()
@@ -90,7 +90,46 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         val monthSyllable = getMonthSyllable(_dobMonth.value)
         val daySyllable = getDobSyllable(_dobDay.value)
 
-        _userAnimeFirstName.value = letterSyllable + monthSyllable + daySyllable
+        _userAnimeFirstName.value = daySyllable + monthSyllable + letterSyllable
+    }
+
+    
+    private fun getRomajiArchetype(englishArchetype: String): String {
+        return when (englishArchetype) {
+            "Philosopher" -> "Tetsugaku"
+            "Technocrat" -> "Gijutsu"
+            "Democrat" -> "Minshū"
+            "Aristocrat" -> "Kizoku"
+            "Bureaucrat" -> "Kanryō"
+            "Strategist" -> "Senryaku"
+            "Architect" -> "Kenchiku"
+            "Visionary" -> "Riso"
+            "Judge" -> "Sabaki"
+            "Diplomat" -> "Gaikō"
+            "Sage" -> "Kenja"
+            "Reformer" -> "Kaikaku"
+            "Chancellor" -> "Sōsai"
+            "Oracle" -> "Yogen"
+            "Historian" -> "Rekishi"
+            "Custodian" -> "Hozon"
+            "Guardian" -> "Mamori"
+            "Survivor" -> "Seizon"
+            "Builder" -> "Kensetsu"
+            "Explorer" -> "Tansa"
+            "Messenger" -> "Shisha"
+            "Navigator" -> "Kōro"
+            "Artisan" -> "Shokunin"
+            "Healer" -> "Iyashi"
+            "Inventor" -> "Hatsumei"
+            "Pathfinder" -> "Kaitaku"
+            "Warden" -> "Banri"
+            "Scout" -> "Teisatsu"
+            "Farmer" -> "Nōgyō"
+            "Ranger" -> "Yūei"
+            "Storyteller" -> "Monogatari"
+            "Craftsman" -> "Takumi"
+            else -> englishArchetype
+        }
     }
 
     private fun getFirstLetterSyllable(c: Char): String = when(c) {

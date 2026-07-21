@@ -131,6 +131,14 @@ fun ResultsScreen(viewModel: MainViewModel, onBack: () -> Unit) {
                                 )
                             }
                             Text(char.series, style = MaterialTheme.typography.labelLarge)
+                            if (char.archetype.isNotEmpty()) {
+                                Spacer(modifier = Modifier.height(4.dp))
+                                Text(
+                                    "Archetype: ${char.archetype}",
+                                    style = MaterialTheme.typography.labelMedium,
+                                    color = MaterialTheme.colorScheme.secondary
+                                )
+                            }
                             
                             Spacer(modifier = Modifier.height(16.dp))
                             Text("Why this character shares your design language", fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.primary)
