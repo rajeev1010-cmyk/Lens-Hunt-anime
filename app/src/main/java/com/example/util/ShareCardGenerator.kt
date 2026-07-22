@@ -180,13 +180,19 @@ object ShareCardGenerator {
         
         val top5 = topMatches.take(5)
         val archetypeScores = mutableMapOf<String, Float>()
-        for (match in top5) {
+        var totalWeight = 0f
+        
+        top5.forEachIndexed { index, match ->
             val arch = match.character.archetype
             if (arch.isNotEmpty()) {
-                archetypeScores[arch] = (archetypeScores[arch] ?: 0f) + match.similarityPercentage
+                val weight = (5 - index).toFloat()
+                archetypeScores[arch] = (archetypeScores[arch] ?: 0f) + (match.similarityPercentage * weight)
+                totalWeight += weight
             }
         }
-        val sortedArchs = archetypeScores.entries.sortedByDescending { it.value }
+        
+        val finalArchetypeScores = archetypeScores.mapValues { it.value / totalWeight }
+        val sortedArchs = finalArchetypeScores.entries.sortedByDescending { it.value }
         val top3Archetypes = mutableListOf<Pair<String, Float>>()
         for (i in 0 until 3) {
             if (i < sortedArchs.size) {
