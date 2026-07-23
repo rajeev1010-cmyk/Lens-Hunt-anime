@@ -1,6 +1,13 @@
 package com.example.util
 
 import android.content.Context
+
+import com.google.mlkit.vision.common.InputImage
+import com.google.mlkit.vision.face.FaceDetection
+import com.google.mlkit.vision.face.FaceDetectorOptions
+import kotlin.coroutines.resume
+import kotlin.coroutines.suspendCoroutine
+
 import android.content.Intent
 import android.graphics.*
 import android.text.Layout
@@ -121,7 +128,8 @@ object ShareCardGenerator {
         val photoHeight = 459f
         val cornerCut = 24f
 
-        val scaledSelfie = scaleAndCropCenter(selfie, photoWidth.toInt(), photoHeight.toInt())
+        val faceBox = detectFace(selfie)
+        val scaledSelfie = scaleAndCropCenter(selfie, photoWidth.toInt(), photoHeight.toInt(), faceBox)
         val photoPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
             val shader = android.graphics.BitmapShader(scaledSelfie, android.graphics.Shader.TileMode.CLAMP, android.graphics.Shader.TileMode.CLAMP)
             val matrix = android.graphics.Matrix()
@@ -442,14 +450,45 @@ object ShareCardGenerator {
         context.startActivity(chooser)
     }
 
-    private fun scaleAndCropCenter(bitmap: Bitmap, newWidth: Int, newHeight: Int): Bitmap {
+    
+    private suspend fun detectFace(bitmap: Bitmap): android.graphics.Rect? = suspendCoroutine { continuation ->
+        val options = FaceDetectorOptions.Builder()
+            .setPerformanceMode(FaceDetectorOptions.PERFORMANCE_MODE_FAST)
+            .build()
+        val detector = FaceDetection.getClient(options)
+        val image = InputImage.fromBitmap(bitmap, 0)
+        detector.process(image)
+            .addOnSuccessListener { faces ->
+                if (faces.isNotEmpty()) {
+                    continuation.resume(faces.first().boundingBox)
+                } else {
+                    continuation.resume(null)
+                }
+            }
+            .addOnFailureListener {
+                continuation.resume(null)
+            }
+    }
+
+    private fun scaleAndCropCenter(bitmap: Bitmap, newWidth: Int, newHeight: Int, faceBox: android.graphics.Rect? = null): Bitmap {
         val sourceWidth = bitmap.width
         val sourceHeight = bitmap.height
         val scale = Math.max(newWidth.toFloat() / sourceWidth, newHeight.toFloat() / sourceHeight)
         val scaledWidth = scale * sourceWidth
         val scaledHeight = scale * sourceHeight
-        val left = (newWidth - scaledWidth) / 2
-        val top = (newHeight - scaledHeight) / 2
+        var left = (newWidth - scaledWidth) / 2f
+        var top = (newHeight - scaledHeight) / 2f
+
+        if (faceBox != null) {
+            val faceCenterX = faceBox.exactCenterX() * scale
+            val faceCenterY = faceBox.exactCenterY() * scale
+            left = newWidth / 2f - faceCenterX
+            top = newHeight / 2f - faceCenterY
+            
+            // Constrain left and top
+            left = left.coerceIn(newWidth - scaledWidth, 0f)
+            top = top.coerceIn(newHeight - scaledHeight, 0f)
+        }
         val target = Bitmap.createBitmap(newWidth, newHeight, Bitmap.Config.ARGB_8888)
         val canvas = Canvas(target)
         val matrix = Matrix()
