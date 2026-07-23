@@ -90,7 +90,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         val monthSyllable = getMonthSyllable(_dobMonth.value)
         val daySyllable = getDobSyllable(_dobDay.value)
 
-        _userAnimeFirstName.value = daySyllable + monthSyllable + letterSyllable
+        _userAnimeFirstName.value = (daySyllable + monthSyllable + letterSyllable).lowercase().replaceFirstChar { it.uppercase() }
     }
 
     
